@@ -1,0 +1,45 @@
+{
+  "name": "usmcstudy.github.io",
+  "version": "0.0.0",
+  "description": "USMC Study Guide",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "pulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/usmcstudy/usmcstudy.github.io.git"
+  },
+  "keywords": [
+    "usmc",
+    "study",
+    "react",
+    "webapp",
+    "material-ui"
+  ],
+  "author": "Athan Clark <athan.clark@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/usmcstudy/usmcstudy.github.io/issues"
+  },
+  "homepage": "https://github.com/usmcstudy/usmcstudy.github.io#readme",
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "tweetnacl-util": "^0.15.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
+    "envify": "^4.1.0",
+    "uglify-js": "^3.4.9",
+    "uglifyify": "^5.0.1"
+  }
+}
