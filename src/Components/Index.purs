@@ -66,7 +66,7 @@ index = withRoot e
             { state: {}
             , render: pure $ toElement
               -- [ indexAppBar {onImport, onExport, onNameEdit}
-              [ typography {gutterBottom: true, variant: title} [text "Just a Test"]
+              [ typography {gutterBottom: true, variant: title} [text "Eleven General Orders"]
               , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
               , generalOrderDialog generalOrderQueues
               -- , exportDialog exportQueue
