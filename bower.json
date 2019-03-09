@@ -16,13 +16,15 @@
     "purescript-react-mui": "^3.9.2",
     "purescript-web-html": "^2.0.0",
     "purescript-aff": "^5.1.0",
-    "purescript-react-queue": "^1.2.0"
+    "purescript-react-queue": "^1.2.0",
+    "purescript-record": "^2.0.0"
   },
   "devDependencies": {
     "purescript-psci-support": "^4.0.0"
   },
   "resolutions": {
     "purescript-web-dom": "^2.0.0",
-    "purescript-web-events": "^2.0.0"
+    "purescript-web-events": "^2.0.0",
+    "purescript-typelevel-prelude": "^4.0.0"
   }
 }

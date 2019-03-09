@@ -83,18 +83,21 @@ generalOrderDialog (IOQueues{input,output}) = createLeafElement c {}
                         [ dialogTitle {id: "general-order-dialog-title"} [text (showGeneralOrderTitle i)]
                         , dialogContent_
                           [ typography {gutterBottom: true, variant: title} [text (showChallenge i)]
-                          , textField' {onChange: mkEffectFn1 changedValue}
+                          , textField' {onChange: mkEffectFn1 changedValue, fullWidth: true}
                           ]
                         , dialogActions_
                           [ button
                             { onClick: mkEffectFn1 (const close)
                             , color: primary
                             } [text "Cancel"]
-                          , button
-                            { onClick: mkEffectFn1 (const submit)
-                            , color: primary
-                            , autoFocus: true
-                            } [text "Submit"]
+                          , let params :: {autoFocus :: Boolean}
+                                params = unsafeCoerce
+                                  { onClick: mkEffectFn1 (const submit)
+                                  , color: primary
+                                  , autoFocus: true
+                                  , type: "submit"
+                                  }
+                            in  button params [text "Submit"]
                           ]
                         ]
                 }
