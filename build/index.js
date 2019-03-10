@@ -6060,6 +6060,7 @@ var PS = {};
   var Control_Applicative = PS["Control.Applicative"];
   var Control_Bind = PS["Control.Bind"];
   var Data_Function = PS["Data.Function"];
+  var Data_Unit = PS["Data.Unit"];
   var Effect = PS["Effect"];
   var IxSignal = PS["IxSignal"];
   var Prelude = PS["Prelude"];
@@ -6074,11 +6075,11 @@ var PS = {};
           return function ($$this) {
             return function __do() {
               var v = constructor($$this)();
-              var $12 = {};
+              var $25 = {};
 
-              for (var $13 in v) {
-                if ({}.hasOwnProperty.call(v, $13)) {
-                  $12[$13] = v[$13];
+              for (var $26 in v) {
+                if ({}.hasOwnProperty.call(v, $26)) {
+                  $25[$26] = v[$26];
                 }
 
                 ;
@@ -6086,17 +6087,17 @@ var PS = {};
 
               ;
 
-              $12.componentDidMount = function __do() {
+              $25.componentDidMount = function __do() {
                 IxSignal.subscribeLight(k)(f($$this))(sig)();
                 return v.componentDidMount();
               };
 
-              $12.componentWillUnmount = function __do() {
+              $25.componentWillUnmount = function __do() {
                 IxSignal["delete"](k)(sig)();
                 return v.componentWillUnmount();
               };
 
-              return $12;
+              return $25;
             };
           };
         };
