@@ -1,4 +1,5 @@
-module Links (Link (..), linkToDocumentTitle, linkToPathname, linkToHref, pathnameToLink, linkSignal) where
+module Links
+  (Link (..), linkToDocumentTitle, linkToPathname, linkToHref, pathnameToLink, linkSignal, hrefButton) where
 
 import Links.Bootcamp (BootcampLink (..))
 

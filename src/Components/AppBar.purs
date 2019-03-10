@@ -1,5 +1,8 @@
 module Components.AppBar (indexAppBar) where
 
+import Links (Link (..), hrefButton)
+import Links.Bootcamp (BootcampLink (GeneralOrders))
+
 import Prelude hiding (div)
 import Data.TSCompat.React (ReactNode)
 import Effect (Effect)
@@ -45,9 +48,10 @@ indexAppBar {} = createLeafElement c' {}
                 pure $ appBar {position: static, className: props.classes.root}
                   [ toolbar_
                     [ typography {variant: title, color: inherit} [text "USMC Study"]
-                    -- , div [RP.className props.classes.center]
-                    --   [ button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
-                    --   ]
+                    , div [RP.className props.classes.center]
+                      [ -- button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
+                      ]
+                    , hrefButton (Bootcamp GeneralOrders) {color: inherit} [text "Bootcamp"]
                     -- , button {color: inherit, onClick: mkEffectFn1 (const onImport)} [text "Import"]
                     -- , button {color: inherit, onClick: mkEffectFn1 (const onExport)} [text "Export"]
                     ]
