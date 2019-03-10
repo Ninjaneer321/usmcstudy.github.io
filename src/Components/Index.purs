@@ -6,6 +6,7 @@ import Components.Dialogs.GeneralOrder (generalOrderDialog)
 -- import Components.Dialogs.Import (ImportDialog (..)) as Import
 -- import Components.Dialogs.Export (exportDialog)
 import Components.Snackbar (snackbars, SnackbarContent, SnackbarVariant (Success, Error))
+import Window.Size (windowSizeSignal)
 import WithRoot (withRoot)
 
 import Prelude
@@ -39,6 +40,7 @@ index = withRoot e
             ) <- IOQueues.new
           ( snackbarQueue :: Q.Queue (write :: Q.WRITE) SnackbarContent
             ) <- Q.writeOnly <$> Q.new
+          wsSignal <- windowSizeSignal
 
           let resolve eX = case eX of
                 Left err -> throwException err
@@ -68,7 +70,7 @@ index = withRoot e
               -- [ indexAppBar {onImport, onExport, onNameEdit}
               [ typography {gutterBottom: true, variant: title} [text "Eleven General Orders"]
               , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
-              , generalOrderDialog generalOrderQueues
+              , generalOrderDialog generalOrderQueues wsSignal
               -- , exportDialog exportQueue
               , snackbars snackbarQueue
               ]
