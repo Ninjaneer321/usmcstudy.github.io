@@ -9,7 +9,19 @@ import MaterialUI.CssBaseline (cssBaseline')
 
 
 theme :: Theme
-theme = createMuiTheme {}
+theme = createMuiTheme
+  { palette:
+    { primary:
+      { main: "#002566"
+      }
+    , secondary:
+      { main: "#8C7B23"
+      }
+    , error:
+      { main: "#CC002B"
+      }
+    }
+  }
 
 
 withRoot :: ReactElement -> ReactElement

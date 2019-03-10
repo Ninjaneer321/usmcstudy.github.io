@@ -35,20 +35,21 @@ indexAppBar {} = createLeafElement c' {}
   where
     c' :: ReactClass {}
     c' = withStyles styles c
-    c :: ReactClass {classes :: {root :: String, center :: String}}
-    c = pureComponent "IndexAppBar" \this ->
-      pure
-        { state: {}
-        , render: do
-            props <- getProps this
-            pure $ appBar {position: static, className: props.classes.root}
-              [ toolbar_
-                [ typography {variant: title, color: inherit} [text "USMC Study"]
-                -- , div [RP.className props.classes.center]
-                --   [ button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
-                --   ]
-                -- , button {color: inherit, onClick: mkEffectFn1 (const onImport)} [text "Import"]
-                -- , button {color: inherit, onClick: mkEffectFn1 (const onExport)} [text "Export"]
-                ]
-              ]
-        }
+      where
+        c :: ReactClass {classes :: {root :: String, center :: String}}
+        c = pureComponent "IndexAppBar" \this ->
+          pure
+            { state: {}
+            , render: do
+                props <- getProps this
+                pure $ appBar {position: static, className: props.classes.root}
+                  [ toolbar_
+                    [ typography {variant: title, color: inherit} [text "USMC Study"]
+                    -- , div [RP.className props.classes.center]
+                    --   [ button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
+                    --   ]
+                    -- , button {color: inherit, onClick: mkEffectFn1 (const onImport)} [text "Import"]
+                    -- , button {color: inherit, onClick: mkEffectFn1 (const onExport)} [text "Export"]
+                    ]
+                  ]
+            }

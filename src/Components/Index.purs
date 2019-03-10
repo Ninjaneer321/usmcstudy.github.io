@@ -1,7 +1,7 @@
 module Components.Index where
 
 import Answers.GeneralOrders (randomGeneralOrderIndex, checkChallenge)
--- import Components.AppBar (indexAppBar)
+import Components.AppBar (indexAppBar)
 import Components.Dialogs.GeneralOrder (generalOrderDialog)
 -- import Components.Dialogs.Import (ImportDialog (..)) as Import
 -- import Components.Dialogs.Export (exportDialog)
@@ -67,8 +67,8 @@ index = withRoot e
           pure
             { state: {}
             , render: pure $ toElement
-              -- [ indexAppBar {onImport, onExport, onNameEdit}
-              [ typography {gutterBottom: true, variant: title} [text "Eleven General Orders"]
+              [ indexAppBar {}
+              , typography {gutterBottom: true, variant: title} [text "Eleven General Orders"]
               , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
               , generalOrderDialog generalOrderQueues wsSignal
               -- , exportDialog exportQueue
