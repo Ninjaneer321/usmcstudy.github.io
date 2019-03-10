@@ -98,13 +98,18 @@ generalOrderDialog (IOQueues{input,output}) windowSizeSignal = createLeafElement
                     , maxWidth: md
                     , "aria-labelledby": "general-order-dialog-title"
                     }
-              pure $ case index of
-                Nothing -> dialog'' (params false) []
-                Just i ->
-                  dialog'' (params true)
-                    [ dialogTitle {id: "general-order-dialog-title"} [text (showGeneralOrderTitle i)]
+                  dialogChildren mi =
+                    [ dialogTitle {id: "general-order-dialog-title"}
+                      [ text $ case mi of
+                          Just i -> showGeneralOrderTitle i
+                          Nothing -> ""
+                      ]
                     , dialogContent_
-                      [ typography {gutterBottom: true, variant: title} [text (showChallenge i)]
+                      [ typography {gutterBottom: true, variant: title}
+                        [ text $ case mi of
+                            Just i -> showChallenge i
+                            Nothing -> ""
+                        ]
                       , textField' {onChange: mkEffectFn1 changedValue, fullWidth: true}
                       ]
                     , dialogActions_
@@ -122,4 +127,10 @@ generalOrderDialog (IOQueues{input,output}) windowSizeSignal = createLeafElement
                         in  button params [text "Submit"]
                       ]
                     ]
+              pure $ case index of
+                Nothing -> dialog'' (params false) (dialogChildren Nothing)
+                Just i -> dialog'' (params true) (dialogChildren (Just i))
             }
+
+
+-- TODO make close status separate from index state, for cleaner transitions
