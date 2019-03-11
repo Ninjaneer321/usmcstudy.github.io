@@ -3,6 +3,7 @@
 JSTMP=./build/index.tmp.js
 JS=./build/index.js
 JSMIN=./build/index.min.js
+DATE=./build/date.js
 
 TEMPLATE=./build/index.template.html
 
@@ -26,5 +27,6 @@ if [ $# -eq 1 ] && [ $1 == "production" ]; then
     ./node_modules/.bin/browserify $JS -g [ envify --NODE_ENV production ] -g uglifyify | ./node_modules/.bin/uglifyjs --compress --mangle > $JSMIN || { exit 1; }
 fi
 echo "Browserified"
-ltext "$TEMPLATE $JSOUT" --raw $JSOUT > $OUTPUT || { exit 1; }
+date -R | sed 's/\(.*\)/var buildDate = "\1"/g' > $DATE
+ltext "$TEMPLATE $JSOUT $DATE" --raw $JSOUT --raw $DATE > $OUTPUT || { exit 1; }
 echo "Finished"

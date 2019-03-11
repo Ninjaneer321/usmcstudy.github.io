@@ -27,9 +27,13 @@ mountToRoot x = do
     Just el -> render x el
 
 
+foreign import buildDate :: String
+
 
 main :: Effect Unit
 main = do
   log "Booting up application"
+
+  log $ "Build date: " <> buildDate
 
   void (mountToRoot index)
