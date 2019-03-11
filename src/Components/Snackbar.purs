@@ -38,7 +38,7 @@ data SnackbarVariant
 
 type SnackbarContent =
   { variant :: SnackbarVariant
-  , message :: String
+  , message :: ReactElement
   , timeout :: Maybe Milliseconds
   }
 

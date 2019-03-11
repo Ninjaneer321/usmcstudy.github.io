@@ -1,16 +1,27 @@
 module Answers.GeneralOrders where
 
 import Crypto.Random (randomBetween)
+import Components.Snackbar (SnackbarContent, SnackbarVariant (Success, Error))
+import Data.Array.Diff (diffArray)
 
 import Prelude
 import Data.Tuple (Tuple (..))
 import Data.Maybe (Maybe (..))
+import Data.Array (unsafeIndex, singleton)
 import Data.Map (Map)
 import Data.Map (fromFoldable, lookup) as Map
+import Data.Foldable (intercalate)
+import Data.String.Yarn (words)
+import Data.FunctorWithIndex (mapWithIndex)
+import Data.Time.Duration (Milliseconds (..))
 import Effect (Effect)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 import Effect.Exception (throw)
+import React (toElement)
+import React.DOM (text, span, p, strong)
+import React.DOM.Props (style)
+import Partial.Unsafe (unsafePartial)
 
 
 generalOrders :: Map Int String
@@ -69,21 +80,58 @@ showGeneralOrderTitle i =
 
 checkChallenge :: Int -- ^ Challenge
                -> String -- ^ Submission
-               -> Maybe Boolean -- TODO Diff results
+               -> Maybe (Maybe (Tuple String (Array Boolean)))
 checkChallenge i c = case Map.lookup i generalOrders of
   Nothing -> Nothing
-  Just v -> Just (c == v)
+  Just v
+    | v == c -> Just Nothing
+    | otherwise -> Just $ Just $ Tuple v $ diffArray (words v) (words c)
 
 
 randomGeneralOrderIndex :: Effect Int
 randomGeneralOrderIndex = randomBetween 1 11
 
 
-challenge :: (Int -> Aff String)
-          -> Aff Boolean
-challenge f = do
-  i <- liftEffect randomGeneralOrderIndex -- generate random general order index
-  c <- f i
-  case checkChallenge i c of
-    Nothing -> liftEffect $ throw $ "No general order with index " <> show i
-    Just valid -> pure valid
+-- challenge :: (Int -> Aff String)
+--           -> Aff Boolean
+-- challenge f = do
+--   i <- liftEffect randomGeneralOrderIndex -- generate random general order index
+--   c <- f i
+--   case checkChallenge i c of
+--     Nothing -> liftEffect $ throw $ "No general order with index " <> show i
+--     Just valid -> pure valid
+
+
+challengeReport :: Int -- ^ Challenge
+                -> String -- ^ Submission
+                -> SnackbarContent
+challengeReport i c = case checkChallenge i c of
+  Nothing ->
+    { variant: Error
+    , message: text $ "Internal error - no general order with index " <> show i
+    , timeout: Nothing
+    }
+  Just mValid -> case mValid of
+    Nothing ->
+      { variant: Success
+      , message: text "Correct!"
+      , timeout: Just (Milliseconds 1000.0)
+      }
+    Just (Tuple actual indicies) ->
+      { variant: Error
+      , message:
+        let errorSpan x = span [style {textDecoration: "underline"}] [text x]
+        in  toElement
+              [ text "Incorrect. Actual: "
+              , p [style {marginBottom: 0, marginTop: 0}] [strong [] [text actual]]
+              , text "Submitted:"
+              , p [style {marginBottom: 0, marginTop: 0}] $ singleton $ strong [] $
+                let cs = words c
+                    spacesBetween xs = intercalate [text " "] (map singleton xs)
+                    go i' isBad
+                      | isBad = errorSpan $ unsafePartial $ unsafeIndex cs i'
+                      | otherwise = text $ unsafePartial $ unsafeIndex cs i'
+                in  spacesBetween (mapWithIndex go indicies)
+              ]
+      , timeout: Nothing
+      }

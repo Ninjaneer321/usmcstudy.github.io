@@ -1,6 +1,6 @@
 module Components.Index where
 
-import Answers.GeneralOrders (randomGeneralOrderIndex, checkChallenge)
+import Answers.GeneralOrders (randomGeneralOrderIndex, checkChallenge, challengeReport)
 import Components.AppBar (indexAppBar)
 import Components.Dialogs.GeneralOrder (generalOrderDialog)
 -- import Components.Dialogs.Import (ImportDialog (..)) as Import
@@ -52,18 +52,18 @@ index = withRoot e
                 mS <- IOQueues.callAsync generalOrderQueues i
                 case mS of
                   Nothing -> pure unit
-                  Just s -> case checkChallenge i s of
-                    Nothing -> liftEffect $ throw $ "No general order with index " <> show i
-                    Just valid -> liftEffect $ Q.put snackbarQueue
-                      { variant: if valid then Success else Error
-                      , timeout: if valid
-                        then Just (Milliseconds 3000.0)
-                        else Nothing
-                      , message:
-                        if valid
-                          then "Correct!"
-                          else "Incorrect."
-                      }
+                  Just s -> liftEffect $ Q.put snackbarQueue $ challengeReport i s -- case checkChallenge i s of
+                    -- Nothing -> liftEffect $ throw $ "No general order with index " <> show i
+                    -- Just valid -> liftEffect $ Q.put snackbarQueue
+                    --   { variant: if valid then Success else Error
+                    --   , timeout: if valid
+                    --     then Just (Milliseconds 3000.0)
+                    --     else Nothing
+                    --   , message:
+                    --     if valid
+                    --       then "Correct!"
+                    --       else "Incorrect."
+                    --   }
           pure
             { state: {}
             , render: pure $ toElement
