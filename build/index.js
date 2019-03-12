@@ -2337,6 +2337,8 @@ var PS = {};
   "use strict";
 
   var Type_Data_Boolean = PS["Type.Data.Boolean"];
+  var Type_Data_Row = PS["Type.Data.Row"];
+  var Type_Data_RowList = PS["Type.Data.RowList"];
   var Type_Data_Symbol = PS["Type.Data.Symbol"];
   var Type_Equality = PS["Type.Equality"];
   var ListToRow = {};
@@ -4667,6 +4669,7 @@ var PS = {};
   var Prelude = PS["Prelude"];
   var Record_Unsafe = PS["Record.Unsafe"];
   var Record_Unsafe_Union = PS["Record.Unsafe.Union"];
+  var Type_Data_RowList = PS["Type.Data.RowList"];
   var Type_Row = PS["Type.Row"];
   var Unsafe_Coerce = PS["Unsafe.Coerce"];
 
@@ -7181,6 +7184,7 @@ var PS = {};
   var Data_Maybe = PS["Data.Maybe"];
   var Data_Semigroup = PS["Data.Semigroup"];
   var Data_String = PS["Data.String"];
+  var Data_String_CodePoints = PS["Data.String.CodePoints"];
   var Data_String_Common = PS["Data.String.Common"];
   var Data_String_Pattern = PS["Data.String.Pattern"];
   var Data_Symbol = PS["Data.Symbol"];
@@ -7200,6 +7204,7 @@ var PS = {};
   var Signal_Types = PS["Signal.Types"];
   var Unsafe_Coerce = PS["Unsafe.Coerce"];
   var Web_HTML = PS["Web.HTML"];
+  var Web_HTML_HTMLDocument = PS["Web.HTML.HTMLDocument"];
   var Web_HTML_History = PS["Web.HTML.History"];
   var Web_HTML_Location = PS["Web.HTML.Location"];
   var Web_HTML_Window = PS["Web.HTML.Window"];
@@ -7226,7 +7231,7 @@ var PS = {};
   };
 
   var linkToPathname = function linkToPathname(l) {
-    return "/bootcamp" + "/generalOrders";
+    return "#" + ("/bootcamp" + "/generalOrders");
   };
 
   var linkToHref = function linkToHref(l) {
