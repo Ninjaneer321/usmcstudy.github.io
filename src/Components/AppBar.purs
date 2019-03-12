@@ -1,11 +1,12 @@
 module Components.AppBar (indexAppBar) where
 
-import Links (Link (..), hrefButton)
+import Links (Link (..), hrefButton, hrefSelect)
 import Links.Bootcamp (BootcampLink (GeneralOrders))
 import Window.Size (WindowSize, isMobile)
 
 import Prelude hiding (div)
 import Data.TSCompat.React (ReactNode)
+import Data.Array (singleton) as Array
 import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
 import React
@@ -20,7 +21,7 @@ import MaterialUI.Toolbar (toolbar_)
 import MaterialUI.Button (button)
 import MaterialUI.Typography (typography)
 import MaterialUI.Styles (withStyles)
-import MaterialUI.Enums (title, static, inherit, normal, secondary, outlined)
+import MaterialUI.Enums (title, static, inherit, normal, secondary, contained)
 import Unsafe.Coerce (unsafeCoerce)
 import IxSignal (IxSignal)
 import IxSignal (get) as S
@@ -69,24 +70,40 @@ indexAppBar windowSizeSignal linkSignal = createLeafElement c' {}
                     , render: do
                         props <- getProps this
                         {windowSize, currentLink} <- getState this
-                        pure $ appBar {position: static, className: props.classes.root}
-                          [ toolbar_
-                            [ img [RP.src "./ega.svg", RP.style {height: "44px"}]
-                            , typography {variant: title, color: inherit, className: props.classes.logoText} [text "USMC Study"]
-                            , div [RP.className props.classes.center]
-                              [ -- button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
+                        pure $ appBar {position: static, className: props.classes.root} $ Array.singleton $ toolbar_ $
+                          if isMobile windowSize
+                            then
+                              [ img [RP.src "./ega.svg", RP.style {height: "44px"}]
+                              , div [RP.className props.classes.center] []
+                              , hrefSelect linkSignal
+                                (\theme ->
+                                  { textField:
+                                    { backgroundColor: theme.palette.secondary.main
+                                    , color: "#fff"
+                                    }
+                                  }
+                                )
+                                [ Bootcamp GeneralOrders
+                                ]
                               ]
-                            , hrefButton (Bootcamp GeneralOrders)
-                              { color: secondary
-                              , variant: outlined
-                              , disabled: case currentLink of
-                                Bootcamp _ -> true
-                                _ -> false
-                              } [text "Bootcamp"]
-                            -- , button {color: inherit, onClick: mkEffectFn1 (const onImport)} [text "Import"]
-                            -- , button {color: inherit, onClick: mkEffectFn1 (const onExport)} [text "Export"]
-                            ]
-                          ]
+                            else
+                              [ img [RP.src "./ega.svg", RP.style {height: "44px"}]
+                              , typography
+                                { variant: title
+                                , color: inherit
+                                , className: props.classes.logoText
+                                } [text "USMC Study"]
+                              , div [RP.className props.classes.center] []
+                              , hrefButton (Bootcamp GeneralOrders)
+                                { color: secondary
+                                , variant: contained
+                                , disabled: case currentLink of
+                                  Bootcamp _ -> true
+                                  _ -> false
+                                } [text "Bootcamp"]
+                              -- , button {color: inherit, onClick: mkEffectFn1 (const onImport)} [text "Import"]
+                              -- , button {color: inherit, onClick: mkEffectFn1 (const onExport)} [text "Export"]
+                              ]
                     , componentDidMount: pure unit
                     , componentWillUnmount: pure unit
                     }

@@ -1,5 +1,6 @@
 module Links
-  (Link (..), linkToDocumentTitle, linkToPathname, linkToHref, pathnameToLink, linkSignal, hrefButton) where
+  ( Link (..), linkToDocumentTitle, linkToPathname, linkToHref
+  , pathnameToLink, linkSignal, hrefButton, hrefSelect) where
 
 import Links.Bootcamp (BootcampLink (..))
 
@@ -7,7 +8,7 @@ import Prelude
 import Data.Maybe (Maybe (..))
 import Data.Either (Either (..))
 import Data.String (split)
-import Data.String (uncons) as String
+import Data.String (uncons, drop) as String
 import Data.String.CodePoints (codePointFromChar)
 import Data.String.Pattern (Pattern (..))
 import Data.Array (uncons) as Array
@@ -15,20 +16,29 @@ import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Eq (genericEq)
 import Effect (Effect)
 import Effect.Unsafe (unsafePerformEffect)
-import Effect.Uncurried (EffectFn1, runEffectFn1, mkEffectFn1)
+import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, mkEffectFn1, mkEffectFn2)
+import Effect.Exception (throw)
 import Web.HTML (window)
 import Web.HTML.Window (location, history, document)
 import Web.HTML.Location (protocol, hostname, hash, setHash)
 import Web.HTML.History (DocumentTitle (..), URL (..), replaceState, pushState)
 import Web.HTML.HTMLDocument (setTitle)
 import Foreign (Foreign, unsafeToForeign, unsafeFromForeign)
-import IxSignal (IxSignal, make, setDiff)
+import IxSignal (IxSignal, make, setDiff, get)
 import Signal.Types (READ, readOnly)
 import Data.TSCompat (OptionRecord)
 import Data.TSCompat.Class (class IsTSEq)
+import Data.TSCompat.React (ReactNode)
 import MaterialUI.Button (button, ButtonPropsO, ButtonPropsM)
-import React (ReactElement)
-import React.SyntheticEvent (SyntheticMouseEvent, preventDefault)
+import MaterialUI.TextField (textField)
+import MaterialUI.MenuItem (menuItem)
+import MaterialUI.Enums (outlined, normal)
+import MaterialUI.Styles (withStyles)
+import MaterialUI.Theme (Theme)
+import React (ReactElement, ReactClass, ReactClassConstructor, createLeafElement, component, getState, setState, getProps)
+import React.DOM (text)
+import React.SyntheticEvent (SyntheticEvent, SyntheticMouseEvent, preventDefault, target)
+import React.Signal.WhileMounted (whileMountedIx)
 import Record (insert) as Record
 import Data.Symbol (SProxy (..))
 import Prim.Row (class Lacks)
@@ -75,8 +85,10 @@ pathnameToLink :: String -> Either (Maybe Link) Link
 pathnameToLink p = case String.uncons p of
   Nothing -> firstChunk (Left [])
   Just {head,tail}
-    | head == codePointFromChar '#' -> firstChunk $ Right $ split (Pattern "/") tail
-    | otherwise -> firstChunk $ Left $ split (Pattern "/") p
+    | head == codePointFromChar '#' ->
+      firstChunk $ Right $ split (Pattern "/") (String.drop 1 tail)
+    | head == codePointFromChar '/' -> firstChunk $ Left $ split (Pattern "/") (String.drop 1 p)
+    | otherwise -> Left Nothing
   where
     firstChunk eXs = case eXs of
       Left xs -> case go xs of
@@ -95,7 +107,7 @@ pathnameToLink p = case String.uncons p of
         | head == "generalOrders" ->
             if tail == []
               then pure (Bootcamp GeneralOrders)
-              else Left (Just (Bootcamp GeneralOrders))
+              else Left (Just (Bootcamp GeneralOrders)) -- Redirect when there's too much, not too little
         | otherwise -> Left Nothing
 
 
@@ -150,6 +162,71 @@ hrefButton link ps =
         in  Record.insert (SProxy :: SProxy "href") (linkToHref link) $
               Record.insert (SProxy :: SProxy "onClick") onClick ps
   in  button ps'
+
+
+-- TODO generalize to a prism for drilling-down, external (globally unique) name, printer parser isos
+hrefSelect :: forall styles
+            . IxSignal (read :: READ) Link
+           -> (Theme -> {textField :: { | styles }})
+           -> Array Link
+           -> ReactElement
+hrefSelect linkSignal styles links = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = withStyles styles c'
+      where
+        c' :: ReactClass {classes :: {textField :: String}}
+        c' = component "HrefSelect" constructor'
+          where
+            constructor' =
+              let handleLink this x = setState this {currentLink: x}
+              in  whileMountedIx linkSignal "HrefSelect" handleLink constructor
+              where
+                constructor :: ReactClassConstructor _ {currentLink :: Link} _
+                constructor this = do
+                  initLink <- get linkSignal
+                  let changed :: EffectFn2 SyntheticEvent ReactNode Unit
+                      changed = mkEffectFn2 \e _ -> do
+                        t <- target e
+                        let val = (unsafeCoerce t).value
+                        case pathnameToLink val of
+                          Right link -> do -- invoke link change
+                            h <- window >>= history
+                            pushState (unsafeToForeign link) (linkToDocumentTitle link) (URL (linkToPathname link)) h
+                          Left _ -> do
+                            throw $ "Couldn't parse link value " <> show val
+                  pure
+                    { state: {currentLink: initLink}
+                    , render: do
+                        {currentLink} <- getState this
+                        props <- getProps this
+
+                        let params :: {autoFocus :: Boolean} -- to typecheck
+                            params = unsafeCoerce
+                              { value: linkToPathname currentLink
+                              , onChange: changed
+                              , select: true
+                              , variant: outlined
+                              , margin: normal
+                              , "SelectProps": {className: props.classes.textField}
+                              }
+                            linkToMenuItem link =
+                              let params' :: { hidden :: Boolean }
+                                  params' = unsafeCoerce
+                                    { value: link'
+                                    , key: link'
+                                    }
+                                    where
+                                      link' = linkToPathname link
+                              in  menuItem params'
+                                    [ text $ case link of
+                                        Bootcamp _ -> "Bootcamp"
+                                    ]
+                        -- pure $ select params $ map linkToMenuItem links
+                        pure $ textField params $ map linkToMenuItem links
+                    , componentDidMount: pure unit
+                    , componentWillUnmount: pure unit
+                    }
 
 
 -- TODO href dropdown, href tab?
