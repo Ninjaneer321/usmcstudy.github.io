@@ -92,16 +92,6 @@ randomGeneralOrderIndex :: Effect Int
 randomGeneralOrderIndex = randomBetween 1 11
 
 
--- challenge :: (Int -> Aff String)
---           -> Aff Boolean
--- challenge f = do
---   i <- liftEffect randomGeneralOrderIndex -- generate random general order index
---   c <- f i
---   case checkChallenge i c of
---     Nothing -> liftEffect $ throw $ "No general order with index " <> show i
---     Just valid -> pure valid
-
-
 challengeReport :: Int -- ^ Challenge
                 -> String -- ^ Submission
                 -> SnackbarContent

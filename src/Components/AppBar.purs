@@ -11,10 +11,11 @@ import Effect.Uncurried (mkEffectFn1)
 import React
   ( ReactElement, ReactClass, ReactClassConstructor
   , component, getState, setState, getProps, createLeafElement)
-import React.DOM (text, div)
-import React.DOM.Props (className) as RP
+import React.DOM (text, div, mkDOM, IsDynamic (..))
+import React.DOM.Props (className, unsafeMkProps, width, height) as RP
 import React.Signal.WhileMounted (whileMountedIx)
 import MaterialUI.AppBar (appBar)
+import MaterialUI.SvgIcon (svgIcon_)
 import MaterialUI.Toolbar (toolbar_)
 import MaterialUI.Button (button)
 import MaterialUI.Typography (typography)
@@ -67,7 +68,14 @@ indexAppBar windowSizeSignal linkSignal = createLeafElement c' {}
                         {windowSize, currentLink} <- getState this
                         pure $ appBar {position: static, className: props.classes.root}
                           [ toolbar_
-                            [ typography {variant: title, color: inherit} [text "USMC Study"]
+                            [ svgIcon_
+                              [ mkDOM (IsDynamic false) "image"
+                                [ RP.unsafeMkProps "xlink:href" "./ega.svg"
+                                , RP.width "24"
+                                , RP.height "24"
+                                ] []
+                              ]
+                            , typography {variant: title, color: inherit} [text "USMC Study"]
                             , div [RP.className props.classes.center]
                               [ -- button {color: inherit, onClick: mkEffectFn1 (const onNameEdit)} [text "Timeline Name"]
                               ]
