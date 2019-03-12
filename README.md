@@ -29,4 +29,4 @@ To contribute patches to the source code, please [File a Pull Request](https://g
 If you don't know what this is, you probably shouldn't be contributing.
 
 
-> Semper Fidelis
+![Coat of Arms](https://github.com/usmcstudy/usmcstudy.github.io/raw/master/coa.png)
