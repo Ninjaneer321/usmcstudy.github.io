@@ -7,6 +7,8 @@ import Prelude
 import Data.Maybe (Maybe (..))
 import Data.Either (Either (..))
 import Data.String (split)
+import Data.String (uncons) as String
+import Data.String.CodePoints (codePointFromChar)
 import Data.String.Pattern (Pattern (..))
 import Data.Array (uncons) as Array
 import Data.Generic.Rep (class Generic)
@@ -15,9 +17,10 @@ import Effect (Effect)
 import Effect.Unsafe (unsafePerformEffect)
 import Effect.Uncurried (EffectFn1, runEffectFn1, mkEffectFn1)
 import Web.HTML (window)
-import Web.HTML.Window (location, history)
-import Web.HTML.Location (protocol, hostname, pathname, setPathname)
+import Web.HTML.Window (location, history, document)
+import Web.HTML.Location (protocol, hostname, hash, setHash)
 import Web.HTML.History (DocumentTitle (..), URL (..), replaceState, pushState)
+import Web.HTML.HTMLDocument (setTitle)
 import Foreign (Foreign, unsafeToForeign, unsafeFromForeign)
 import IxSignal (IxSignal, make, setDiff)
 import Signal.Types (READ, readOnly)
@@ -55,7 +58,7 @@ linkToDocumentTitle l = DocumentTitle $ "USMC Study" <> case l of
 
 
 linkToPathname :: Link -> String
-linkToPathname l = case l of
+linkToPathname l = "#" <> case l of
   Bootcamp b -> "/bootcamp" <> case b of
     GeneralOrders -> "/generalOrders"
 
@@ -69,14 +72,23 @@ linkToHref l = host <> linkToPathname l
 
 -- | Either just the parsed link, or maybe the closest link requiring redirect
 pathnameToLink :: String -> Either (Maybe Link) Link
-pathnameToLink p = firstChunk
+pathnameToLink p = case String.uncons p of
+  Nothing -> firstChunk (Left [])
+  Just {head,tail}
+    | head == codePointFromChar '#' -> firstChunk $ Right $ split (Pattern "/") tail
+    | otherwise -> firstChunk $ Left $ split (Pattern "/") p
   where
-    ps = split (Pattern "/") p
-    firstChunk = case Array.uncons ps of
-      Nothing -> pure (Bootcamp GeneralOrders)
-      Just {head,tail}
-        | head == "bootcamp" -> bootcampSecondChunk tail
-        | otherwise -> Left Nothing
+    firstChunk eXs = case eXs of
+      Left xs -> case go xs of
+        Right x -> Left (Just x)
+        Left mX -> Left mX
+      Right xs -> go xs
+      where
+        go ys = case Array.uncons ys of
+          Nothing -> pure (Bootcamp GeneralOrders)
+          Just {head,tail}
+            | head == "bootcamp" -> bootcampSecondChunk tail
+            | otherwise -> Left Nothing
     bootcampSecondChunk tail = case Array.uncons tail of
       Nothing -> pure (Bootcamp GeneralOrders)
       Just {head,tail}
@@ -91,9 +103,10 @@ pathnameToLink p = firstChunk
 getLink :: Effect Link
 getLink = do
   w <- window
+  d <- document w
   l <- location w
   h <- history w
-  p <- pathname l
+  p <- hash l
   case pathnameToLink p of
     Right link -> pure link
     Left mLink -> do
@@ -101,8 +114,10 @@ getLink = do
             Nothing -> Bootcamp GeneralOrders
             Just link' -> link'
           path = linkToPathname link
-      setPathname path l
-      replaceState (unsafeToForeign link) (linkToDocumentTitle link) (URL path) h
+      setHash path l
+      let docTitle@(DocumentTitle docTitle') = linkToDocumentTitle link
+      replaceState (unsafeToForeign link) docTitle (URL path) h
+      setTitle docTitle' d
       pure link
 
 
@@ -138,5 +153,3 @@ hrefButton link ps =
 
 
 -- TODO href dropdown, href tab?
-
--- FIXME need to use anchor URLa a 'la # - github won't respond to those links.
