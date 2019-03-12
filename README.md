@@ -30,3 +30,6 @@ If you don't know what this is, you probably shouldn't be contributing.
 
 
 ![Coat of Arms](https://github.com/usmcstudy/usmcstudy.github.io/raw/master/coa.png)
+
+
+> The USMC Study Guide is licensed under the [GNU General Public License v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
