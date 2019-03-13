@@ -102,7 +102,7 @@ challengeReport i c = case checkChallenge i c of
     Nothing ->
       { variant: Success
       , message: text "Correct!"
-      , timeout: Just (Milliseconds 1000.0)
+      , timeout: Just (Milliseconds 2000.0)
       }
     Just (Tuple actual indicies) ->
       { variant: Error
