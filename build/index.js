@@ -9704,6 +9704,7 @@ var PS = {};
   var Control_Bind = PS["Control.Bind"];
   var Data_Array = PS["Data.Array"];
   var Data_Either = PS["Data.Either"];
+  var Data_Foldable = PS["Data.Foldable"];
   var Data_Function = PS["Data.Function"];
   var Data_FunctorWithIndex = PS["Data.FunctorWithIndex"];
   var Data_Maybe = PS["Data.Maybe"];
@@ -9755,7 +9756,7 @@ var PS = {};
             }
 
             ;
-            throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 52, column 28 - line 54, column 37): " + [eX.constructor.name]);
+            throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 54, column 28 - line 56, column 37): " + [eX.constructor.name]);
           };
 
           var generalOrder = function generalOrder(i) {
@@ -9806,12 +9807,12 @@ var PS = {};
                         }
 
                         ;
-                        throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 66, column 41 - line 74, column 30): " + [v2.value0.constructor.name]);
+                        throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 68, column 41 - line 76, column 30): " + [v2.value0.constructor.name]);
                       }())();
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 63, column 21 - line 74, column 30): " + [v2.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 65, column 21 - line 76, column 30): " + [v2.constructor.name]);
                   })();
 
                   return Queue_Types.put(Queue_One.queueQueueOne)(snackbarQueue)(Answers_Bootcamp_GeneralOrders.challengeReport(i)(v.value0))();
@@ -9819,7 +9820,7 @@ var PS = {};
               }
 
               ;
-              throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 59, column 17 - line 75, column 62): " + [v.constructor.name]);
+              throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 61, column 17 - line 77, column 62): " + [v.constructor.name]);
             }));
           };
 
@@ -9913,6 +9914,17 @@ var PS = {};
                 };
               };
 
+              var allScores = Data_Foldable.foldr(Data_Foldable.foldableArray)(function (x) {
+                return function (acc) {
+                  return {
+                    success: x.success + acc.success | 0,
+                    failure: x.failure + acc.failure | 0
+                  };
+                };
+              })({
+                success: 0,
+                failure: 0
+              })(v.scores);
               return React.toElement(React.isReactElementArray)([MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
                 gutterBottom: true,
                 variant: MaterialUI_Enums.title
@@ -9934,7 +9946,11 @@ var PS = {};
                 return generalOrderButton(i + 1 | 0);
               })(v.scores))]), React_DOM.br([]), MaterialUI_Button.button(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.sameType)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
                 onClick: Effect_Uncurried.mkEffectFn1(Data_Function["const"](generateGeneralOrder))
-              })([React_DOM.text("Random General Order")])]);
+              })([React_DOM.text("Random General Order")]), React_DOM.br([]), React_DOM.br([]), MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
+                variant: MaterialUI_Enums.body1
+              })([React_DOM.text("Successes: " + Data_Show.show(Data_Show.showInt)(allScores.success))]), React_DOM.br([]), MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
+                variant: MaterialUI_Enums.body1
+              })([React_DOM.text("Failures: " + Data_Show.show(Data_Show.showInt)(allScores.failure))])]);
             }
           });
         };

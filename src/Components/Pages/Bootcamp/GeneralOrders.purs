@@ -8,6 +8,7 @@ import Data.Maybe (Maybe (..), fromJust)
 import Data.Either (Either (..))
 import Data.Array (modifyAt, replicate, singleton)
 import Data.FunctorWithIndex (mapWithIndex)
+import Data.Foldable (foldr)
 import Effect (Effect)
 import Effect.Aff (runAff_)
 import Effect.Class (liftEffect)
@@ -22,7 +23,8 @@ import IOQueues (IOQueues)
 import IOQueues (callAsync) as IOQueues
 import MaterialUI.Typography (typography)
 import MaterialUI.Button (button)
-import MaterialUI.Enums (title, right, dense)
+import MaterialUI.Enums (title, right, dense, body1)
+import MaterialUI.Typography (typography)
 import MaterialUI.Table (table)
 import MaterialUI.TableHead (tableHead_)
 import MaterialUI.TableBody (tableBody_)
@@ -99,6 +101,8 @@ generalOrders snackbarQueue generalOrderQueues = createLeafElement c {}
                     , tableCell {align: right} [text (show success)]
                     , tableCell {align: right} [text (show failure)]
                     ]
+              let allScores = foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
+                    {success: 0, failure: 0} scores
               pure $ toElement
                 [ typography {gutterBottom: true, variant: title} [text "Eleven General Orders of a Sentry"]
                 , hr []
@@ -116,5 +120,14 @@ generalOrders snackbarQueue generalOrderQueues = createLeafElement c {}
                   ]
                 , br []
                 , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
+                , br []
+                , br []
+                , typography {variant: body1}
+                  [ text ("Successes: " <> show allScores.success)
+                  ]
+                , br []
+                , typography {variant: body1}
+                  [ text ("Failures: " <> show allScores.failure)
+                  ]
                 ]
             }
