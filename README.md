@@ -10,8 +10,7 @@ This will require an account to be created on [https://github.com](GitHub), and 
 
 ## Building
 
-To Build the Software, please view the [BUILDING]() document.
-
+To Build the Software, please view the [BUILDING](https://github.com/usmcstudy/usmcstudy.github.io/blob/master/BUILDING.md) document.
 
 ## File a Bug
 
