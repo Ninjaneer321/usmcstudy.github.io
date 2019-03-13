@@ -101,7 +101,7 @@ pathnameToLink p = case String.uncons p of
           Just {head,tail}
             | head == "bootcamp" -> bootcampSecondChunk tail
             | otherwise -> Left Nothing
-    bootcampSecondChunk tail = case Array.uncons tail of
+    bootcampSecondChunk xs = case Array.uncons xs of
       Nothing -> pure (Bootcamp GeneralOrders)
       Just {head,tail}
         | head == "generalOrders" ->
@@ -184,7 +184,7 @@ hrefSelect :: forall styles
            -> (Theme -> {textField :: { | styles }})
            -> Array Link
            -> ReactElement
-hrefSelect linkSignal styles links = createLeafElement c {}
+hrefSelect linkSignal' styles links = createLeafElement c {}
   where
     c :: ReactClass {}
     c = withStyles styles c'
@@ -194,11 +194,11 @@ hrefSelect linkSignal styles links = createLeafElement c {}
           where
             constructor' =
               let handleLink this x = setState this {currentLink: x}
-              in  whileMountedIx linkSignal "HrefSelect" handleLink constructor
+              in  whileMountedIx linkSignal' "HrefSelect" handleLink constructor
               where
                 constructor :: ReactClassConstructor _ {currentLink :: Link} _
                 constructor this = do
-                  initLink <- get linkSignal
+                  initLink <- get linkSignal'
                   let changed :: EffectFn2 SyntheticEvent ReactNode Unit
                       changed = mkEffectFn2 \e _ -> do
                         t <- target e

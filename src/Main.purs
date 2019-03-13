@@ -9,7 +9,6 @@ import Data.Maybe (Maybe (..))
 import Effect (Effect)
 import Effect.Console (log)
 import Effect.Exception (throw)
-import Crypto.Random (randomBetween)
 
 import ReactDOM (render)
 import React (ReactElement, ReactComponent)

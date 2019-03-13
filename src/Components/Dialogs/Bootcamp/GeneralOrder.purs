@@ -1,25 +1,17 @@
-module Components.Dialogs.GeneralOrder (generalOrderDialog) where
+module Components.Dialogs.Bootcamp.GeneralOrder (generalOrderDialog) where
 
-import Answers.GeneralOrders (showGeneralOrderTitle, showChallenge)
+import Answers.Bootcamp.GeneralOrders (showGeneralOrderTitle, showChallenge)
 import Window.Size (WindowSize, isMobile)
 
 import Prelude
 import Data.Maybe (Maybe (..))
 import Effect (Effect)
-import Effect.Exception (throw)
 import Effect.Uncurried (mkEffectFn1)
 import Queue.One (Queue, put)
 import IOQueues (IOQueues (..))
 import IxSignal (IxSignal)
 import IxSignal (get) as S
 import Signal.Types (READ) as S
-import Web.File.File (File)
-import Web.File.FileList (item)
-import Web.HTML (window)
-import Web.HTML.Window (document)
-import Web.HTML.HTMLDocument (toDocument)
-import Web.DOM.Document (toNonElementParentNode)
-import Web.DOM.NonElementParentNode (getElementById)
 import React
   ( ReactElement, ReactClass, ReactClassConstructor
   , component, setState, getState, getProps, createLeafElement)
@@ -42,10 +34,10 @@ import Unsafe.Coerce (unsafeCoerce)
 
 
 
-generalOrderDialog :: IOQueues Queue Int (Maybe String) -- ^ Write the general order index to this to open the dialog
-                   -> IxSignal (read :: S.READ) WindowSize
+generalOrderDialog :: IxSignal (read :: S.READ) WindowSize
+                   -> IOQueues Queue Int (Maybe String) -- ^ Write the general order index to this to open the dialog
                    -> ReactElement
-generalOrderDialog (IOQueues{input,output}) windowSizeSignal = createLeafElement c {}
+generalOrderDialog windowSizeSignal (IOQueues{input,output}) = createLeafElement c {}
   where
     c :: ReactClass {}
     c = withStyles styles c'
@@ -117,14 +109,14 @@ generalOrderDialog (IOQueues{input,output}) windowSizeSignal = createLeafElement
                         { onClick: mkEffectFn1 (const close)
                         , color: primary
                         } [text "Cancel"]
-                      , let params :: {autoFocus :: Boolean}
-                            params = unsafeCoerce
+                      , let params' :: {autoFocus :: Boolean}
+                            params' = unsafeCoerce
                               { onClick: mkEffectFn1 (const submit)
                               , color: primary
                               , autoFocus: true
                               , type: "submit"
                               }
-                        in  button params [text "Submit"]
+                        in  button params' [text "Submit"]
                       ]
                     ]
               pure $ case index of

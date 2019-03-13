@@ -2646,6 +2646,8 @@ var PS = {};
   "use strict";
 
   var Type_Data_Boolean = PS["Type.Data.Boolean"];
+  var Type_Data_Row = PS["Type.Data.Row"];
+  var Type_Data_RowList = PS["Type.Data.RowList"];
   var Type_Data_Symbol = PS["Type.Data.Symbol"];
   var Type_Equality = PS["Type.Equality"];
   var ListToRow = {};
@@ -5004,6 +5006,7 @@ var PS = {};
   var Prelude = PS["Prelude"];
   var Record_Unsafe = PS["Record.Unsafe"];
   var Record_Unsafe_Union = PS["Record.Unsafe.Union"];
+  var Type_Data_RowList = PS["Type.Data.RowList"];
   var Type_Row = PS["Type.Row"];
   var Unsafe_Coerce = PS["Unsafe.Coerce"];
 
@@ -6844,9 +6847,6 @@ var PS = {};
   var Data_Time_Duration = PS["Data.Time.Duration"];
   var Data_Tuple = PS["Data.Tuple"];
   var Effect = PS["Effect"];
-  var Effect_Aff = PS["Effect.Aff"];
-  var Effect_Class = PS["Effect.Class"];
-  var Effect_Exception = PS["Effect.Exception"];
   var Partial_Unsafe = PS["Partial.Unsafe"];
   var Prelude = PS["Prelude"];
   var React = PS["React"];
@@ -6926,7 +6926,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.GeneralOrders (line 66, column 5 - line 81, column 1): " + []);
+      throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 63, column 5 - line 78, column 1): " + []);
     }();
 
     return j + " General Order";
@@ -7005,7 +7005,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.GeneralOrders (line 48, column 5 - line 62, column 1): " + []);
+      throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 45, column 5 - line 59, column 1): " + []);
     }();
 
     return "What is the " + (j + " General Order of the Marine Corps?");
@@ -7039,7 +7039,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.GeneralOrders (line 84, column 22 - line 88, column 73): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 81, column 22 - line 85, column 73): " + [v.constructor.name]);
     };
   };
 
@@ -7104,7 +7104,7 @@ var PS = {};
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Answers.GeneralOrders (line 121, column 21 - line 123, column 77): " + [i$prime.constructor.name, isBad.constructor.name]);
+                    throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 118, column 21 - line 120, column 77): " + [i$prime.constructor.name, isBad.constructor.name]);
                   };
                 };
 
@@ -7116,11 +7116,11 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Answers.GeneralOrders (line 104, column 18 - line 127, column 7): " + [v.value0.constructor.name]);
+        throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 101, column 18 - line 124, column 7): " + [v.value0.constructor.name]);
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.GeneralOrders (line 98, column 23 - line 127, column 7): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Answers.Bootcamp.GeneralOrders (line 95, column 23 - line 124, column 7): " + [v.constructor.name]);
     };
   };
 
@@ -7130,7 +7130,7 @@ var PS = {};
   exports["checkChallenge"] = checkChallenge;
   exports["randomGeneralOrderIndex"] = randomGeneralOrderIndex;
   exports["challengeReport"] = challengeReport;
-})(PS["Answers.GeneralOrders"] = PS["Answers.GeneralOrders"] || {});
+})(PS["Answers.Bootcamp.GeneralOrders"] = PS["Answers.Bootcamp.GeneralOrders"] || {});
 
 (function (exports) {
   "use strict";
@@ -8217,8 +8217,8 @@ var PS = {};
   };
 
   var pathnameToLink = function pathnameToLink(p) {
-    var bootcampSecondChunk = function bootcampSecondChunk(tail) {
-      var v = Data_Array.uncons(tail);
+    var bootcampSecondChunk = function bootcampSecondChunk(xs) {
+      var v = Data_Array.uncons(xs);
 
       if (v instanceof Data_Maybe.Nothing) {
         return Control_Applicative.pure(Data_Either.applicativeEither)(new Bootcamp(Links_Bootcamp.GeneralOrders.value));
@@ -8248,7 +8248,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 104, column 32 - line 111, column 36): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 104, column 30 - line 111, column 36): " + [v.constructor.name]);
     };
 
     var firstChunk = function firstChunk(eXs) {
@@ -8396,7 +8396,7 @@ var PS = {};
     };
   };
 
-  var hrefSelect = function hrefSelect(linkSignal1) {
+  var hrefSelect = function hrefSelect(linkSignal$prime) {
     return function (styles) {
       return function (links) {
         var c = function () {
@@ -8404,7 +8404,7 @@ var PS = {};
             var constructor$prime = function () {
               var constructor = function constructor($$this) {
                 return function __do() {
-                  var v = IxSignal.get(linkSignal1)();
+                  var v = IxSignal.get(linkSignal$prime)();
 
                   var changed = function changed(e, v1) {
                     var v2 = React_SyntheticEvent.target(e)();
@@ -8470,7 +8470,7 @@ var PS = {};
                 };
               };
 
-              return React_Signal_WhileMounted.whileMountedIx(linkSignal1)("HrefSelect")(handleLink)(constructor);
+              return React_Signal_WhileMounted.whileMountedIx(linkSignal$prime)("HrefSelect")(handleLink)(constructor);
             }();
 
             return React.component(React.reactComponentSpec()())("HrefSelect")(constructor$prime);
@@ -8842,18 +8842,14 @@ var PS = {};
   var Data_Function = PS["Data.Function"];
   var Data_Semiring = PS["Data.Semiring"];
   var Data_TSCompat_Class = PS["Data.TSCompat.Class"];
-  var Data_TSCompat_React = PS["Data.TSCompat.React"];
   var Data_Unit = PS["Data.Unit"];
   var Effect = PS["Effect"];
-  var Effect_Uncurried = PS["Effect.Uncurried"];
   var IxSignal = PS["IxSignal"];
   var Links = PS["Links"];
   var Links_Bootcamp = PS["Links.Bootcamp"];
   var MaterialUI_AppBar = PS["MaterialUI.AppBar"];
-  var MaterialUI_Button = PS["MaterialUI.Button"];
   var MaterialUI_Enums = PS["MaterialUI.Enums"];
   var MaterialUI_Styles = PS["MaterialUI.Styles"];
-  var MaterialUI_SvgIcon = PS["MaterialUI.SvgIcon"];
   var MaterialUI_Toolbar = PS["MaterialUI.Toolbar"];
   var MaterialUI_Typography = PS["MaterialUI.Typography"];
   var Prelude = PS["Prelude"];
@@ -8864,26 +8860,33 @@ var PS = {};
   var Signal_Types = PS["Signal.Types"];
   var Type_Data_Boolean = PS["Type.Data.Boolean"];
   var Type_Row = PS["Type.Row"];
-  var Unsafe_Coerce = PS["Unsafe.Coerce"];
   var Window_Size = PS["Window.Size"];
 
-  var styles = function styles(theme) {
-    return {
-      root: {
-        flexGrow: 1
-      },
-      center: {
-        flexGrow: 1,
-        textAlign: "center"
-      },
-      logoText: {
-        marginLeft: theme.spacing.unit * 2 | 0
-      }
-    };
+  var appButtons = function appButtons(currentLink) {
+    return React.toElement(React.isReactElementArray)([Links.hrefButton(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))))(Data_TSCompat_Class.nilAll)))()()(new Links.Bootcamp(Links_Bootcamp.GeneralOrders.value))({
+      color: MaterialUI_Enums.secondary,
+      variant: MaterialUI_Enums.contained,
+      disabled: true
+    })([React_DOM.text("Bootcamp")])]);
   };
 
   var indexAppBar = function indexAppBar(windowSizeSignal) {
     return function (linkSignal) {
+      var styles = function styles(theme) {
+        return {
+          root: {
+            flexGrow: 1
+          },
+          center: {
+            flexGrow: 1,
+            textAlign: "center"
+          },
+          logoText: {
+            marginLeft: theme.spacing.unit * 2 | 0
+          }
+        };
+      };
+
       var c$prime = function () {
         var c = function () {
           var constructor$prime = function () {
@@ -8903,9 +8906,9 @@ var PS = {};
                       position: MaterialUI_Enums["static"],
                       className: v2.classes.root
                     })(Data_Array.singleton(MaterialUI_Toolbar.toolbar_(function () {
-                      var $8 = Window_Size.isMobile(v3.windowSize);
+                      var $10 = Window_Size.isMobile(v3.windowSize);
 
-                      if ($8) {
+                      if ($10) {
                         return [React_DOM.img([React_DOM_Props.src("./ega.svg"), React_DOM_Props.style({
                           height: "44px"
                         })]), React_DOM.div([React_DOM_Props.className(v2.classes.center)])([]), Links.hrefSelect(linkSignal)(function (theme) {
@@ -8927,11 +8930,7 @@ var PS = {};
                         variant: MaterialUI_Enums.title,
                         color: MaterialUI_Enums.inherit,
                         className: v2.classes.logoText
-                      })([React_DOM.text("USMC Study")]), React_DOM.div([React_DOM_Props.className(v2.classes.center)])([]), Links.hrefButton(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))))(Data_TSCompat_Class.nilAll)))()()(new Links.Bootcamp(Links_Bootcamp.GeneralOrders.value))({
-                        color: MaterialUI_Enums.secondary,
-                        variant: MaterialUI_Enums.contained,
-                        disabled: true
-                      })([React_DOM.text("Bootcamp")])];
+                      })([React_DOM.text("USMC Study")]), React_DOM.div([React_DOM_Props.className(v2.classes.center)])([]), appButtons(v3.currentLink)];
                     }())));
                   },
                   componentDidMount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit),
@@ -9125,7 +9124,7 @@ var PS = {};
   // Generated by purs version 0.12.3
   "use strict";
 
-  var Answers_GeneralOrders = PS["Answers.GeneralOrders"];
+  var Answers_Bootcamp_GeneralOrders = PS["Answers.Bootcamp.GeneralOrders"];
   var Control_Applicative = PS["Control.Applicative"];
   var Control_Bind = PS["Control.Bind"];
   var Data_Function = PS["Data.Function"];
@@ -9133,7 +9132,6 @@ var PS = {};
   var Data_TSCompat_Class = PS["Data.TSCompat.Class"];
   var Data_Unit = PS["Data.Unit"];
   var Effect = PS["Effect"];
-  var Effect_Exception = PS["Effect.Exception"];
   var Effect_Uncurried = PS["Effect.Uncurried"];
   var IOQueues = PS["IOQueues"];
   var IxSignal = PS["IxSignal"];
@@ -9158,17 +9156,10 @@ var PS = {};
   var Type_Data_Boolean = PS["Type.Data.Boolean"];
   var Type_Row = PS["Type.Row"];
   var Unsafe_Coerce = PS["Unsafe.Coerce"];
-  var Web_DOM_Document = PS["Web.DOM.Document"];
-  var Web_DOM_NonElementParentNode = PS["Web.DOM.NonElementParentNode"];
-  var Web_File_File = PS["Web.File.File"];
-  var Web_File_FileList = PS["Web.File.FileList"];
-  var Web_HTML = PS["Web.HTML"];
-  var Web_HTML_HTMLDocument = PS["Web.HTML.HTMLDocument"];
-  var Web_HTML_Window = PS["Web.HTML.Window"];
   var Window_Size = PS["Window.Size"];
 
-  var generalOrderDialog = function generalOrderDialog(v) {
-    return function (windowSizeSignal) {
+  var generalOrderDialog = function generalOrderDialog(windowSizeSignal) {
+    return function (v) {
       var constructor$prime = function () {
         var constructor = function constructor($$this) {
           var submit = function __do() {
@@ -9227,7 +9218,7 @@ var PS = {};
                     id: "general-order-dialog-title"
                   })([React_DOM.text(function () {
                     if (mi instanceof Data_Maybe.Just) {
-                      return Answers_GeneralOrders.showGeneralOrderTitle(mi.value0);
+                      return Answers_Bootcamp_GeneralOrders.showGeneralOrderTitle(mi.value0);
                     }
 
                     ;
@@ -9237,13 +9228,13 @@ var PS = {};
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Components.Dialogs.GeneralOrder (line 103, column 32 - line 106, column 23): " + [mi.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.GeneralOrder (line 95, column 32 - line 98, column 23): " + [mi.constructor.name]);
                   }())]), MaterialUI_DialogContent.dialogContent_([MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
                     gutterBottom: true,
                     variant: MaterialUI_Enums.title
                   })([React_DOM.text(function () {
                     if (mi instanceof Data_Maybe.Just) {
-                      return Answers_GeneralOrders.showChallenge(mi.value0);
+                      return Answers_Bootcamp_GeneralOrders.showChallenge(mi.value0);
                     }
 
                     ;
@@ -9253,7 +9244,7 @@ var PS = {};
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Components.Dialogs.GeneralOrder (line 109, column 34 - line 112, column 25): " + [mi.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.GeneralOrder (line 101, column 34 - line 104, column 25): " + [mi.constructor.name]);
                   }())]), MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.sameType)(Data_TSCompat_Class.nilRLEQ))))(Data_TSCompat_Class.nilAll)))({
                     onChange: Effect_Uncurried.mkEffectFn1(changedValue),
                     fullWidth: true,
@@ -9262,13 +9253,13 @@ var PS = {};
                     onClick: Effect_Uncurried.mkEffectFn1(Data_Function["const"](close)),
                     color: MaterialUI_Enums.primary
                   })([React_DOM.text("Cancel")]), function () {
-                    var params1 = {
+                    var params$prime = {
                       onClick: Effect_Uncurried.mkEffectFn1(Data_Function["const"](submit)),
                       color: MaterialUI_Enums.primary,
                       autoFocus: true,
                       type: "submit"
                     };
-                    return MaterialUI_Button.button(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params1)([React_DOM.text("Submit")]);
+                    return MaterialUI_Button.button(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime)([React_DOM.text("Submit")]);
                   }()])];
                 };
 
@@ -9283,7 +9274,7 @@ var PS = {};
                 }
 
                 ;
-                throw new Error("Failed pattern match at Components.Dialogs.GeneralOrder (line 130, column 22 - line 132, column 75): " + [v2.index.constructor.name]);
+                throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.GeneralOrder (line 122, column 22 - line 124, column 75): " + [v2.index.constructor.name]);
               }
             };
           };
@@ -9323,7 +9314,41 @@ var PS = {};
   };
 
   exports["generalOrderDialog"] = generalOrderDialog;
-})(PS["Components.Dialogs.GeneralOrder"] = PS["Components.Dialogs.GeneralOrder"] || {});
+})(PS["Components.Dialogs.Bootcamp.GeneralOrder"] = PS["Components.Dialogs.Bootcamp.GeneralOrder"] || {});
+
+(function (exports) {
+  // Generated by purs version 0.12.3
+  "use strict";
+
+  var Components_Dialogs_Bootcamp_GeneralOrder = PS["Components.Dialogs.Bootcamp.GeneralOrder"];
+  var Control_Applicative = PS["Control.Applicative"];
+  var Control_Bind = PS["Control.Bind"];
+  var Data_Maybe = PS["Data.Maybe"];
+  var Effect = PS["Effect"];
+  var IOQueues = PS["IOQueues"];
+  var IxSignal = PS["IxSignal"];
+  var Prelude = PS["Prelude"];
+  var Queue_One = PS["Queue.One"];
+  var React = PS["React"];
+  var Signal_Types = PS["Signal.Types"];
+  var Window_Size = PS["Window.Size"];
+
+  var newDialogQueues = function __do() {
+    var v = IOQueues["new"](Queue_One.queueQueueOne)(Queue_One.queueScopeQueueOne)();
+    return {
+      generalOrderQueues: v
+    };
+  };
+
+  var dialogs = function dialogs(windowSizeSignal) {
+    return function (v) {
+      return React.toElement(React.isReactElementArray)([Components_Dialogs_Bootcamp_GeneralOrder.generalOrderDialog(windowSizeSignal)(v.generalOrderQueues)]);
+    };
+  };
+
+  exports["newDialogQueues"] = newDialogQueues;
+  exports["dialogs"] = dialogs;
+})(PS["Components.Dialogs"] = PS["Components.Dialogs"] || {});
 
 (function (exports) {
   exports.classTab = require('@material-ui/core/Tab').default;
@@ -9405,9 +9430,6 @@ var PS = {};
   var Signal_Types = PS["Signal.Types"];
   var Type_Data_Boolean = PS["Type.Data.Boolean"];
   var Unsafe_Coerce = PS["Unsafe.Coerce"];
-  var Web_HTML = PS["Web.HTML"];
-  var Web_HTML_History = PS["Web.HTML.History"];
-  var Web_HTML_Window = PS["Web.HTML.Window"];
 
   var currentLinkNavButtons = function currentLinkNavButtons(link) {
     return [MaterialUI_Tab["tab'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
@@ -9437,7 +9459,7 @@ var PS = {};
               }
 
               ;
-              throw new Error("Failed pattern match at Components.NavBar (line 62, column 25 - line 64, column 85): " + [v2.constructor.name]);
+              throw new Error("Failed pattern match at Components.NavBar (line 59, column 25 - line 61, column 85): " + [v2.constructor.name]);
             };
 
             return {
@@ -9487,6 +9509,157 @@ var PS = {};
   exports["currentLinkNavButtons"] = currentLinkNavButtons;
   exports["navBar"] = navBar;
 })(PS["Components.NavBar"] = PS["Components.NavBar"] || {});
+
+(function (exports) {
+  // Generated by purs version 0.12.3
+  "use strict";
+
+  var Answers_Bootcamp_GeneralOrders = PS["Answers.Bootcamp.GeneralOrders"];
+  var Components_Snackbar = PS["Components.Snackbar"];
+  var Control_Applicative = PS["Control.Applicative"];
+  var Control_Bind = PS["Control.Bind"];
+  var Data_Either = PS["Data.Either"];
+  var Data_Function = PS["Data.Function"];
+  var Data_Maybe = PS["Data.Maybe"];
+  var Data_TSCompat_Class = PS["Data.TSCompat.Class"];
+  var Data_Unit = PS["Data.Unit"];
+  var Effect = PS["Effect"];
+  var Effect_Aff = PS["Effect.Aff"];
+  var Effect_Class = PS["Effect.Class"];
+  var Effect_Exception = PS["Effect.Exception"];
+  var Effect_Uncurried = PS["Effect.Uncurried"];
+  var IOQueues = PS["IOQueues"];
+  var MaterialUI_Button = PS["MaterialUI.Button"];
+  var MaterialUI_Enums = PS["MaterialUI.Enums"];
+  var MaterialUI_Typography = PS["MaterialUI.Typography"];
+  var Prelude = PS["Prelude"];
+  var Queue_One = PS["Queue.One"];
+  var Queue_Types = PS["Queue.Types"];
+  var React = PS["React"];
+  var React_DOM = PS["React.DOM"];
+  var Type_Data_Boolean = PS["Type.Data.Boolean"];
+
+  var generalOrders = function generalOrders(snackbarQueue) {
+    return function (generalOrderQueues) {
+      var c = function () {
+        var constructor = function constructor($$this) {
+          var resolve = function resolve(eX) {
+            if (eX instanceof Data_Either.Left) {
+              return Effect_Exception.throwException(eX.value0);
+            }
+
+            ;
+
+            if (eX instanceof Data_Either.Right) {
+              return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
+            }
+
+            ;
+            throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 37, column 28 - line 39, column 37): " + [eX.constructor.name]);
+          };
+
+          var generateGeneralOrder = Effect_Aff.runAff_(resolve)(Control_Bind.bind(Effect_Aff.bindAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Answers_Bootcamp_GeneralOrders.randomGeneralOrderIndex))(function (v) {
+            return Control_Bind.bind(Effect_Aff.bindAff)(IOQueues.callAsync(Queue_One.queueQueueOne)(Queue_One.queueScopeQueueOne)(generalOrderQueues)(v))(function (v1) {
+              if (v1 instanceof Data_Maybe.Nothing) {
+                return Control_Applicative.pure(Effect_Aff.applicativeAff)(Data_Unit.unit);
+              }
+
+              ;
+
+              if (v1 instanceof Data_Maybe.Just) {
+                return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Queue_Types.put(Queue_One.queueQueueOne)(snackbarQueue)(Answers_Bootcamp_GeneralOrders.challengeReport(v)(v1.value0)));
+              }
+
+              ;
+              throw new Error("Failed pattern match at Components.Pages.Bootcamp.GeneralOrders (line 45, column 17 - line 47, column 83): " + [v1.constructor.name]);
+            });
+          }));
+          return Control_Applicative.pure(Effect.applicativeEffect)({
+            state: {},
+            render: Control_Applicative.pure(Effect.applicativeEffect)(React.toElement(React.isReactElementArray)([MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
+              gutterBottom: true,
+              variant: MaterialUI_Enums.title
+            })([React_DOM.text("Eleven General Orders")]), MaterialUI_Button.button(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.sameType)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
+              onClick: Effect_Uncurried.mkEffectFn1(Data_Function["const"](generateGeneralOrder))
+            })([React_DOM.text("Random General Order")])]))
+          });
+        };
+
+        return React.pureComponent(React.reactPureComponentSpec()())("GeneralOrders")(constructor);
+      }();
+
+      return React.createLeafElement(React.reactPropFields()())(c)({});
+    };
+  };
+
+  exports["generalOrders"] = generalOrders;
+})(PS["Components.Pages.Bootcamp.GeneralOrders"] = PS["Components.Pages.Bootcamp.GeneralOrders"] || {});
+
+(function (exports) {
+  // Generated by purs version 0.12.3
+  "use strict";
+
+  var Components_Dialogs = PS["Components.Dialogs"];
+  var Components_Pages_Bootcamp_GeneralOrders = PS["Components.Pages.Bootcamp.GeneralOrders"];
+  var Components_Snackbar = PS["Components.Snackbar"];
+  var Control_Applicative = PS["Control.Applicative"];
+  var Control_Bind = PS["Control.Bind"];
+  var Data_Function = PS["Data.Function"];
+  var Data_Unit = PS["Data.Unit"];
+  var Effect = PS["Effect"];
+  var IxSignal = PS["IxSignal"];
+  var Links = PS["Links"];
+  var Links_Bootcamp = PS["Links.Bootcamp"];
+  var Prelude = PS["Prelude"];
+  var Queue_One = PS["Queue.One"];
+  var Queue_Types = PS["Queue.Types"];
+  var React = PS["React"];
+  var React_Signal_WhileMounted = PS["React.Signal.WhileMounted"];
+  var Signal_Types = PS["Signal.Types"];
+
+  var page = function page(linkSignal) {
+    return function (snackbarQueue) {
+      return function (dialogQueues) {
+        var c = function () {
+          var constructor$prime = function () {
+            var constructor = function constructor($$this) {
+              return function __do() {
+                var v = IxSignal.get(linkSignal)();
+                return {
+                  state: {
+                    currentLink: v
+                  },
+                  render: function __do() {
+                    var v1 = React.getState($$this)();
+                    return Components_Pages_Bootcamp_GeneralOrders.generalOrders(snackbarQueue)(dialogQueues.generalOrderQueues);
+                  },
+                  componentDidMount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit),
+                  componentWillUnmount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit)
+                };
+              };
+            };
+
+            var handleLink = function handleLink($$this) {
+              return function (x) {
+                return React.setState()($$this)({
+                  currentLink: x
+                });
+              };
+            };
+
+            return React_Signal_WhileMounted.whileMountedIx(linkSignal)("Page")(handleLink)(constructor);
+          }();
+
+          return React.component(React.reactComponentSpec()())("Page")(constructor$prime);
+        }();
+
+        return React.createLeafElement(React.reactPropFields()())(c)({});
+      };
+    };
+  };
+
+  exports["page"] = page;
+})(PS["Components.Pages"] = PS["Components.Pages"] || {});
 
 (function (exports) {
   exports.classPaper = require('@material-ui/core/Paper').default;
@@ -9577,34 +9750,22 @@ var PS = {};
   // Generated by purs version 0.12.3
   "use strict";
 
-  var Answers_GeneralOrders = PS["Answers.GeneralOrders"];
   var Components_AppBar = PS["Components.AppBar"];
-  var Components_Dialogs_GeneralOrder = PS["Components.Dialogs.GeneralOrder"];
+  var Components_Dialogs = PS["Components.Dialogs"];
   var Components_NavBar = PS["Components.NavBar"];
+  var Components_Pages = PS["Components.Pages"];
   var Components_Snackbar = PS["Components.Snackbar"];
   var Control_Applicative = PS["Control.Applicative"];
   var Control_Bind = PS["Control.Bind"];
   var Data_Boolean = PS["Data.Boolean"];
-  var Data_Either = PS["Data.Either"];
   var Data_Function = PS["Data.Function"];
   var Data_Functor = PS["Data.Functor"];
-  var Data_Maybe = PS["Data.Maybe"];
   var Data_TSCompat_Class = PS["Data.TSCompat.Class"];
-  var Data_Time_Duration = PS["Data.Time.Duration"];
   var Data_Unit = PS["Data.Unit"];
   var Effect = PS["Effect"];
-  var Effect_Aff = PS["Effect.Aff"];
-  var Effect_Class = PS["Effect.Class"];
-  var Effect_Exception = PS["Effect.Exception"];
-  var Effect_Uncurried = PS["Effect.Uncurried"];
-  var IOQueues = PS["IOQueues"];
   var IxSignal = PS["IxSignal"];
   var Links = PS["Links"];
-  var MaterialUI_Button = PS["MaterialUI.Button"];
-  var MaterialUI_Enums = PS["MaterialUI.Enums"];
   var MaterialUI_Paper = PS["MaterialUI.Paper"];
-  var MaterialUI_Tabs = PS["MaterialUI.Tabs"];
-  var MaterialUI_Typography = PS["MaterialUI.Typography"];
   var Prelude = PS["Prelude"];
   var Queue_One = PS["Queue.One"];
   var Queue_Types = PS["Queue.Types"];
@@ -9612,7 +9773,6 @@ var PS = {};
   var React_DOM = PS["React.DOM"];
   var React_Signal_WhileMounted = PS["React.Signal.WhileMounted"];
   var Signal_Types = PS["Signal.Types"];
-  var Type_Data_Boolean = PS["Type.Data.Boolean"];
   var Window_Size = PS["Window.Size"];
   var WithRoot = PS["WithRoot"];
 
@@ -9622,40 +9782,8 @@ var PS = {};
         var constructor = function () {
           var constructor$prime = function constructor$prime($$this) {
             return function __do() {
-              var v = IOQueues["new"](Queue_One.queueQueueOne)(Queue_One.queueScopeQueueOne)();
+              var v = Components_Dialogs.newDialogQueues();
               var v1 = Data_Functor.map(Effect.functorEffect)(Queue_Types.writeOnly(Queue_One.queueScopeQueueOne))(Queue_One["new"])();
-
-              var resolve = function resolve(eX) {
-                if (eX instanceof Data_Either.Left) {
-                  return Effect_Exception.throwException(eX.value0);
-                }
-
-                ;
-
-                if (eX instanceof Data_Either.Right) {
-                  return Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit);
-                }
-
-                ;
-                throw new Error("Failed pattern match at Components.Index (line 60, column 32 - line 62, column 41): " + [eX.constructor.name]);
-              };
-
-              var generateGeneralOrder = Effect_Aff.runAff_(resolve)(Control_Bind.bind(Effect_Aff.bindAff)(Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Answers_GeneralOrders.randomGeneralOrderIndex))(function (v2) {
-                return Control_Bind.bind(Effect_Aff.bindAff)(IOQueues.callAsync(Queue_One.queueQueueOne)(Queue_One.queueScopeQueueOne)(v)(v2))(function (v3) {
-                  if (v3 instanceof Data_Maybe.Nothing) {
-                    return Control_Applicative.pure(Effect_Aff.applicativeAff)(Data_Unit.unit);
-                  }
-
-                  ;
-
-                  if (v3 instanceof Data_Maybe.Just) {
-                    return Effect_Class.liftEffect(Effect_Aff.monadEffectAff)(Queue_Types.put(Queue_One.queueQueueOne)(v1)(Answers_GeneralOrders.challengeReport(v2)(v3.value0)));
-                  }
-
-                  ;
-                  throw new Error("Failed pattern match at Components.Index (line 68, column 21 - line 70, column 87): " + [v3.constructor.name]);
-                });
-              }));
               var v2 = IxSignal.get(windowSizeSignal)();
               return {
                 state: {
@@ -9684,16 +9812,11 @@ var PS = {};
                       }
 
                       ;
-                      throw new Error("Failed pattern match at Components.Index (line 79, column 27 - line 89, column 34): " + []);
+                      throw new Error("Failed pattern match at Components.Index (line 50, column 27 - line 60, column 34): " + []);
                     }();
 
-                    return wrapper([Components_NavBar.navBar(linkSignal), React_DOM.br([]), MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
-                      gutterBottom: true,
-                      variant: MaterialUI_Enums.title
-                    })([React_DOM.text("Eleven General Orders")]), MaterialUI_Button.button(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.sameType)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
-                      onClick: Effect_Uncurried.mkEffectFn1(Data_Function["const"](generateGeneralOrder))
-                    })([React_DOM.text("Random General Order")])]);
-                  }(), Components_Dialogs_GeneralOrder.generalOrderDialog(v)(windowSizeSignal), Components_Snackbar.snackbars(v1)]);
+                    return wrapper([Components_NavBar.navBar(linkSignal), React_DOM.br([]), Components_Pages.page(linkSignal)(v1)(v)]);
+                  }(), Components_Dialogs.dialogs(windowSizeSignal)(v), Components_Snackbar.snackbars(v1)]);
                 },
                 componentDidMount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit),
                 componentWillUnmount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit)
@@ -9787,7 +9910,6 @@ var PS = {};
   var Components_Index = PS["Components.Index"];
   var Control_Bind = PS["Control.Bind"];
   var Control_Semigroupoid = PS["Control.Semigroupoid"];
-  var Crypto_Random = PS["Crypto.Random"];
   var Data_Function = PS["Data.Function"];
   var Data_Functor = PS["Data.Functor"];
   var Data_Maybe = PS["Data.Maybe"];
@@ -9824,7 +9946,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Main (line 27, column 3 - line 29, column 27): " + [v1.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 26, column 3 - line 28, column 27): " + [v1.constructor.name]);
     };
   };
 

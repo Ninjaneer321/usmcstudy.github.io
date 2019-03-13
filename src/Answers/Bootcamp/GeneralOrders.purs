@@ -1,4 +1,4 @@
-module Answers.GeneralOrders where
+module Answers.Bootcamp.GeneralOrders where
 
 import Crypto.Random (randomBetween)
 import Components.Snackbar (SnackbarContent, SnackbarVariant (Success, Error))
@@ -15,9 +15,6 @@ import Data.String.Yarn (words)
 import Data.FunctorWithIndex (mapWithIndex)
 import Data.Time.Duration (Milliseconds (..))
 import Effect (Effect)
-import Effect.Aff (Aff)
-import Effect.Class (liftEffect)
-import Effect.Exception (throw)
 import React (toElement)
 import React.DOM (text, span, p, strong)
 import React.DOM.Props (style)

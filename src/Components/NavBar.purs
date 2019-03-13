@@ -9,9 +9,6 @@ import Data.Array (singleton) as Array
 import React (ReactElement, ReactClass, ReactClassConstructor, getState, setState, component, createLeafElement)
 import React.SyntheticEvent (SyntheticEvent)
 import React.Signal.WhileMounted (whileMountedIx)
-import Web.HTML (window)
-import Web.HTML.Window (history)
-import Web.HTML.History (DocumentTitle (..), URL (..), pushState)
 import IxSignal (IxSignal)
 import IxSignal (get) as S
 import Signal.Types (READ)
