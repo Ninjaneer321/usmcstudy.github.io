@@ -22,7 +22,7 @@ import Data.TSCompat.React (ReactNode)
 import MaterialUI.Tabs (tabs)
 import MaterialUI.Tab (tab')
 import MaterialUI.AppBar (appBar)
-import MaterialUI.Enums (primary, scrollable, auto, static, default)
+import MaterialUI.Enums (secondary, scrollable, auto, static, default)
 import Unsafe.Coerce (unsafeCoerce)
 
 
@@ -72,8 +72,8 @@ navBar linkSignal = createLeafElement c {}
                           x = unsafeCoerce (linkToPathname currentLink)
                       in  x
                     , onChange: handleValueChange
-                    , indicatorColor: primary
-                    , textColor: primary
+                    , indicatorColor: secondary
+                    , textColor: secondary
                     , variant: scrollable
                     , scrollButtons: auto
                     } (currentLinkNavButtons currentLink)

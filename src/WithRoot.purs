@@ -15,11 +15,12 @@ theme = createMuiTheme
       { main: "#002566"
       }
     , secondary:
-      { main: "#8C7B23"
-      }
-    , error:
+      -- { main: "#8C7B23"
       { main: "#CC002B"
       }
+    -- , error:
+    --   { main: "#CC002B"
+    --   }
     }
   }
 

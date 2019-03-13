@@ -9455,8 +9455,8 @@ var PS = {};
                     return x;
                   }(),
                   onChange: handleValueChange,
-                  indicatorColor: MaterialUI_Enums.primary,
-                  textColor: MaterialUI_Enums.primary,
+                  indicatorColor: MaterialUI_Enums.secondary,
+                  textColor: MaterialUI_Enums.secondary,
                   variant: MaterialUI_Enums.scrollable,
                   scrollButtons: MaterialUI_Enums.auto
                 })(currentLinkNavButtons(v1.currentLink))));
@@ -9552,9 +9552,6 @@ var PS = {};
         main: "#002566"
       },
       secondary: {
-        main: "#8C7B23"
-      },
-      error: {
         main: "#CC002B"
       }
     }
