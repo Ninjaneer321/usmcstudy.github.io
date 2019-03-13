@@ -1,6 +1,8 @@
 module Main where
 
 import Components.Index (index)
+import Window.Size (windowSizeSignal) as Window
+import Links (linkSignal) as Links
 
 import Prelude
 import Data.Maybe (Maybe (..))
@@ -36,4 +38,7 @@ main = do
 
   log $ "Build date: " <> buildDate
 
-  void (mountToRoot index)
+  windowSizeSignal <- Window.windowSizeSignal
+  linkSignal <- Links.linkSignal
+
+  void $ mountToRoot $ index windowSizeSignal linkSignal

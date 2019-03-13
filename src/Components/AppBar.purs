@@ -80,6 +80,8 @@ indexAppBar windowSizeSignal linkSignal = createLeafElement c' {}
                                   { textField:
                                     { backgroundColor: theme.palette.secondary.main
                                     , color: "#fff"
+                                    , borderRadius: "4px"
+                                    , height: "40px"
                                     }
                                   }
                                 )

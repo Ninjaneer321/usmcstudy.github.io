@@ -1,6 +1,6 @@
 module Links
   ( Link (..), linkToDocumentTitle, linkToPathname, linkToHref
-  , pathnameToLink, linkSignal, hrefButton, hrefSelect) where
+  , pathnameToLink, linkSignal, hrefButton, hrefSelect, gotoVia, goto) where
 
 import Links.Bootcamp (BootcampLink (..))
 
@@ -21,7 +21,7 @@ import Effect.Exception (throw)
 import Web.HTML (window)
 import Web.HTML.Window (location, history, document)
 import Web.HTML.Location (protocol, hostname, hash, setHash)
-import Web.HTML.History (DocumentTitle (..), URL (..), replaceState, pushState)
+import Web.HTML.History (DocumentTitle (..), URL (..), History, replaceState, pushState)
 import Web.HTML.HTMLDocument (setTitle)
 import Foreign (Foreign, unsafeToForeign, unsafeFromForeign)
 import IxSignal (IxSignal, make, setDiff, get)
@@ -111,25 +111,40 @@ pathnameToLink p = case String.uncons p of
         | otherwise -> Left Nothing
 
 
+gotoVia :: (Foreign -> DocumentTitle -> URL -> History -> Effect Unit)
+        -> Link
+        -> Effect Unit
+gotoVia f link = do
+  w <- window
+  h <- history w
+  l <- location w
+  d <- document w
+  let docTitle@(DocumentTitle docTitle') = linkToDocumentTitle link
+      path = linkToPathname link
+  f (unsafeToForeign link) docTitle (URL path) h
+  setHash path l
+  setTitle docTitle' d
+
+goto :: Link -> Effect Unit
+goto = gotoVia pushState
+
+
+
 -- | Redirects on failure to parse
 getLink :: Effect Link
 getLink = do
   w <- window
-  d <- document w
-  l <- location w
-  h <- history w
-  p <- hash l
+  p <- location w >>= hash
   case pathnameToLink p of
-    Right link -> pure link
+    Right link -> do
+      let (DocumentTitle docTitle') = linkToDocumentTitle link
+      document w >>= setTitle docTitle'
+      pure link
     Left mLink -> do
       let link = case mLink of
             Nothing -> Bootcamp GeneralOrders
             Just link' -> link'
-          path = linkToPathname link
-      setHash path l
-      let docTitle@(DocumentTitle docTitle') = linkToDocumentTitle link
-      replaceState (unsafeToForeign link) docTitle (URL path) h
-      setTitle docTitle' d
+      gotoVia replaceState link
       pure link
 
 
@@ -157,8 +172,7 @@ hrefButton link ps =
       ps' = unsafeCoerce $
         let onClick = mkEffectFn1 \e -> do
               preventDefault e
-              h <- window >>= history
-              pushState (unsafeToForeign link) (linkToDocumentTitle link) (URL (linkToPathname link)) h
+              goto link
         in  Record.insert (SProxy :: SProxy "href") (linkToHref link) $
               Record.insert (SProxy :: SProxy "onClick") onClick ps
   in  button ps'
@@ -190,9 +204,7 @@ hrefSelect linkSignal styles links = createLeafElement c {}
                         t <- target e
                         let val = (unsafeCoerce t).value
                         case pathnameToLink val of
-                          Right link -> do -- invoke link change
-                            h <- window >>= history
-                            pushState (unsafeToForeign link) (linkToDocumentTitle link) (URL (linkToPathname link)) h
+                          Right link -> goto link
                           Left _ -> do
                             throw $ "Couldn't parse link value " <> show val
                   pure

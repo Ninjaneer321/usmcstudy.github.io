@@ -110,7 +110,7 @@ generalOrderDialog (IOQueues{input,output}) windowSizeSignal = createLeafElement
                             Just i -> showChallenge i
                             Nothing -> ""
                         ]
-                      , textField' {onChange: mkEffectFn1 changedValue, fullWidth: true}
+                      , textField' {onChange: mkEffectFn1 changedValue, fullWidth: true, multiline: true}
                       ]
                     , dialogActions_
                       [ button

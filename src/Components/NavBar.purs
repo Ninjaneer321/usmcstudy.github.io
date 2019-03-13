@@ -1,0 +1,82 @@
+module Components.NavBar where
+
+import Links (Link (..), linkToPathname, pathnameToLink, goto)
+import Links.Bootcamp (BootcampLink (..))
+
+import Prelude
+import Data.Either (Either (..))
+import Data.Array (singleton) as Array
+import React (ReactElement, ReactClass, ReactClassConstructor, getState, setState, component, createLeafElement)
+import React.SyntheticEvent (SyntheticEvent)
+import React.Signal.WhileMounted (whileMountedIx)
+import Web.HTML (window)
+import Web.HTML.Window (history)
+import Web.HTML.History (DocumentTitle (..), URL (..), pushState)
+import IxSignal (IxSignal)
+import IxSignal (get) as S
+import Signal.Types (READ)
+import Effect.Uncurried (EffectFn2, mkEffectFn2)
+import Effect.Exception (throw)
+import Data.TSCompat (Any)
+import Data.TSCompat.React (ReactNode)
+import MaterialUI.Tabs (tabs)
+import MaterialUI.Tab (tab')
+import MaterialUI.AppBar (appBar)
+import MaterialUI.Enums (primary, scrollable, auto, static, default)
+import Unsafe.Coerce (unsafeCoerce)
+
+
+
+currentLinkNavButtons :: Link -> Array ReactElement
+currentLinkNavButtons link = case link of
+  Bootcamp _ ->
+    [ tab'
+      { label: elementToNode "General Orders"
+      , value: stringToValue (linkToPathname (Bootcamp GeneralOrders))
+      }
+    ]
+  where
+    elementToNode :: String -> ReactNode
+    elementToNode = unsafeCoerce
+    stringToValue :: String -> Any
+    stringToValue = unsafeCoerce
+
+
+navBar :: IxSignal (read :: READ) Link
+       -> ReactElement
+navBar linkSignal = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = component "NavBar" constructor
+      where
+        constructor =
+          let handleLink this x = setState this {currentLink: x}
+          in  whileMountedIx linkSignal "NavBar" handleLink constructor'
+          where
+            constructor' :: ReactClassConstructor _ {currentLink :: Link} _
+            constructor' this = do
+              initLink <- S.get linkSignal
+              let handleValueChange :: EffectFn2 SyntheticEvent Any Unit
+                  handleValueChange = mkEffectFn2 \_ x ->
+                    let val = unsafeCoerce x
+                    in  case pathnameToLink val of
+                          Right link -> goto link
+                          Left _ -> throw $ "Couldn't parse link value " <> show val
+              pure
+                { state: {currentLink: initLink}
+                , render: do
+                  {currentLink} <- getState this
+                  pure $ appBar {position: static, color: default} $ Array.singleton $ tabs
+                    { value:
+                      let x :: Any
+                          x = unsafeCoerce (linkToPathname currentLink)
+                      in  x
+                    , onChange: handleValueChange
+                    , indicatorColor: primary
+                    , textColor: primary
+                    , variant: scrollable
+                    , scrollButtons: auto
+                    } (currentLinkNavButtons currentLink)
+                , componentDidMount: pure unit
+                , componentWillUnmount: pure unit
+                }
