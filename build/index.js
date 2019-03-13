@@ -2872,8 +2872,10 @@ var PS = {};
   var inherit = "inherit";
   var $$default = "default";
   var contained = "contained";
+  var body1 = "body1";
   var auto = "auto";
   exports["auto"] = auto;
+  exports["body1"] = body1;
   exports["contained"] = contained;
   exports["default"] = $$default;
   exports["inherit"] = inherit;
@@ -4875,9 +4877,11 @@ var PS = {};
   var React_SyntheticEvent = PS["React.SyntheticEvent"];
   var style = $foreign.unsafeUnfoldProps("style");
   var src = $foreign.unsafeMkProps("src");
+  var href = $foreign.unsafeMkProps("href");
   var className = $foreign.unsafeMkProps("className");
   exports["style"] = style;
   exports["className"] = className;
+  exports["href"] = href;
   exports["src"] = src;
   exports["unsafeFromPropsArray"] = $foreign.unsafeFromPropsArray;
 })(PS["React.DOM.Props"] = PS["React.DOM.Props"] || {});
@@ -4928,8 +4932,10 @@ var PS = {};
     return mkDOM(false)("br")(props)([]);
   };
 
+  var a = mkDOM(false)("a");
   exports["mkDOM"] = mkDOM;
   exports["text"] = text;
+  exports["a"] = a;
   exports["br"] = br;
   exports["div"] = div;
   exports["img"] = img;
@@ -9757,6 +9763,7 @@ var PS = {};
   var Components_Snackbar = PS["Components.Snackbar"];
   var Control_Applicative = PS["Control.Applicative"];
   var Control_Bind = PS["Control.Bind"];
+  var Data_Array = PS["Data.Array"];
   var Data_Boolean = PS["Data.Boolean"];
   var Data_Function = PS["Data.Function"];
   var Data_Functor = PS["Data.Functor"];
@@ -9765,14 +9772,18 @@ var PS = {};
   var Effect = PS["Effect"];
   var IxSignal = PS["IxSignal"];
   var Links = PS["Links"];
+  var MaterialUI_Enums = PS["MaterialUI.Enums"];
   var MaterialUI_Paper = PS["MaterialUI.Paper"];
+  var MaterialUI_Typography = PS["MaterialUI.Typography"];
   var Prelude = PS["Prelude"];
   var Queue_One = PS["Queue.One"];
   var Queue_Types = PS["Queue.Types"];
   var React = PS["React"];
   var React_DOM = PS["React.DOM"];
+  var React_DOM_Props = PS["React.DOM.Props"];
   var React_Signal_WhileMounted = PS["React.Signal.WhileMounted"];
   var Signal_Types = PS["Signal.Types"];
+  var Type_Data_Boolean = PS["Type.Data.Boolean"];
   var Window_Size = PS["Window.Size"];
   var WithRoot = PS["WithRoot"];
 
@@ -9812,11 +9823,20 @@ var PS = {};
                       }
 
                       ;
-                      throw new Error("Failed pattern match at Components.Index (line 50, column 27 - line 60, column 34): " + []);
+                      throw new Error("Failed pattern match at Components.Index (line 54, column 27 - line 64, column 34): " + []);
                     }();
 
                     return wrapper([Components_NavBar.navBar(linkSignal), React_DOM.br([]), Components_Pages.page(linkSignal)(v1)(v)]);
-                  }(), Components_Dialogs.dialogs(windowSizeSignal)(v), Components_Snackbar.snackbars(v1)]);
+                  }(), React_DOM.div([React_DOM_Props.style({
+                    textAlign: "center",
+                    marginTop: "10em",
+                    maxWidth: "1280px",
+                    width: "100%",
+                    marginLeft: "auto",
+                    marginRight: "auto"
+                  })])(Data_Array.singleton(MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))({
+                    variant: MaterialUI_Enums.body1
+                  })([React_DOM.p([])([React_DOM.text("This application was developed by a poolee in the "), React_DOM.a([React_DOM_Props.href("https://www.usmc.net/marines_delayed_entry/")])([React_DOM.text("Delayed Entry Program")]), React_DOM.text(", from the "), React_DOM.a([React_DOM_Props.href("https://www.mcrc.marines.mil/8thmcd/Units/RS-DENVER/")])([React_DOM.text("Metro North Recruiting Substation")]), React_DOM.text(" in Colorado.")]), React_DOM.p([])([React_DOM.text("All United States Marine Corps trademarks used in this application belong to the United States Marine Corps, including \"USMC\", the United States Marine Corps Coat of Arms, the Eagle Globe and Anchor, and color schemes, as per the "), React_DOM.a([React_DOM_Props.href("https://www.hqmc.marines.mil/Portals/134/Docs/Hobbyist%20USMC%20License%20Agreement%202018.pdf?ver=2018-09-07-144222-310")])([React_DOM.text("Hobbyist Trademark License Agreement")]), React_DOM.text(". Licensure is pending as of 20190313.")]), React_DOM.p([])([React_DOM.text("This application and all source code written to maintain it will be freely available for all time, under the "), React_DOM.a([React_DOM_Props.href("https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html")])([React_DOM.text("GNU General Public License, Version 2")]), React_DOM.text(", and can be viewed and modified through its "), React_DOM.a([React_DOM_Props.href("https://github.com/usmcstudy/usmcstudy.github.io")])([React_DOM.text("GitHub repository")]), React_DOM.text(".")]), React_DOM.p([])([React_DOM.text("Semper Fidelis")])]))), Components_Dialogs.dialogs(windowSizeSignal)(v), Components_Snackbar.snackbars(v1)]);
                 },
                 componentDidMount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit),
                 componentWillUnmount: Control_Applicative.pure(Effect.applicativeEffect)(Data_Unit.unit)
