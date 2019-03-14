@@ -7,6 +7,7 @@ import Window.Size (WindowSize, isMobile)
 
 import Prelude
 import Data.Maybe (Maybe (..))
+import Data.Tuple (Tuple (..))
 import Data.Array (singleton)
 import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
@@ -99,7 +100,9 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
               submit = do
                 {chevrons,rockers,center} <- getState this
                 setState this {rank: Nothing, chevrons: 0, rockers: 0, center: Nothing}
-                -- put output (Just value)
+                put output $ Just $ case Tuple chevrons (Tuple rockers center) of
+                  Tuple 0 (Tuple 0 Nothing) -> Nothing
+                  _ -> Just {chevrons,rockers,center}
 
           initWindowSize <- S.get windowSizeSignal
 
@@ -138,6 +141,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Chevrons"
                               , value: chevrons
                               , margin: normal
+                              , "InputProps": {min: 0}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}
@@ -148,6 +152,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Rockers"
                               , value: rockers
                               , margin: normal
+                              , "InputProps": {min: 0}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}

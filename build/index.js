@@ -10486,6 +10486,7 @@ var PS = {};
   var Data_Functor = PS["Data.Functor"];
   var Data_Maybe = PS["Data.Maybe"];
   var Data_TSCompat_Class = PS["Data.TSCompat.Class"];
+  var Data_Tuple = PS["Data.Tuple"];
   var Data_Unit = PS["Data.Unit"];
   var Effect = PS["Effect"];
   var Effect_Uncurried = PS["Effect.Uncurried"];
@@ -10531,12 +10532,26 @@ var PS = {};
         var constructor = function constructor($$this) {
           var submit = function __do() {
             var v1 = React.getState($$this)();
-            return React.setState()($$this)({
+            React.setState()($$this)({
               rank: Data_Maybe.Nothing.value,
               chevrons: 0,
               rockers: 0,
               center: Data_Maybe.Nothing.value
             })();
+            return Queue_Types.put(Queue_One.queueQueueOne)(v.output)(Data_Maybe.Just.create(function () {
+              var v2 = new Data_Tuple.Tuple(v1.chevrons, new Data_Tuple.Tuple(v1.rockers, v1.center));
+
+              if (v2.value0 === 0 && v2.value1.value0 === 0 && v2.value1.value1 instanceof Data_Maybe.Nothing) {
+                return Data_Maybe.Nothing.value;
+              }
+
+              ;
+              return new Data_Maybe.Just({
+                chevrons: v1.chevrons,
+                rockers: v1.rockers,
+                center: v1.center
+              });
+            }()))();
           };
 
           var close = function __do() {
@@ -10612,7 +10627,7 @@ var PS = {};
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 123, column 32 - line 126, column 23): " + [mR.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 126, column 32 - line 129, column 23): " + [mR.constructor.name]);
                   }())]), MaterialUI_DialogContent.dialogContent_([MaterialUI_Typography.typography(Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.unionIsEq()(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.reflTSEq)(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.consCheck(Data_TSCompat_Class.typeConsEq(Data_TSCompat_Class.notEq))(Data_TSCompat_Class.nilCheck)(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orTrue))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))(Type_Data_Boolean.orFalse))))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
                     gutterBottom: true,
                     variant: MaterialUI_Enums.title
@@ -10628,7 +10643,7 @@ var PS = {};
                     }
 
                     ;
-                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 129, column 34 - line 132, column 25): " + [mR.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 132, column 34 - line 135, column 25): " + [mR.constructor.name]);
                   }())]), function () {
                     var params$prime = {
                       onChange: Effect_Uncurried.mkEffectFn1(changedChevrons),
@@ -10636,7 +10651,10 @@ var PS = {};
                       type: "number",
                       label: "Chevrons",
                       value: v2.chevrons,
-                      margin: MaterialUI_Enums.normal
+                      margin: MaterialUI_Enums.normal,
+                      InputProps: {
+                        min: 0
+                      }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);
                   }(), function () {
@@ -10646,7 +10664,10 @@ var PS = {};
                       type: "number",
                       label: "Rockers",
                       value: v2.rockers,
-                      margin: MaterialUI_Enums.normal
+                      margin: MaterialUI_Enums.normal,
+                      InputProps: {
+                        min: 0
+                      }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);
                   }(), function () {
@@ -10701,11 +10722,11 @@ var PS = {};
                           }
 
                           ;
-                          throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 167, column 50 - line 173, column 25): " + [mx.value0.constructor.name]);
+                          throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 172, column 50 - line 178, column 25): " + [mx.value0.constructor.name]);
                         }
 
                         ;
-                        throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 165, column 74 - line 173, column 25): " + [mx.constructor.name]);
+                        throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 170, column 74 - line 178, column 25): " + [mx.constructor.name]);
                       }())));
                     };
 
@@ -10735,7 +10756,7 @@ var PS = {};
                 }
 
                 ;
-                throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 197, column 22 - line 199, column 75): " + [v2.rank.constructor.name]);
+                throw new Error("Failed pattern match at Components.Dialogs.Bootcamp.RankInsignias (line 202, column 22 - line 204, column 75): " + [v2.rank.constructor.name]);
               }
             };
           };
