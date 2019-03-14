@@ -23,9 +23,9 @@ import Signal.Types (READ)
 
 
 
-appButtons :: Link -> ReactElement
-appButtons currentLink = toElement
-  [ hrefButton (Bootcamp GeneralOrders)
+appButtons :: IxSignal (read :: READ) Link -> Link -> ReactElement
+appButtons linkSignal currentLink = toElement
+  [ hrefButton linkSignal (Bootcamp GeneralOrders)
     { color: secondary
     , variant: contained
     , disabled: case currentLink of
@@ -101,7 +101,7 @@ indexAppBar windowSizeSignal linkSignal = createLeafElement c' {}
                                 , className: props.classes.logoText
                                 } [text "USMC Study"]
                               , div [RP.className props.classes.center] []
-                              , appButtons currentLink
+                              , appButtons linkSignal currentLink
                               ]
                     , componentDidMount: pure unit
                     , componentWillUnmount: pure unit

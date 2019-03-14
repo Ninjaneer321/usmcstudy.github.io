@@ -5,6 +5,7 @@ import Links.Bootcamp (BootcampLink (..))
 import Components.Snackbar (SnackbarContent)
 import Components.Dialogs (DialogQueues)
 import Components.Pages.Bootcamp.GeneralOrders (generalOrders)
+import Components.Pages.Bootcamp.RankInsignias (rankInsignias)
 
 import Prelude
 import React (ReactElement, ReactClass, ReactClassConstructor, getState, setState, component, createLeafElement)
@@ -14,7 +15,6 @@ import Queue.Types (WRITE) as Q
 import IxSignal (IxSignal)
 import IxSignal (get) as S
 import Signal.Types (READ) as S
-
 
 
 
@@ -43,6 +43,7 @@ page linkSignal snackbarQueue dialogQueues = createLeafElement c {}
                   pure $ case currentLink of
                     Bootcamp link' -> case link' of
                       GeneralOrders -> generalOrders snackbarQueue dialogQueues.generalOrderQueues
+                      RankInsignias -> rankInsignias snackbarQueue dialogQueues.rank
                 , componentDidMount: pure unit
                 , componentWillUnmount: pure unit
                 }

@@ -24,7 +24,6 @@ import IOQueues (callAsync) as IOQueues
 import MaterialUI.Typography (typography)
 import MaterialUI.Button (button)
 import MaterialUI.Enums (title, right, dense, body1)
-import MaterialUI.Typography (typography)
 import MaterialUI.Table (table)
 import MaterialUI.TableHead (tableHead_)
 import MaterialUI.TableBody (tableBody_)

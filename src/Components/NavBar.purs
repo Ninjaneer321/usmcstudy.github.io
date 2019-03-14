@@ -31,6 +31,10 @@ currentLinkNavButtons link = case link of
       { label: elementToNode "General Orders"
       , value: stringToValue (linkToPathname (Bootcamp GeneralOrders))
       }
+    , tab'
+      { label: elementToNode "Rank Insignias"
+      , value: stringToValue (linkToPathname (Bootcamp RankInsignias))
+      }
     ]
   where
     elementToNode :: String -> ReactNode
@@ -57,7 +61,7 @@ navBar linkSignal = createLeafElement c {}
                   handleValueChange = mkEffectFn2 \_ x ->
                     let val = unsafeCoerce x
                     in  case pathnameToLink val of
-                          Right link -> goto link
+                          Right link -> goto linkSignal link
                           Left _ -> throw $ "Couldn't parse link value " <> show val
               pure
                 { state: {currentLink: initLink}
