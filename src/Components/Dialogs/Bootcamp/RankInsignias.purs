@@ -144,7 +144,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Chevrons"
                               , value: chevrons
                               , margin: normal
-                              , inputProps: {min: 0, type: "number"}
+                              , inputProps: {min: 0, pattern: "\\d*"}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}
@@ -155,7 +155,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Rockers"
                               , value: rockers
                               , margin: normal
-                              , inputProps: {min: 0, type: "number"}
+                              , inputProps: {min: 0, pattern: "\\d*"}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}

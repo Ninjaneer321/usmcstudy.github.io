@@ -10854,7 +10854,7 @@ var PS = {};
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
                         min: 0,
-                        type: "number"
+                        pattern: "\\d*"
                       }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);
@@ -10868,7 +10868,7 @@ var PS = {};
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
                         min: 0,
-                        type: "number"
+                        pattern: "\\d*"
                       }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);
