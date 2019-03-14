@@ -10850,7 +10850,7 @@ var PS = {};
                       fullWidth: true,
                       type: "number",
                       label: "Chevrons",
-                      value: v2.chevrons,
+                      defaultValue: v2.chevrons,
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
                         min: 0,
@@ -10864,7 +10864,7 @@ var PS = {};
                       fullWidth: true,
                       type: "number",
                       label: "Rockers",
-                      value: v2.rockers,
+                      defaultValue: v2.rockers,
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
                         min: 0,

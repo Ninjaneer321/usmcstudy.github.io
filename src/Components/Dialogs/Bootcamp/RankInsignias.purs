@@ -142,7 +142,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , fullWidth: true
                               , type: "number"
                               , label: "Chevrons"
-                              , value: chevrons
+                              , defaultValue: chevrons
                               , margin: normal
                               , inputProps: {min: 0, pattern: "\\d*"}
                               }
@@ -153,7 +153,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , fullWidth: true
                               , type: "number"
                               , label: "Rockers"
-                              , value: rockers
+                              , defaultValue: rockers
                               , margin: normal
                               , inputProps: {min: 0, pattern: "\\d*"}
                               }
