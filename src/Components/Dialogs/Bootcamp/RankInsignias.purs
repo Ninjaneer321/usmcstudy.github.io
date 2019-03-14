@@ -6,9 +6,10 @@ import Answers.Bootcamp.RankInsignias
 import Window.Size (WindowSize, isMobile)
 
 import Prelude
-import Data.Maybe (Maybe (..))
+import Data.Maybe (Maybe (..), fromJust)
 import Data.Tuple (Tuple (..))
 import Data.Array (singleton)
+import Data.Int.Parse (toRadix, parseInt)
 import Effect (Effect)
 import Effect.Uncurried (mkEffectFn1)
 import Queue.One (Queue, put)
@@ -34,6 +35,7 @@ import MaterialUI.TextField (textField', textField)
 import MaterialUI.MenuItem (menuItem)
 import MaterialUI.Enums (primary, title, md, normal)
 import Unsafe.Coerce (unsafeCoerce)
+import Partial.Unsafe (unsafePartial)
 
 
 
@@ -88,12 +90,13 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
           let close = do
                 setState this {rank: Nothing, chevrons: 0, rockers: 0, center: Nothing}
                 put output Nothing
+              parseInt' x = unsafePartial $ fromJust $ parseInt x (toRadix 10)
               changedChevrons e = do
                 t <- target e
-                setState this {chevrons: (unsafeCoerce t).value}
+                setState this {chevrons: parseInt' (unsafeCoerce t).value}
               changedRockers e = do
                 t <- target e
-                setState this {rockers: (unsafeCoerce t).value}
+                setState this {rockers: parseInt' (unsafeCoerce t).value}
               changedCenter e = do
                 t <- target e
                 setState this {center: indexToCenter (unsafeCoerce t).value}
@@ -141,7 +144,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Chevrons"
                               , value: chevrons
                               , margin: normal
-                              , "InputProps": {min: 0}
+                              , inputProps: {min: 0}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}
@@ -152,7 +155,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                               , label: "Rockers"
                               , value: rockers
                               , margin: normal
-                              , "InputProps": {min: 0}
+                              , inputProps: {min: 0}
                               }
                         in  textField' params'
                       , let params' :: {fullWidth :: Boolean}

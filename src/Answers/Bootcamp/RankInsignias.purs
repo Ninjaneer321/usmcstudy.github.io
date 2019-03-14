@@ -274,19 +274,20 @@ challengeReportEnlistedRankInsignia r i = case checkEnlistedRankInsignia r i of
       Just {chevrons,center,rockers} ->
         let cs = case chevrons of
               Nothing -> ""
-              Just c' -> show c' <> " chevrons" <> case Tuple rockers center of
+              Just c' ->
+                " " <> show c' <> " chevron" <> (if c' == 1 then "" else "s") <> case Tuple rockers center of
                 Tuple Nothing Nothing -> "."
                 _ -> ","
             rs = case rockers of
               Nothing -> ""
-              Just r' -> show r' <> " rockers" <> case center of
+              Just r' -> " " <> show r' <> " rocker" <> (if r' == 1 then "" else "s") <> case center of
                 Nothing -> "."
                 _ -> ", and"
             c = case center of
               Nothing -> ""
               Just mC -> case mC of
                 Nothing -> " no center."
-                Just c' -> show c' <> " center."
+                Just c' -> " " <> show c' <> " center."
         in  full <> " has" <> cs <> rs <> c
     }
     where
