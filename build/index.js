@@ -7512,7 +7512,6 @@ var PS = {};
   var Partial_Unsafe = PS["Partial.Unsafe"];
   var Prelude = PS["Prelude"];
   var React_DOM = PS["React.DOM"];
-  var Unsafe_Coerce = PS["Unsafe.Coerce"];
 
   var CrossRifles = function () {
     function CrossRifles() {}
@@ -7680,7 +7679,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 142, column 12 - line 149, column 1): " + [c.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 141, column 12 - line 148, column 1): " + [c.constructor.name]);
   });
 
   var showEnlistedRankFull = function showEnlistedRankFull(r) {
@@ -7755,7 +7754,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 86, column 26 - line 101, column 1): " + [r.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 85, column 26 - line 100, column 1): " + [r.constructor.name]);
   };
 
   var showEnlistedRankInsigniaTitle = function showEnlistedRankInsigniaTitle(r) {
@@ -7881,7 +7880,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 160, column 35 - line 166, column 31): " + [i.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 159, column 35 - line 165, column 31): " + [i.constructor.name]);
   };
 
   var genericEnlistedRankInsigniaCenter = new Data_Generic_Rep.Generic(function (x) {
@@ -7914,7 +7913,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 138, column 8 - line 138, column 90): " + [x.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 137, column 8 - line 137, column 90): " + [x.constructor.name]);
   }, function (x) {
     if (x instanceof Data_Generic_Rep.Inl) {
       return CrossRifles.value;
@@ -7945,7 +7944,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 138, column 8 - line 138, column 90): " + [x.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 137, column 8 - line 137, column 90): " + [x.constructor.name]);
   });
   var eqEnlistedRankInsigniaCenter = new Data_Eq.Eq(Data_Generic_Rep_Eq.genericEq(genericEnlistedRankInsigniaCenter)(Data_Generic_Rep_Eq.genericEqSum(Data_Generic_Rep_Eq.genericEqConstructor(Data_Generic_Rep_Eq.genericEqNoArguments))(Data_Generic_Rep_Eq.genericEqSum(Data_Generic_Rep_Eq.genericEqConstructor(Data_Generic_Rep_Eq.genericEqNoArguments))(Data_Generic_Rep_Eq.genericEqSum(Data_Generic_Rep_Eq.genericEqConstructor(Data_Generic_Rep_Eq.genericEqNoArguments))(Data_Generic_Rep_Eq.genericEqSum(Data_Generic_Rep_Eq.genericEqConstructor(Data_Generic_Rep_Eq.genericEqNoArguments))(Data_Generic_Rep_Eq.genericEqConstructor(Data_Generic_Rep_Eq.genericEqNoArguments)))))));
 
@@ -8065,7 +8064,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 172, column 28 - line 184, column 73): " + [r.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 171, column 28 - line 183, column 73): " + [r.constructor.name]);
   };
 
   var enlistedRankToIndex = function enlistedRankToIndex(r) {
@@ -8140,7 +8139,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 39, column 25 - line 53, column 1): " + [r.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 38, column 25 - line 52, column 1): " + [r.constructor.name]);
   };
 
   var checkEnlistedRankInsignia = function checkEnlistedRankInsignia(r) {
@@ -8220,7 +8219,7 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 199, column 17 - line 220, column 10): " + [v.constructor.name]);
+        throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 198, column 17 - line 219, column 10): " + [v.constructor.name]);
       }());
     };
   };
@@ -8280,7 +8279,7 @@ var PS = {};
                 }
 
                 ;
-                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 282, column 18 - line 287, column 13): " + [v.value0.value0.rockers.constructor.name]);
+                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 281, column 18 - line 286, column 13): " + [v.value0.value0.rockers.constructor.name]);
               }();
 
               var cs = function () {
@@ -8313,7 +8312,7 @@ var PS = {};
                 }
 
                 ;
-                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 276, column 18 - line 282, column 13): " + [v.value0.value0.chevrons.constructor.name]);
+                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 275, column 18 - line 281, column 13): " + [v.value0.value0.chevrons.constructor.name]);
               }();
 
               var c = function () {
@@ -8335,24 +8334,24 @@ var PS = {};
                   }
 
                   ;
-                  throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 289, column 26 - line 292, column 9): " + [v.value0.value0.center.value0.constructor.name]);
+                  throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 288, column 26 - line 291, column 9): " + [v.value0.value0.center.value0.constructor.name]);
                 }
 
                 ;
-                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 287, column 17 - line 292, column 9): " + [v.value0.value0.center.constructor.name]);
+                throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 286, column 17 - line 291, column 9): " + [v.value0.value0.center.constructor.name]);
               }();
 
               return full + (" has" + (cs + (rs + c)));
             }
 
             ;
-            throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 273, column 40 - line 292, column 44): " + [v.value0.constructor.name]);
+            throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 272, column 40 - line 291, column 44): " + [v.value0.constructor.name]);
           }())
         };
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 264, column 43 - line 293, column 6): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 263, column 43 - line 292, column 6): " + [v.constructor.name]);
     };
   };
 
@@ -8393,11 +8392,11 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 152, column 13 - line 159, column 1): " + [mc.value0.constructor.name]);
+      throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 151, column 13 - line 158, column 1): " + [mc.value0.constructor.name]);
     }
 
     ;
-    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 150, column 20 - line 159, column 1): " + [mc.constructor.name]);
+    throw new Error("Failed pattern match at Answers.Bootcamp.RankInsignias (line 149, column 20 - line 158, column 1): " + [mc.constructor.name]);
   };
 
   exports["EPvt"] = EPvt;
@@ -10854,7 +10853,8 @@ var PS = {};
                       value: v2.chevrons,
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
-                        min: 0
+                        min: 0,
+                        type: "number"
                       }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);
@@ -10867,7 +10867,8 @@ var PS = {};
                       value: v2.rockers,
                       margin: MaterialUI_Enums.normal,
                       inputProps: {
-                        min: 0
+                        min: 0,
+                        type: "number"
                       }
                     };
                     return MaterialUI_TextField["textField'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ))(Data_TSCompat_Class.nilAll)))(params$prime);

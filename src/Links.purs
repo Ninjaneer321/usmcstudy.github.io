@@ -235,7 +235,7 @@ hrefSelect linkSignal' styles links = createLeafElement c {}
 
                         let params :: {autoFocus :: Boolean} -- to typecheck
                             params = unsafeCoerce
-                              { value: linkToPathname currentLink
+                              { value: linkToPathname currentLink -- incorrect, needs index only for Link, not BootcampLink
                               , onChange: changed
                               , select: true
                               , variant: outlined
@@ -254,7 +254,6 @@ hrefSelect linkSignal' styles links = createLeafElement c {}
                                     [ text $ case link of
                                         Bootcamp _ -> "Bootcamp"
                                     ]
-                        -- pure $ select params $ map linkToMenuItem links
                         pure $ textField params $ map linkToMenuItem links
                     , componentDidMount: pure unit
                     , componentWillUnmount: pure unit
