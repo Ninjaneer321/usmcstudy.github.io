@@ -3,7 +3,7 @@ module Components.Dialogs where
 import Window.Size (WindowSize)
 import Answers.Bootcamp.RankInsignias (EnlistedRank, EnlistedRankInsignia)
 import Components.Dialogs.Bootcamp.GeneralOrder (generalOrderDialog)
-import Components.Dialogs.Bootcamp.RankInsignias (enlistedRankInsigniaDialog)
+import Components.Dialogs.Bootcamp.RankInsignias (enlistedRankInsigniaDialog, enlistedRankAbbreviationDialog)
 
 import Prelude
 import Data.Maybe (Maybe)
@@ -22,6 +22,7 @@ type DialogQueues =
   , rank ::
     { enlisted ::
       { insignia :: IOQueues One.Queue EnlistedRank (Maybe EnlistedRankInsignia)
+      , abbreviation :: IOQueues One.Queue EnlistedRank (Maybe String)
       }
     }
   }
@@ -30,11 +31,13 @@ newDialogQueues :: Effect DialogQueues
 newDialogQueues = do
   generalOrderQueues <- IOQueues.new
   enlistedRankInsigniaQueues <- IOQueues.new
+  enlistedRankAbbreviationQueues <- IOQueues.new
   pure
     { generalOrderQueues
     , rank:
       { enlisted:
         { insignia: enlistedRankInsigniaQueues
+        , abbreviation: enlistedRankAbbreviationQueues
         }
       }
     }
@@ -50,4 +53,5 @@ dialogs
   } = toElement
   [ generalOrderDialog windowSizeSignal generalOrderQueues
   , enlistedRankInsigniaDialog windowSizeSignal rank.enlisted.insignia
+  , enlistedRankAbbreviationDialog windowSizeSignal rank.enlisted.abbreviation
   ]

@@ -43,26 +43,22 @@ type Scores = Array {success :: Int, failure :: Int}
 
 
 type EnlistedState =
-  { enlistedInsigniaScores :: Scores
-  , enlistedAbbreviationScores :: Scores
+  { scores :: Scores
   }
 
 
 initEnlistedState :: EnlistedState
 initEnlistedState =
-  { enlistedInsigniaScores: replicate 12 {success: 0, failure: 0}
-  , enlistedAbbreviationScores: replicate 12 {success: 0, failure: 0}
+  { scores: replicate 12 {success: 0, failure: 0}
   }
 
 
 enlistedRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
                       -> IOQueues Q.Queue EnlistedRank (Maybe EnlistedRankInsignia)
-                      -- -> IOQueues Q.Queue EnlistedRank (Maybe String)
                       -> ReactElement
 enlistedRankInsignias
   snackbarQueue
   enlistedRankInsigniaQueues
-  -- enlistedRankAbbreviationQueues
   = createLeafElement c {}
   where
     c :: ReactClass {}
@@ -81,48 +77,26 @@ enlistedRankInsignias
                 case mI of
                   Nothing -> pure unit
                   Just insig -> liftEffect do
-                    {enlistedInsigniaScores} <- getState this
+                    {scores} <- getState this
                     let i = enlistedRankToIndex r
                     setState this $ case checkEnlistedRankInsignia r insig of
                       Nothing ->
-                        { enlistedInsigniaScores: unsafePartial $ fromJust $
-                          modifyAt i (\x@{success} -> x {success = success + 1}) enlistedInsigniaScores
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{success} -> x {success = success + 1}) scores
                         }
                       Just _ ->
-                        { enlistedInsigniaScores: unsafePartial $ fromJust $
-                          modifyAt i (\x@{failure} -> x {failure = failure + 1}) enlistedInsigniaScores
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{failure} -> x {failure = failure + 1}) scores
                         }
                     Q.put snackbarQueue (challengeReportEnlistedRankInsignia r insig)
-
-              -- enlistedRankAbbreviation :: EnlistedRank -> Effect Unit
-              -- enlistedRankAbbreviation r = runAff_ resolve do
-              --   mI <- IOQueues.callAsync enlistedRankAbbreviationQueues r
-              --   case mI of
-              --     Nothing -> pure unit
-              --     Just insig -> liftEffect do
-              --       {enlistedAbbreviationScores} <- getState this
-              --       let i = enlistedRankToIndex r
-              --       setState this $ case checkEnlistedRankAbbreviation r insig of
-              --         Nothing ->
-              --           { enlistedAbbreviationScores: unsafePartial $ fromJust $
-              --             modifyAt i (\x@{success} -> x {success = success + 1}) enlistedAbbreviationScores
-              --           }
-              --         Just _ ->
-              --           { enlistedAbbreviationScores: unsafePartial $ fromJust $
-              --             modifyAt i (\x@{failure} -> x {failure = failure + 1}) enlistedAbbreviationScores
-              --           }
-              --       Q.put snackbarQueue (challengeReportEnlistedRankAbbreviation r insig)
 
               generateEnlistedRankInsignia :: Effect Unit
               generateEnlistedRankInsignia = randomEnlistedRank >>= enlistedRankInsignia
 
-              -- generateEnlistedRankAbbreviation :: Effect Unit
-              -- generateEnlistedRankAbbreviation = randomEnlistedRank >>= enlistedRankAbbreviation
-
           pure
             { state: initEnlistedState
             , render: do
-              scores <- getState this
+              {scores} <- getState this
               let enlistedRankButton f r {success,failure} = tableRow_
                     [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
                         singleton $ text $ showEnlistedRankFull r
@@ -145,36 +119,123 @@ enlistedRankInsignias
                     ]
                   , tableBody_ $
                     let go i = unsafePartial $ enlistedRankButton enlistedRankInsignia $ fromJust $ indexToEnlistedRank i
-                    in  mapWithIndex go scores.enlistedInsigniaScores
+                    in  mapWithIndex go scores
                   ]
                 , br []
                 , button {onClick: mkEffectFn1 (const generateEnlistedRankInsignia)} [text "Random Enlisted Rank"]
                 , br []
                 , br []
                 , typography {variant: body1}
-                  [ text ("Successes: " <> show (getAllScores scores.enlistedInsigniaScores).success)
+                  [ text ("Successes: " <> show (getAllScores scores).success)
                   ]
                 , br []
                 , typography {variant: body1}
-                  [ text ("Failures: " <> show (getAllScores scores.enlistedInsigniaScores).failure)
+                  [ text ("Failures: " <> show (getAllScores scores).failure)
                   ]
                 ]
             }
 
 
 
+enlistedRankAbbreviations :: Q.Queue (write :: Q.WRITE) SnackbarContent
+                          -> IOQueues Q.Queue EnlistedRank (Maybe String)
+                          -> ReactElement
+enlistedRankAbbreviations
+  snackbarQueue
+  enlistedRankAbbreviationQueues
+  = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = pureComponent "RankInsignias" constructor
+      where
+        constructor :: ReactClassConstructor _ EnlistedState _
+        constructor this = do
+
+          let resolve eX = case eX of
+                Left err -> throwException err
+                Right x -> pure unit
+
+              enlistedRankAbbreviation :: EnlistedRank -> Effect Unit
+              enlistedRankAbbreviation r = runAff_ resolve do
+                mI <- IOQueues.callAsync enlistedRankAbbreviationQueues r
+                case mI of
+                  Nothing -> pure unit
+                  Just insig -> liftEffect do
+                    {scores} <- getState this
+                    let i = enlistedRankToIndex r
+                    setState this $ case checkEnlistedRankAbbreviation r insig of
+                      Nothing ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{success} -> x {success = success + 1}) scores
+                        }
+                      Just _ ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{failure} -> x {failure = failure + 1}) scores
+                        }
+                    Q.put snackbarQueue (challengeReportEnlistedRankAbbreviation r insig)
+
+              generateEnlistedRankAbbreviation :: Effect Unit
+              generateEnlistedRankAbbreviation = randomEnlistedRank >>= enlistedRankAbbreviation
+
+          pure
+            { state: initEnlistedState
+            , render: do
+              {scores} <- getState this
+              let enlistedRankButton f r {success,failure} = tableRow_
+                    [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
+                        singleton $ text $ showEnlistedRankFull r
+                    , tableCell {align: right} [text (show success)]
+                    , tableCell {align: right} [text (show failure)]
+                    ]
+                  getAllScores =
+                    foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
+                    {success: 0, failure: 0}
+              pure $ toElement
+                [ table {padding: dense}
+                  [ tableHead_ $ singleton $ tableRow_
+                    [ tableCell {} [text ""]
+                    , tableCell {align: right} $ singleton $
+                        span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
+                          singleton $ text "✔"
+                    , tableCell {align: right} $ singleton $
+                        span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
+                          singleton $ text "❌"
+                    ]
+                  , tableBody_ $
+                    let go i = unsafePartial $ enlistedRankButton enlistedRankAbbreviation $ fromJust $ indexToEnlistedRank i
+                    in  mapWithIndex go scores
+                  ]
+                , br []
+                , button {onClick: mkEffectFn1 (const generateEnlistedRankAbbreviation)} [text "Random Enlisted Rank"]
+                , br []
+                , br []
+                , typography {variant: body1}
+                  [ text ("Successes: " <> show (getAllScores scores).success)
+                  ]
+                , br []
+                , typography {variant: body1}
+                  [ text ("Failures: " <> show (getAllScores scores).failure)
+                  ]
+                ]
+            }
+
+
 
 rankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
               -> { enlisted ::
                    { insignia :: IOQueues Q.Queue EnlistedRank (Maybe EnlistedRankInsignia)
-                   -- , abbreviation :: IOQueues Q.Queue EnlistedRank (Maybe String)
+                   , abbreviation :: IOQueues Q.Queue EnlistedRank (Maybe String)
                    }
                  }
               -> ReactElement
 rankInsignias snackbarQueue dialogQueues = toElement
-  [ typography {gutterBottom: true, variant: title} [text "Rank Insignias"]
+  [ typography {gutterBottom: true, variant: title} [text "Ranks"]
   , hr []
-  , typography {gutterBottom: true, variant: subheading} [text "Enlisted Ranks"]
+  , typography {gutterBottom: true, variant: subheading} [text "Enlisted Insignias"]
   , hr []
   , enlistedRankInsignias snackbarQueue dialogQueues.enlisted.insignia
+  , br []
+  , typography {gutterBottom: true, variant: subheading} [text "Enlisted Abbreviations"]
+  , hr []
+  , enlistedRankAbbreviations snackbarQueue dialogQueues.enlisted.abbreviation
   ]
