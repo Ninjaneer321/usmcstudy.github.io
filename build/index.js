@@ -9386,7 +9386,6 @@ var PS = {};
   var Data_Maybe = PS["Data.Maybe"];
   var Data_Nullable = PS["Data.Nullable"];
   var Data_Semigroup = PS["Data.Semigroup"];
-  var Data_Show = PS["Data.Show"];
   var Data_String = PS["Data.String"];
   var Data_String_CodePoints = PS["Data.String.CodePoints"];
   var Data_String_Common = PS["Data.String.Common"];
@@ -9449,9 +9448,9 @@ var PS = {};
 
       if (v instanceof Data_Maybe.Just) {
         if (v.value0.head === "generalOrders") {
-          var $39 = Data_Eq.eq(Data_Eq.eqArray(Data_Eq.eqString))(v.value0.tail)([]);
+          var $38 = Data_Eq.eq(Data_Eq.eqArray(Data_Eq.eqString))(v.value0.tail)([]);
 
-          if ($39) {
+          if ($38) {
             return Control_Applicative.pure(Data_Either.applicativeEither)(new Bootcamp(Links_Bootcamp.GeneralOrders.value));
           }
 
@@ -9461,10 +9460,10 @@ var PS = {};
 
         ;
 
-        if (v.value0.head === "rankInsignias") {
-          var $40 = Data_Eq.eq(Data_Eq.eqArray(Data_Eq.eqString))(v.value0.tail)([]);
+        if (v.value0.head === "ranks") {
+          var $39 = Data_Eq.eq(Data_Eq.eqArray(Data_Eq.eqString))(v.value0.tail)([]);
 
-          if ($40) {
+          if ($39) {
             return Control_Applicative.pure(Data_Either.applicativeEither)(new Bootcamp(Links_Bootcamp.RankInsignias.value));
           }
 
@@ -9482,7 +9481,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 106, column 30 - line 117, column 36): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 116, column 30 - line 127, column 36): " + [v.constructor.name]);
     };
 
     var firstChunk = function firstChunk(eXs) {
@@ -9510,7 +9509,7 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Links (line 101, column 17 - line 105, column 40): " + [v.constructor.name]);
+        throw new Error("Failed pattern match at Links (line 111, column 17 - line 115, column 40): " + [v.constructor.name]);
       };
 
       if (eXs instanceof Data_Either.Left) {
@@ -9527,7 +9526,7 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Links (line 96, column 18 - line 98, column 27): " + [v.constructor.name]);
+        throw new Error("Failed pattern match at Links (line 106, column 18 - line 108, column 27): " + [v.constructor.name]);
       }
 
       ;
@@ -9537,7 +9536,7 @@ var PS = {};
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 95, column 22 - line 99, column 24): " + [eXs.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 105, column 22 - line 109, column 24): " + [eXs.constructor.name]);
     };
 
     var v = Data_String_CodePoints.uncons(p);
@@ -9569,7 +9568,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Links (line 87, column 20 - line 93, column 32): " + [v.constructor.name]);
+    throw new Error("Failed pattern match at Links (line 97, column 20 - line 103, column 32): " + [v.constructor.name]);
   };
 
   var linkToPathname = function linkToPathname(l) {
@@ -9581,12 +9580,16 @@ var PS = {};
       ;
 
       if (l.value0 instanceof Links_Bootcamp.RankInsignias) {
-        return "/rankInsignias";
+        return "/ranks";
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 73, column 32 - line 78, column 1): " + [l.value0.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 83, column 32 - line 88, column 1): " + [l.value0.constructor.name]);
     }());
+  };
+
+  var linkToIndex = function linkToIndex(l) {
+    return 0;
   };
 
   var linkToDocumentTitle = function linkToDocumentTitle(l) {
@@ -9598,12 +9601,21 @@ var PS = {};
       ;
 
       if (l.value0 instanceof Links_Bootcamp.RankInsignias) {
-        return " - Rank Insignias";
+        return " - Ranks";
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 66, column 34 - line 71, column 1): " + [l.value0.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 76, column 34 - line 81, column 1): " + [l.value0.constructor.name]);
     }()));
+  };
+
+  var indexToLink = function indexToLink(i) {
+    if (i === 0) {
+      return new Bootcamp(Links_Bootcamp.GeneralOrders.value);
+    }
+
+    ;
+    return new Bootcamp(Links_Bootcamp.GeneralOrders.value);
   };
 
   var genericLink = new Data_Generic_Rep.Generic(function (x) {
@@ -9658,7 +9670,7 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Links (line 152, column 18 - line 154, column 32): " + [v2.value0.constructor.name]);
+        throw new Error("Failed pattern match at Links (line 162, column 18 - line 164, column 32): " + [v2.value0.constructor.name]);
       }();
 
       var v3 = Data_Functor.map(Effect.functorEffect)(Signal_Types.readOnly(IxSignal.signalScopeIxSignal))(IxSignal.make(link))();
@@ -9667,7 +9679,7 @@ var PS = {};
     }
 
     ;
-    throw new Error("Failed pattern match at Links (line 146, column 3 - line 157, column 16): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Links (line 156, column 3 - line 167, column 16): " + [v2.constructor.name]);
   };
 
   var $$goto = gotoVia(Web_HTML_History.pushState);
@@ -9708,27 +9720,13 @@ var PS = {};
           var c$prime = function () {
             var constructor$prime = function () {
               var constructor = function constructor($$this) {
+                var changed = function changed(e, v) {
+                  var v1 = React_SyntheticEvent.target(e)();
+                  return $$goto(linkSignal$prime)(indexToLink(v1.value))();
+                };
+
                 return function __do() {
                   var v = IxSignal.get(linkSignal$prime)();
-
-                  var changed = function changed(e, v1) {
-                    var v2 = React_SyntheticEvent.target(e)();
-                    var v3 = pathnameToLink(v2.value);
-
-                    if (v3 instanceof Data_Either.Right) {
-                      return $$goto(linkSignal$prime)(v3.value0)();
-                    }
-
-                    ;
-
-                    if (v3 instanceof Data_Either.Left) {
-                      return Effect_Exception["throw"]("Couldn't parse link value " + Data_Show.show(Data_Show.showString)(v2.value))();
-                    }
-
-                    ;
-                    throw new Error("Failed pattern match at Links (line 226, column 25 - line 229, column 77): " + [v3.constructor.name]);
-                  };
-
                   return {
                     state: {
                       currentLink: v
@@ -9737,7 +9735,7 @@ var PS = {};
                       var v1 = React.getState($$this)();
                       var v2 = React.getProps($$this)();
                       var params = {
-                        value: linkToPathname(v1.currentLink),
+                        value: linkToIndex(v1.currentLink),
                         onChange: changed,
                         select: true,
                         variant: MaterialUI_Enums.outlined,
@@ -9749,7 +9747,7 @@ var PS = {};
 
                       var linkToMenuItem = function linkToMenuItem(link) {
                         var params$prime = function () {
-                          var link$prime = linkToPathname(link);
+                          var link$prime = linkToIndex(link);
                           return {
                             value: link$prime,
                             key: link$prime
@@ -9824,11 +9822,11 @@ var PS = {};
         }
 
         ;
-        throw new Error("Failed pattern match at Links (line 171, column 22 - line 176, column 55): " + [v3.constructor.name]);
+        throw new Error("Failed pattern match at Links (line 181, column 22 - line 186, column 55): " + [v3.constructor.name]);
       }
 
       ;
-      throw new Error("Failed pattern match at Links (line 166, column 19 - line 176, column 55): " + [v2.constructor.name]);
+      throw new Error("Failed pattern match at Links (line 176, column 19 - line 186, column 55): " + [v2.constructor.name]);
     };
 
     $foreign.attachOnPopStateImpl(Effect_Uncurried.mkEffectFn1(go));
@@ -11128,7 +11126,7 @@ var PS = {};
       label: "General Orders",
       value: Links.linkToPathname(new Links.Bootcamp(Links_Bootcamp.GeneralOrders.value))
     }), MaterialUI_Tab["tab'"](Data_TSCompat_Class.anyTSEq(Data_TSCompat_Class.optRecord()()(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.consOptEQ()(Data_TSCompat_Class.nilOpt)(Data_TSCompat_Class.optional(Data_TSCompat_Class.reflTSEq))(Data_TSCompat_Class.onlyTrue)(Data_TSCompat_Class.nilRLEQ)))(Data_TSCompat_Class.nilAll)))({
-      label: "Rank Insignias",
+      label: "Ranks",
       value: Links.linkToPathname(new Links.Bootcamp(Links_Bootcamp.RankInsignias.value))
     })];
   };

@@ -52,6 +52,16 @@ derive instance genericLink :: Generic Link _
 instance eqLink :: Eq Link where
   eq = genericEq
 
+-- | For category-based linking in AppBar
+linkToIndex :: Link -> Int
+linkToIndex l = case l of
+  Bootcamp _ -> 0
+
+indexToLink :: Int -> Link
+indexToLink i = case i of
+  0 -> Bootcamp GeneralOrders
+  _ -> Bootcamp GeneralOrders
+
 
 rootHostname :: Effect String
 rootHostname = do
@@ -65,14 +75,14 @@ linkToDocumentTitle :: Link -> DocumentTitle
 linkToDocumentTitle l = DocumentTitle $ "USMC Study" <> case l of
   Bootcamp b -> " - Bootcamp" <> case b of
     GeneralOrders -> " - General Orders"
-    RankInsignias -> " - Rank Insignias"
+    RankInsignias -> " - Ranks"
 
 
 linkToPathname :: Link -> String
 linkToPathname l = "#" <> case l of
   Bootcamp b -> "/bootcamp" <> case b of
     GeneralOrders -> "/generalOrders"
-    RankInsignias -> "/rankInsignias"
+    RankInsignias -> "/ranks"
 
 
 linkToHref :: Link -> Effect String
@@ -110,7 +120,7 @@ pathnameToLink p = case String.uncons p of
             if tail == []
               then pure (Bootcamp GeneralOrders)
               else Left (Just (Bootcamp GeneralOrders)) -- Redirect when there's too much, not too little
-        | head == "rankInsignias" ->
+        | head == "ranks" ->
             if tail == []
               then pure (Bootcamp RankInsignias)
               else Left (Just (Bootcamp RankInsignias)) -- Redirect when there's too much, not too little
@@ -218,15 +228,13 @@ hrefSelect linkSignal' styles links = createLeafElement c {}
               where
                 constructor :: ReactClassConstructor _ {currentLink :: Link} _
                 constructor this = do
-                  initLink <- get linkSignal'
                   let changed :: EffectFn2 SyntheticEvent ReactNode Unit
                       changed = mkEffectFn2 \e _ -> do
                         t <- target e
-                        let val = (unsafeCoerce t).value
-                        case pathnameToLink val of
-                          Right link -> goto linkSignal' link
-                          Left _ -> do
-                            throw $ "Couldn't parse link value " <> show val
+                        let val :: Int
+                            val = (unsafeCoerce t).value
+                        goto linkSignal' (indexToLink val)
+                  initLink <- get linkSignal'
                   pure
                     { state: {currentLink: initLink}
                     , render: do
@@ -235,7 +243,7 @@ hrefSelect linkSignal' styles links = createLeafElement c {}
 
                         let params :: {autoFocus :: Boolean} -- to typecheck
                             params = unsafeCoerce
-                              { value: linkToPathname currentLink -- incorrect, needs index only for Link, not BootcampLink
+                              { value: linkToIndex currentLink
                               , onChange: changed
                               , select: true
                               , variant: outlined
@@ -249,7 +257,8 @@ hrefSelect linkSignal' styles links = createLeafElement c {}
                                     , key: link'
                                     }
                                     where
-                                      link' = linkToPathname link
+                                      link' :: Int
+                                      link' = linkToIndex link
                               in  menuItem params'
                                     [ text $ case link of
                                         Bootcamp _ -> "Bootcamp"

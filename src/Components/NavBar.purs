@@ -32,7 +32,7 @@ currentLinkNavButtons link = case link of
       , value: stringToValue (linkToPathname (Bootcamp GeneralOrders))
       }
     , tab'
-      { label: elementToNode "Rank Insignias"
+      { label: elementToNode "Ranks"
       , value: stringToValue (linkToPathname (Bootcamp RankInsignias))
       }
     ]
