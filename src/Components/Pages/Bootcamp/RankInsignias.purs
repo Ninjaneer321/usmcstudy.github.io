@@ -406,16 +406,20 @@ rankInsignias snackbarQueue dialogQueues = createLeafElement c {}
           pure
             { state: initState
             , render: do
-              {enlisted} <- getState this
+              {enlisted,officer} <- getState this
               pure $ toElement
                 [ typography {gutterBottom: true, variant: title} [text "Ranks"]
                 , hr []
-                , typography {gutterBottom: true, variant: subheading} [text "Enlisted Insignias"]
+                , typography {gutterBottom: true, variant: subheading} [text "Insignias"]
                 , hr []
                 , enlistedRankInsignias enlisted.insignias enlistedRankInsignia generateEnlistedRankInsignia
                 , br []
-                , typography {gutterBottom: true, variant: subheading} [text "Enlisted Abbreviations"]
+                , officerRankInsignias officer.insignias officerRankInsignia generateOfficerRankInsignia
+                , br []
+                , typography {gutterBottom: true, variant: subheading} [text "Abbreviations"]
                 , hr []
                 , enlistedRankAbbreviations enlisted.abbreviations enlistedRankAbbreviation generateEnlistedRankAbbreviation
+                , br []
+                , officerRankAbbreviations officer.abbreviations officerRankAbbreviation generateOfficerRankAbbreviation
                 ]
             }

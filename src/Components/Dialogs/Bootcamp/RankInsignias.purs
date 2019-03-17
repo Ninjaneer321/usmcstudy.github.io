@@ -17,7 +17,7 @@ import Answers.Bootcamp.RankInsignias
 import Window.Size (WindowSize, isMobile)
 
 import Prelude
-import Data.Maybe (Maybe (..), fromJust)
+import Data.Maybe (Maybe (..))
 import Data.Tuple (Tuple (..))
 import Data.Array (singleton)
 import Data.Int.Parse (toRadix, parseInt)
@@ -93,13 +93,16 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
           let close = do
                 setState this {rank: Nothing, chevrons: 0, rockers: 0, center: Nothing}
                 put output Nothing
-              parseInt' x = unsafePartial $ fromJust $ parseInt x (toRadix 10)
               changedChevrons e = do
                 t <- target e
-                setState this {chevrons: parseInt' (unsafeCoerce t).value}
+                case parseInt (unsafeCoerce t).value (toRadix 10) of
+                  Nothing -> pure unit
+                  Just val -> setState this {chevrons: val}
               changedRockers e = do
                 t <- target e
-                setState this {rockers: parseInt' (unsafeCoerce t).value}
+                case parseInt (unsafeCoerce t).value (toRadix 10) of
+                  Nothing -> pure unit
+                  Just val -> setState this {rockers: val}
               changedCenter e = do
                 t <- target e
                 setState this {center: indexToCenter (unsafeCoerce t).value}
@@ -364,7 +367,6 @@ officerRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeaf
           let close = do
                 setState this {rank: Nothing, color: Gold, rankIndex: 0, count: 0}
                 put output Nothing
-              parseInt' x = unsafePartial $ fromJust $ parseInt x (toRadix 10)
               changedColor e = do
                 t <- target e
                 setState this {color: indexToOfficerRankColor (unsafeCoerce t).value}
@@ -373,7 +375,9 @@ officerRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeaf
                 setState this {rankIndex: (unsafeCoerce t).value}
               changedCount e = do
                 t <- target e
-                setState this {count: parseInt' (unsafeCoerce t).value}
+                case parseInt (unsafeCoerce t).value (toRadix 10) of
+                  Nothing -> pure unit
+                  Just val -> setState this {count: val}
               submit = do
                 {color,rankIndex,count} <- getState this
                 setState this {rank: Nothing, color: Gold, rankIndex: 0, count: 0}
@@ -414,7 +418,7 @@ officerRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeaf
                         ]
                       , let params' :: {fullWidth :: Boolean}
                             params' = unsafeCoerce
-                              { onChange: mkEffectFn1 changedColor
+                              { onChange: mkEffectFn1 changedRankIndex
                               , fullWidth: true
                               , select: true
                               , label: "Type"
@@ -447,7 +451,9 @@ officerRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeaf
                                     }
                                   go x =
                                     let params'' :: {color :: String}
-                                        params'' = unsafeCoerce {key: officerRankColorToIndex x, value: officerRankColorToIndex x}
+                                        params'' = unsafeCoerce {key: n, value: n}
+                                          where
+                                            n = officerRankColorToIndex x
                                     in  menuItem params'' $ singleton $ text $ show x
                               in  textField params' $ map go
                                     [ Gold

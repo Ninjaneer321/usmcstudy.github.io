@@ -557,3 +557,4 @@ challengeReportOfficerRankAbbreviation r s = case checkOfficerRankAbbreviation r
     }
 
 
+-- TODO make challenge for rank presence in pay grade
