@@ -13,7 +13,7 @@ import Effect (Effect)
 import Effect.Aff (runAff_)
 import Effect.Class (liftEffect)
 import Effect.Uncurried (mkEffectFn1)
-import Effect.Exception (throwException, throw)
+import Effect.Exception (throwException)
 import React (ReactElement, ReactClass, ReactClassConstructor, createLeafElement, pureComponent, toElement, setState, getState)
 import React.DOM (text, hr, br, span)
 import React.DOM.Props (style) as RP
@@ -61,18 +61,15 @@ generalOrders snackbarQueue generalOrderQueues = createLeafElement c {}
                   Nothing -> pure unit
                   Just s -> liftEffect do
                     {scores} <- getState this
-                    case checkChallenge i s of
-                      Nothing -> throw $ "No general order with index " <> show i
-                      Just mValid ->
-                        setState this $ case mValid of
-                          Nothing ->
-                            { scores: unsafePartial $ fromJust $
-                              modifyAt (i - 1) (\x@{success} -> x {success = success + 1}) scores
-                            }
-                          Just _ ->
-                            { scores: unsafePartial $ fromJust $
-                              modifyAt (i - 1) (\x@{failure} -> x {failure = failure + 1}) scores
-                            }
+                    setState this $ case checkChallenge i s of
+                      Nothing ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt (i - 1) (\x@{success} -> x {success = success + 1}) scores
+                        }
+                      Just _ ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt (i - 1) (\x@{failure} -> x {failure = failure + 1}) scores
+                        }
                     Q.put snackbarQueue $ challengeReport i s
 
               generateGeneralOrder :: Effect Unit
@@ -105,6 +102,8 @@ generalOrders snackbarQueue generalOrderQueues = createLeafElement c {}
               pure $ toElement
                 [ typography {gutterBottom: true, variant: title} [text "Eleven General Orders of a Sentry"]
                 , hr []
+                , br []
+                , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
                 , table {padding: dense}
                   [ tableHead_ $ singleton $ tableRow_
                     [ tableCell {} [text ""]
@@ -117,8 +116,6 @@ generalOrders snackbarQueue generalOrderQueues = createLeafElement c {}
                     ]
                   , tableBody_ (mapWithIndex (\i -> generalOrderButton (i + 1)) scores)
                   ]
-                , br []
-                , button {onClick: mkEffectFn1 (const generateGeneralOrder)} [text "Random General Order"]
                 , br []
                 , br []
                 , typography {variant: body1}

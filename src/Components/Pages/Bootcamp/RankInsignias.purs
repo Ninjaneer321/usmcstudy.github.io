@@ -1,4 +1,4 @@
-module Components.Pages.Bootcamp.RankInsignias where
+module Components.Pages.Bootcamp.RankInsignias (rankInsignias) where
 
 import Answers.Bootcamp.RankInsignias
   ( EnlistedRank, EnlistedRankInsignia
@@ -46,194 +46,160 @@ import Data.Symbol (SProxy (..))
 import Partial.Unsafe (unsafePartial)
 
 
+getAllScores :: Scores -> {success :: Int, failure :: Int}
+getAllScores =
+  foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
+  {success: 0, failure: 0}
+
+rankButton :: forall r
+            . (r -> Effect Unit)
+           -> (r -> String)
+           -> r
+           -> {success :: Int, failure :: Int}
+           -> ReactElement
+rankButton f showR r {success,failure} = tableRow_
+  [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
+      singleton $ text $ showR r
+  , tableCell {align: right} [text (show success)]
+  , tableCell {align: right} [text (show failure)]
+  ]
+
 enlistedRankInsignias :: Scores
                       -> (EnlistedRank -> Effect Unit)
-                      -> Effect Unit
                       -> ReactElement
 enlistedRankInsignias
   scores
   enlistedRankInsignia
-  generateEnlistedRankInsignia
   =
-  let enlistedRankButton f r {success,failure} = tableRow_
-        [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
-            singleton $ text $ showEnlistedRankFull r
-        , tableCell {align: right} [text (show success)]
-        , tableCell {align: right} [text (show failure)]
+  toElement
+    [ table {padding: dense}
+      [ tableHead_ $ singleton $ tableRow_
+        [ tableCell {} [text ""]
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
+              singleton $ text "✔"
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
+              singleton $ text "❌"
         ]
-      getAllScores =
-        foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
-        {success: 0, failure: 0}
-  in toElement
-      [ table {padding: dense}
-        [ tableHead_ $ singleton $ tableRow_
-          [ tableCell {} [text ""]
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
-                singleton $ text "✔"
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
-                singleton $ text "❌"
-          ]
-        , tableBody_ $
-          let go i = unsafePartial $ enlistedRankButton enlistedRankInsignia $ fromJust $ indexToEnlistedRank i
-          in  mapWithIndex go scores
-        ]
-      , br []
-      , button {onClick: mkEffectFn1 (const generateEnlistedRankInsignia)} [text "Random Enlisted Rank"]
-      , br []
-      , br []
-      , typography {variant: body1}
-        [ text ("Successes: " <> show (getAllScores scores).success)
-        ]
-      , br []
-      , typography {variant: body1}
-        [ text ("Failures: " <> show (getAllScores scores).failure)
-        ]
+      , tableBody_ $
+        let go i = unsafePartial $ rankButton enlistedRankInsignia showEnlistedRankFull $ fromJust $ indexToEnlistedRank i
+        in  mapWithIndex go scores
       ]
+    , br []
+    , br []
+    , typography {variant: body1}
+      [ text ("Successes: " <> show (getAllScores scores).success)
+      ]
+    , br []
+    , typography {variant: body1}
+      [ text ("Failures: " <> show (getAllScores scores).failure)
+      ]
+    ]
 
 
 
 enlistedRankAbbreviations :: Scores
                           -> (EnlistedRank -> Effect Unit)
-                          -> Effect Unit
                           -> ReactElement
 enlistedRankAbbreviations
   scores
   enlistedRankAbbreviation
-  generateEnlistedRankAbbreviation
   =
-  let enlistedRankButton f r {success,failure} = tableRow_
-        [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
-            singleton $ text $ showEnlistedRankFull r
-        , tableCell {align: right} [text (show success)]
-        , tableCell {align: right} [text (show failure)]
+  toElement
+    [ table {padding: dense}
+      [ tableHead_ $ singleton $ tableRow_
+        [ tableCell {} [text ""]
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
+              singleton $ text "✔"
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
+              singleton $ text "❌"
         ]
-      getAllScores =
-        foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
-        {success: 0, failure: 0}
-  in toElement
-      [ table {padding: dense}
-        [ tableHead_ $ singleton $ tableRow_
-          [ tableCell {} [text ""]
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
-                singleton $ text "✔"
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
-                singleton $ text "❌"
-          ]
-        , tableBody_ $
-          let go i = unsafePartial $ enlistedRankButton enlistedRankAbbreviation $ fromJust $ indexToEnlistedRank i
-          in  mapWithIndex go scores
-        ]
-      , br []
-      , button {onClick: mkEffectFn1 (const generateEnlistedRankAbbreviation)} [text "Random Enlisted Rank"]
-      , br []
-      , br []
-      , typography {variant: body1}
-        [ text ("Successes: " <> show (getAllScores scores).success)
-        ]
-      , br []
-      , typography {variant: body1}
-        [ text ("Failures: " <> show (getAllScores scores).failure)
-        ]
+      , tableBody_ $
+        let go i = unsafePartial $ rankButton enlistedRankAbbreviation showEnlistedRankFull $ fromJust $ indexToEnlistedRank i
+        in  mapWithIndex go scores
       ]
+    , br []
+    , br []
+    , typography {variant: body1}
+      [ text ("Successes: " <> show (getAllScores scores).success)
+      ]
+    , br []
+    , typography {variant: body1}
+      [ text ("Failures: " <> show (getAllScores scores).failure)
+      ]
+    ]
 
 
 officerRankInsignias :: Scores
                       -> (OfficerRank -> Effect Unit)
-                      -> Effect Unit
                       -> ReactElement
 officerRankInsignias
   scores
   officerRankInsignia
-  generateOfficerRankInsignia
   =
-  let officerRankButton f r {success,failure} = tableRow_
-        [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
-            singleton $ text $ showOfficerRankFull r
-        , tableCell {align: right} [text (show success)]
-        , tableCell {align: right} [text (show failure)]
+  toElement
+    [ table {padding: dense}
+      [ tableHead_ $ singleton $ tableRow_
+        [ tableCell {} [text ""]
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
+              singleton $ text "✔"
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
+              singleton $ text "❌"
         ]
-      getAllScores =
-        foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
-        {success: 0, failure: 0}
-  in toElement
-      [ table {padding: dense}
-        [ tableHead_ $ singleton $ tableRow_
-          [ tableCell {} [text ""]
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
-                singleton $ text "✔"
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
-                singleton $ text "❌"
-          ]
-        , tableBody_ $
-          let go i = unsafePartial $ officerRankButton officerRankInsignia $ fromJust $ indexToOfficerRank i
-          in  mapWithIndex go scores
-        ]
-      , br []
-      , button {onClick: mkEffectFn1 (const generateOfficerRankInsignia)} [text "Random Officer Rank"]
-      , br []
-      , br []
-      , typography {variant: body1}
-        [ text ("Successes: " <> show (getAllScores scores).success)
-        ]
-      , br []
-      , typography {variant: body1}
-        [ text ("Failures: " <> show (getAllScores scores).failure)
-        ]
+      , tableBody_ $
+        let go i = unsafePartial $ rankButton officerRankInsignia showOfficerRankFull $ fromJust $ indexToOfficerRank i
+        in  mapWithIndex go scores
       ]
+    , br []
+    , br []
+    , typography {variant: body1}
+      [ text ("Successes: " <> show (getAllScores scores).success)
+      ]
+    , br []
+    , typography {variant: body1}
+      [ text ("Failures: " <> show (getAllScores scores).failure)
+      ]
+    ]
 
 
 
 officerRankAbbreviations :: Scores
-                          -> (OfficerRank -> Effect Unit)
-                          -> Effect Unit
-                          -> ReactElement
+                         -> (OfficerRank -> Effect Unit)
+                         -> ReactElement
 officerRankAbbreviations
   scores
   officerRankAbbreviation
-  generateOfficerRankAbbreviation
   =
-  let officerRankButton f r {success,failure} = tableRow_
-        [ tableCell {} $ singleton $ button {onClick: mkEffectFn1 (const (f r))} $
-            singleton $ text $ showOfficerRankFull r
-        , tableCell {align: right} [text (show success)]
-        , tableCell {align: right} [text (show failure)]
+  toElement
+    [ table {padding: dense}
+      [ tableHead_ $ singleton $ tableRow_
+        [ tableCell {} [text ""]
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
+              singleton $ text "✔"
+        , tableCell {align: right} $ singleton $
+            span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
+              singleton $ text "❌"
         ]
-      getAllScores =
-        foldr (\x acc -> {success: x.success + acc.success, failure: x.failure + acc.failure})
-        {success: 0, failure: 0}
-  in toElement
-      [ table {padding: dense}
-        [ tableHead_ $ singleton $ tableRow_
-          [ tableCell {} [text ""]
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
-                singleton $ text "✔"
-          , tableCell {align: right} $ singleton $
-              span [RP.style {color: Rec.get (SProxy :: SProxy "700") red}] $
-                singleton $ text "❌"
-          ]
-        , tableBody_ $
-          let go i = unsafePartial $ officerRankButton officerRankAbbreviation $ fromJust $ indexToOfficerRank i
-          in  mapWithIndex go scores
-        ]
-      , br []
-      , button {onClick: mkEffectFn1 (const generateOfficerRankAbbreviation)} [text "Random Officer Rank"]
-      , br []
-      , br []
-      , typography {variant: body1}
-        [ text ("Successes: " <> show (getAllScores scores).success)
-        ]
-      , br []
-      , typography {variant: body1}
-        [ text ("Failures: " <> show (getAllScores scores).failure)
-        ]
+      , tableBody_ $
+        let go i = unsafePartial $ rankButton officerRankAbbreviation showOfficerRankFull $ fromJust $ indexToOfficerRank i
+        in  mapWithIndex go scores
       ]
+    , br []
+    , br []
+    , typography {variant: body1}
+      [ text ("Successes: " <> show (getAllScores scores).success)
+      ]
+    , br []
+    , typography {variant: body1}
+      [ text ("Failures: " <> show (getAllScores scores).failure)
+      ]
+    ]
 
 
 
@@ -412,14 +378,22 @@ rankInsignias snackbarQueue dialogQueues = createLeafElement c {}
                 , hr []
                 , typography {gutterBottom: true, variant: subheading} [text "Insignias"]
                 , hr []
-                , enlistedRankInsignias enlisted.insignias enlistedRankInsignia generateEnlistedRankInsignia
                 , br []
-                , officerRankInsignias officer.insignias officerRankInsignia generateOfficerRankInsignia
+                , button {onClick: mkEffectFn1 (const generateEnlistedRankInsignia)} [text "Random Enlisted Rank"]
+                , br []
+                , button {onClick: mkEffectFn1 (const generateOfficerRankInsignia)} [text "Random Officer Rank"]
+                , enlistedRankInsignias enlisted.insignias enlistedRankInsignia
+                , br []
+                , officerRankInsignias officer.insignias officerRankInsignia
                 , br []
                 , typography {gutterBottom: true, variant: subheading} [text "Abbreviations"]
                 , hr []
-                , enlistedRankAbbreviations enlisted.abbreviations enlistedRankAbbreviation generateEnlistedRankAbbreviation
                 , br []
-                , officerRankAbbreviations officer.abbreviations officerRankAbbreviation generateOfficerRankAbbreviation
+                , button {onClick: mkEffectFn1 (const generateEnlistedRankAbbreviation)} [text "Random Enlisted Rank"]
+                , br []
+                , button {onClick: mkEffectFn1 (const generateOfficerRankAbbreviation)} [text "Random Officer Rank"]
+                , enlistedRankAbbreviations enlisted.abbreviations enlistedRankAbbreviation
+                , br []
+                , officerRankAbbreviations officer.abbreviations officerRankAbbreviation
                 ]
             }
