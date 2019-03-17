@@ -2,12 +2,13 @@ module Answers.Bootcamp.GeneralOrders where
 
 import Crypto.Random (randomBetween)
 import Components.Snackbar (SnackbarContent, SnackbarVariant (Success, Error))
-import Data.Array.Diff (diffArray)
 
 import Prelude
 import Data.Tuple (Tuple (..))
 import Data.Maybe (Maybe (..))
 import Data.Array (unsafeIndex, singleton)
+import Data.Array.Diff (diffArray)
+import Data.Int.Prose (proseInt)
 import Data.Foldable (intercalate)
 import Data.String.Yarn (words)
 import Data.FunctorWithIndex (mapWithIndex)
@@ -37,38 +38,12 @@ generalOrders i = unsafePartial $ case i of
 
 showChallenge :: Int -> String
 showChallenge i =
-  "What is the " <> j <> " General Order of the Marine Corps?"
-  where
-    j | i == 1 = "first"
-      | i == 2 = "second"
-      | i == 3 = "third"
-      | i == 4 = "fourth"
-      | i == 5 = "fifth"
-      | i == 6 = "sixth"
-      | i == 7 = "seventh"
-      | i == 8 = "eighth"
-      | i == 9 = "ninth"
-      | i == 10 = "tenth"
-      | i == 11 = "eleventh"
-      | otherwise = ""
+  "What is the " <> proseInt false i <> " General Order of the Marine Corps?"
 
 
 showGeneralOrderTitle :: Int -> String
 showGeneralOrderTitle i =
-  j <> " General Order"
-  where
-    j | i == 1 = "First"
-      | i == 2 = "Second"
-      | i == 3 = "Third"
-      | i == 4 = "Fourth"
-      | i == 5 = "Fifth"
-      | i == 6 = "Sixth"
-      | i == 7 = "Seventh"
-      | i == 8 = "Eighth"
-      | i == 9 = "Ninth"
-      | i == 10 = "Tenth"
-      | i == 11 = "Eleventh"
-      | otherwise = ""
+  proseInt true i <> " General Order"
 
 
 
