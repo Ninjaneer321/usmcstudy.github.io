@@ -5,8 +5,13 @@ module Components.Dialogs.Bootcamp.RankInsignias
 
 import Answers.Bootcamp.RankInsignias
   ( EnlistedRank, EnlistedRankInsignia, EnlistedRankInsigniaCenter (..)
+  , OfficerRank, OfficerRankInsignia (..), OfficerRankInsigniaColor (..)
   , showChallengeEnlistedRankInsignia, showEnlistedRankInsigniaTitle, centerToIndex, indexToCenter
-  , showEnlistedRankAbbreviationTitle, showChallengeEnlistedRankAbbreviation)
+  , showEnlistedRankAbbreviationTitle, showChallengeEnlistedRankAbbreviation
+  , showChallengeOfficerRankInsignia, showOfficerRankInsigniaTitle
+  , showOfficerRankAbbreviationTitle, showChallengeOfficerRankAbbreviation
+  , officerRankColorToIndex, indexToOfficerRankColor, officerRankInsigniaToIndex
+  )
 import Window.Size (WindowSize, isMobile)
 
 import Prelude
@@ -280,6 +285,289 @@ enlistedRankAbbreviationDialog windowSizeSignal (IOQueues{input,output}) = creat
                       [ typography {gutterBottom: true, variant: title}
                         [ text $ case mR of
                             Just r -> showChallengeEnlistedRankAbbreviation r
+                            Nothing -> ""
+                        ]
+                      , let params' :: {fullWidth :: Boolean}
+                            params' = unsafeCoerce
+                              { onChange: mkEffectFn1 changedValue
+                              , fullWidth: true
+                              , margin: normal
+                              , value
+                              }
+                        in  textField' params'
+                      ]
+                    , dialogActions_
+                      [ button
+                        { onClick: mkEffectFn1 (const close)
+                        , color: primary
+                        } [text "Cancel"]
+                      , let params' :: {autoFocus :: Boolean}
+                            params' = unsafeCoerce
+                              { onClick: mkEffectFn1 (const submit)
+                              , color: primary
+                              , autoFocus: true
+                              , type: "submit"
+                              }
+                        in  button params' [text "Submit"]
+                      ]
+                    ]
+              pure $ case rank of
+                Nothing -> dialog'' (params false) (dialogChildren Nothing)
+                Just r -> dialog'' (params true) (dialogChildren (Just r))
+            }
+
+
+
+type OfficerInsigniaState =
+  { rank :: Maybe OfficerRank
+  , color :: OfficerRankInsigniaColor
+  , rankIndex :: Int
+  , count :: Int
+  , windowSize :: WindowSize
+  }
+
+initOfficerInsigniaState :: WindowSize -> OfficerInsigniaState
+initOfficerInsigniaState initWindowSize =
+  { rank: Nothing
+  , color: Gold
+  , rankIndex: 0
+  , count: 0
+  , windowSize: initWindowSize
+  }
+
+
+-- TODO change to OfficerRankInsignia
+
+officerRankInsigniaDialog :: IxSignal (read :: S.READ) WindowSize
+                          -> IOQueues Queue OfficerRank (Maybe OfficerRankInsignia)
+                          -- ^ Write the general order index to this to open the dialog
+                          -> ReactElement
+officerRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = component "OfficerRankInsigniaDialog" constructor'
+
+    constructor' :: ReactClassConstructor _ OfficerInsigniaState _
+    constructor' =
+      let queueOpenerHandler :: _ -> OfficerRank -> Effect Unit
+          queueOpenerHandler this i = setState this {rank: Just i}
+
+          windowChangeHandler :: _ -> WindowSize -> Effect Unit
+          windowChangeHandler this w = setState this {windowSize: w}
+
+      in  ReactQ.whileMountedOne input queueOpenerHandler
+            (ReactS.whileMountedIx windowSizeSignal "OfficerRankInsigniaDialog" windowChangeHandler constructor)
+      where
+        constructor this = do
+          let close = do
+                setState this {rank: Nothing, color: Gold, rankIndex: 0, count: 0}
+                put output Nothing
+              parseInt' x = unsafePartial $ fromJust $ parseInt x (toRadix 10)
+              changedColor e = do
+                t <- target e
+                setState this {color: indexToOfficerRankColor (unsafeCoerce t).value}
+              changedRankIndex e = do
+                t <- target e
+                setState this {rankIndex: (unsafeCoerce t).value}
+              changedCount e = do
+                t <- target e
+                setState this {count: parseInt' (unsafeCoerce t).value}
+              submit = do
+                {color,rankIndex,count} <- getState this
+                setState this {rank: Nothing, color: Gold, rankIndex: 0, count: 0}
+                put output $ Just $ unsafePartial $ case rankIndex of
+                  0 -> Bar color count
+                  1 -> OakLeaf color
+                  2 -> Eagle
+                  3 -> OFivePointStar count
+
+          initWindowSize <- S.get windowSizeSignal
+
+          pure
+            { componentDidMount: pure unit
+            , componentWillUnmount: pure unit
+            , state: initOfficerInsigniaState initWindowSize
+            , render: do
+              {rank, color, rankIndex, count, windowSize} <- getState this
+              props <- getProps this
+              let params open =
+                    { onClose: mkEffectFn1 (const close)
+                    , open
+                    , fullWidth: true
+                    , fullScreen: isMobile windowSize
+                    , maxWidth: md
+                    , "aria-labelledby": "general-order-dialog-title"
+                    }
+                  dialogChildren mR =
+                    [ dialogTitle {id: "general-order-dialog-title"}
+                      [ text $ case mR of
+                          Just r -> showOfficerRankInsigniaTitle r
+                          Nothing -> ""
+                      ]
+                    , dialogContent_
+                      [ typography {gutterBottom: true, variant: title}
+                        [ text $ case mR of
+                            Just r -> showChallengeOfficerRankInsignia r
+                            Nothing -> ""
+                        ]
+                      , let params' :: {fullWidth :: Boolean}
+                            params' = unsafeCoerce
+                              { onChange: mkEffectFn1 changedColor
+                              , fullWidth: true
+                              , select: true
+                              , label: "Type"
+                              , value: rankIndex
+                              , margin: normal
+                              }
+                            go n =
+                              let params'' :: {color :: String}
+                                  params'' = unsafeCoerce {key: n, value: n}
+                              in  menuItem params'' $ singleton $ text $ unsafePartial $ case n of
+                                    0 -> "Bar"
+                                    1 -> "Oak Leaf"
+                                    2 -> "Eagle"
+                                    3 -> "Five Point Star"
+                        in  textField params' $ map go
+                              [ 0
+                              , 1
+                              , 2
+                              , 3
+                              ]
+                      , let colorInput =
+                              let params' :: {fullWidth :: Boolean}
+                                  params' = unsafeCoerce
+                                    { onChange: mkEffectFn1 changedColor
+                                    , fullWidth: true
+                                    , select: true
+                                    , label: "Color"
+                                    , value: officerRankColorToIndex color
+                                    , margin: normal
+                                    }
+                                  go x =
+                                    let params'' :: {color :: String}
+                                        params'' = unsafeCoerce {key: officerRankColorToIndex x, value: officerRankColorToIndex x}
+                                    in  menuItem params'' $ singleton $ text $ show x
+                              in  textField params' $ map go
+                                    [ Gold
+                                    , Silver
+                                    ]
+                        in  case rankIndex of
+                              0 -> colorInput
+                              1 -> colorInput
+                              _ -> text ""
+                      , let countInput =
+                              let params' :: {fullWidth :: Boolean}
+                                  params' = unsafeCoerce
+                                    { onChange: mkEffectFn1 changedCount
+                                    , fullWidth: true
+                                    , type: "number"
+                                    , label: "Count"
+                                    , defaultValue: count
+                                    , margin: normal
+                                    , inputProps: {min: 0, pattern: "\\d*"}
+                                    }
+                              in  textField' params'
+                        in  case rankIndex of
+                              0 -> countInput
+                              3 -> countInput
+                              _ -> text ""
+                      ]
+                    , dialogActions_
+                      [ button
+                        { onClick: mkEffectFn1 (const close)
+                        , color: primary
+                        } [text "Cancel"]
+                      , let params' :: {autoFocus :: Boolean}
+                            params' = unsafeCoerce
+                              { onClick: mkEffectFn1 (const submit)
+                              , color: primary
+                              , autoFocus: true
+                              , type: "submit"
+                              }
+                        in  button params' [text "Submit"]
+                      ]
+                    ]
+              pure $ case rank of
+                Nothing -> dialog'' (params false) (dialogChildren Nothing)
+                Just r -> dialog'' (params true) (dialogChildren (Just r))
+            }
+
+
+
+type OfficerAbbreviationState =
+  { rank :: Maybe OfficerRank
+  , value :: String
+  , windowSize :: WindowSize
+  }
+
+initOfficerAbbreviationState :: WindowSize -> OfficerAbbreviationState
+initOfficerAbbreviationState initWindowSize =
+  { rank: Nothing
+  , value: ""
+  , windowSize: initWindowSize
+  }
+
+
+
+officerRankAbbreviationDialog :: IxSignal (read :: S.READ) WindowSize
+                               -> IOQueues Queue OfficerRank (Maybe String)
+                               -- ^ Write the general order index to this to open the dialog
+                               -> ReactElement
+officerRankAbbreviationDialog windowSizeSignal (IOQueues{input,output}) = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = component "OfficerRankAbbreviationDialog" constructor'
+
+    constructor' :: ReactClassConstructor _ OfficerAbbreviationState _
+    constructor' =
+      let queueOpenerHandler :: _ -> OfficerRank -> Effect Unit
+          queueOpenerHandler this i = setState this {rank: Just i}
+
+          windowChangeHandler :: _ -> WindowSize -> Effect Unit
+          windowChangeHandler this w = setState this {windowSize: w}
+
+      in  ReactQ.whileMountedOne input queueOpenerHandler
+            (ReactS.whileMountedIx windowSizeSignal "OfficerRankAbbreviationDialog" windowChangeHandler constructor)
+      where
+        constructor this = do
+          let close = do
+                setState this {rank: Nothing, value: ""}
+                put output Nothing
+              changedValue e = do
+                t <- target e
+                setState this {value: (unsafeCoerce t).value}
+              submit = do
+                {value} <- getState this
+                setState this {rank: Nothing, value: ""}
+                put output (Just value)
+
+          initWindowSize <- S.get windowSizeSignal
+
+          pure
+            { componentDidMount: pure unit
+            , componentWillUnmount: pure unit
+            , state: initOfficerAbbreviationState initWindowSize
+            , render: do
+              {rank, value, windowSize} <- getState this
+              props <- getProps this
+              let params open =
+                    { onClose: mkEffectFn1 (const close)
+                    , open
+                    , fullWidth: true
+                    , fullScreen: isMobile windowSize
+                    , maxWidth: md
+                    , "aria-labelledby": "general-order-dialog-title"
+                    }
+                  dialogChildren mR =
+                    [ dialogTitle {id: "general-order-dialog-title"}
+                      [ text $ case mR of
+                          Just r -> showOfficerRankAbbreviationTitle r
+                          Nothing -> ""
+                      ]
+                    , dialogContent_
+                      [ typography {gutterBottom: true, variant: title}
+                        [ text $ case mR of
+                            Just r -> showChallengeOfficerRankAbbreviation r
                             Nothing -> ""
                         ]
                       , let params' :: {fullWidth :: Boolean}

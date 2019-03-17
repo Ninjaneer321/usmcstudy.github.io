@@ -28,10 +28,25 @@ data EnlistedRank
   | EMGySgt
   | ESgtMaj
   | ESMMC
-
 derive instance genericEnlistedRank :: Generic EnlistedRank _
 instance eqEnlistedRank :: Eq EnlistedRank where
   eq = genericEq
+
+data OfficerRank
+  = O2ndLt
+  | O1stLt
+  | OCapt
+  | OMaj
+  | OLtCol
+  | OCol
+  | OBGen
+  | OMajGen
+  | OLtGen
+  | OGen
+derive instance genericOfficerRank :: Generic OfficerRank _
+instance eqOfficerRank :: Eq OfficerRank where
+  eq = genericEq
+
 
 -- | for random generation
 enlistedRankToIndex :: EnlistedRank -> Int
@@ -66,6 +81,38 @@ indexToEnlistedRank i = case i of
   11 -> Just ESMMC
   _ -> Nothing
 
+-- | for random generation
+officerRankToIndex :: OfficerRank -> Int
+officerRankToIndex r = case r of
+  O2ndLt  -> 0
+  O1stLt  -> 1
+  OCapt   -> 2
+  OMaj    -> 3
+  OLtCol  -> 4
+  OCol    -> 5
+  OBGen   -> 6
+  OMajGen -> 7
+  OLtGen  -> 8
+  OGen    -> 9
+
+-- | for random generation
+indexToOfficerRank :: Int -> Maybe OfficerRank
+indexToOfficerRank i = case i of
+  0  -> Just O2ndLt
+  1  -> Just O1stLt
+  2  -> Just OCapt
+  3  -> Just OMaj
+  4  -> Just OLtCol
+  5  -> Just OCol
+  6  -> Just OBGen
+  7  -> Just OMajGen
+  8  -> Just OLtGen
+  9  -> Just OGen
+  _ -> Nothing
+
+
+
+
 showEnlistedRankAbbreviation :: EnlistedRank -> String
 showEnlistedRankAbbreviation r = case r of
   EPvt -> "Pvt"
@@ -97,6 +144,33 @@ showEnlistedRankFull r = case r of
   ESMMC -> "Sergeant Major of the Marine Corps"
 
 
+showOfficerRankAbbreviation :: OfficerRank -> String
+showOfficerRankAbbreviation r = case r of
+  O2ndLt  -> "2ndLt"
+  O1stLt  -> "1stLt"
+  OCapt   -> "Capt"
+  OMaj    -> "Maj"
+  OLtCol  -> "LtCol"
+  OCol    -> "Col"
+  OBGen   -> "BGen"
+  OMajGen -> "MajGen"
+  OLtGen  -> "LtGen"
+  OGen    -> "Gen"
+
+showOfficerRankFull :: OfficerRank -> String
+showOfficerRankFull r = case r of
+  O2ndLt  -> "Second Lieutenant"
+  O1stLt  -> "First Lieutenant"
+  OCapt   -> "Captain"
+  OMaj    -> "Major"
+  OLtCol  -> "Lieutenant Colonel"
+  OCol    -> "Colonel"
+  OBGen   -> "Brigadier General"
+  OMajGen -> "Major General"
+  OLtGen  -> "Lieutenant General"
+  OGen    -> "General"
+
+
 enlistedRankToPayGrade :: EnlistedRank -> Int
 enlistedRankToPayGrade r = case r of
   EPvt -> 1
@@ -112,6 +186,19 @@ enlistedRankToPayGrade r = case r of
   ESgtMaj -> 9
   ESMMC -> 9
 
+officerRankToPayGrade :: OfficerRank -> Int
+officerRankToPayGrade r = case r of
+  O2ndLt  -> 1
+  O1stLt  -> 2
+  OCapt   -> 3
+  OMaj    -> 4
+  OLtCol  -> 5
+  OCol    -> 6
+  OBGen   -> 7
+  OMajGen -> 8
+  OLtGen  -> 9
+  OGen    -> 10
+
 
 payGradeToEnlistedRank :: Int -> Maybe (NonEmpty Array EnlistedRank)
 payGradeToEnlistedRank r = case r of
@@ -126,6 +213,22 @@ payGradeToEnlistedRank r = case r of
   9 -> Just (NonEmpty EMGySgt [ESgtMaj, ESMMC])
   _ -> Nothing
 
+payGradeToOfficerRank :: Int -> Maybe OfficerRank
+payGradeToOfficerRank r = case r of
+  1  -> Just O2ndLt
+  2  -> Just O1stLt
+  3  -> Just OCapt
+  4  -> Just OMaj
+  5  -> Just OLtCol
+  6  -> Just OCol
+  7  -> Just OBGen
+  8  -> Just OMajGen
+  9  -> Just OLtGen
+  10 -> Just OGen
+  _ -> Nothing
+
+
+
 
 data EnlistedRankInsigniaCenter
   = CrossRifles
@@ -133,7 +236,6 @@ data EnlistedRankInsigniaCenter
   | BurstingBomb
   | FivePointStar
   | EagleGlobeAnchor
-
 derive instance genericEnlistedRankInsigniaCenter :: Generic EnlistedRankInsigniaCenter _
 instance eqEnlistedRankInsigniaCenter :: Eq EnlistedRankInsigniaCenter where
   eq = genericEq
@@ -144,6 +246,9 @@ instance showEnlistedRankInsigniaCenter :: Show EnlistedRankInsigniaCenter where
     BurstingBomb -> "a Bursting Bomb"
     FivePointStar -> "a Five Point Star"
     EagleGlobeAnchor -> "an Eagle, Globe and Anchor"
+
+
+
 
 centerToIndex :: Maybe EnlistedRankInsigniaCenter -> Int
 centerToIndex mc = case mc of
@@ -181,6 +286,80 @@ enlistedRankToInsignia r = case r of
   EMGySgt -> Just {chevrons: 3, center: Just BurstingBomb, rockers: 4}
   ESgtMaj -> Just {chevrons: 3, center: Just FivePointStar, rockers: 4}
   ESMMC -> Just {chevrons: 3, center: Just EagleGlobeAnchor, rockers: 4}
+
+
+data OfficerRankInsigniaColor = Gold | Silver
+derive instance genericOfficerRankInsigniaColor :: Generic OfficerRankInsigniaColor _
+instance eqOfficerRankInsigniaColor :: Eq OfficerRankInsigniaColor where
+  eq = genericEq
+instance showOfficerRankInsigniaColor :: Show OfficerRankInsigniaColor where
+  show x = case x of
+    Gold -> "Gold"
+    Silver -> "Silver"
+
+officerRankColorToIndex :: OfficerRankInsigniaColor -> Int
+officerRankColorToIndex c = case c of
+  Gold -> 0
+  Silver -> 1
+
+indexToOfficerRankColor :: Int -> OfficerRankInsigniaColor
+indexToOfficerRankColor i = unsafePartial $ case i of
+  0 -> Gold
+  1 -> Silver
+
+
+data OfficerRankInsignia
+  = Bar OfficerRankInsigniaColor Int
+  | OakLeaf OfficerRankInsigniaColor
+  | Eagle
+  | OFivePointStar Int
+derive instance genericOfficerRankInsignia :: Generic OfficerRankInsignia _
+instance eqOfficerRankInsignia :: Eq OfficerRankInsignia where
+  eq = genericEq
+instance showOfficerRankInsignia :: Show OfficerRankInsignia where
+  show c = case c of
+    Bar color n -> case color of
+      Gold -> case n of
+        1 -> "a Gold Bar"
+        _ -> "error - incorrect input"
+      Silver -> case n of
+        1 -> "a Silver Bar"
+        2 -> "Double Silver Bars"
+        _ -> "error - incorrect input"
+    OakLeaf color -> case color of
+      Gold -> "a Gold Oak Leaf"
+      Silver -> "a Silver Oak Leaf"
+    Eagle -> "an Eagle"
+    OFivePointStar n -> case n of
+      1 -> "one Five Point Star"
+      2 -> "two Five Point Stars"
+      3 -> "three Five Point Stars"
+      4 -> "four Five Point Stars"
+      _ -> "error - incorrect input"
+
+officerRankInsigniaToIndex :: OfficerRankInsignia -> Int
+officerRankInsigniaToIndex r = case r of
+  Bar _ _ -> 0
+  OakLeaf _ -> 1
+  Eagle -> 2
+  OFivePointStar _ -> 3
+
+
+
+
+officerRankToInsignia :: OfficerRank -> OfficerRankInsignia
+officerRankToInsignia r = case r of
+  O2ndLt  -> Bar Gold 1
+  O1stLt  -> Bar Silver 1
+  OCapt   -> Bar Silver 2
+  OMaj    -> OakLeaf Gold
+  OLtCol  -> OakLeaf Silver
+  OCol    -> Eagle
+  OBGen   -> OFivePointStar 1
+  OMajGen -> OFivePointStar 2
+  OLtGen  -> OFivePointStar 3
+  OGen    -> OFivePointStar 4
+
 
 
 -- | Returns a diff of errors, if any.
@@ -221,39 +400,75 @@ checkEnlistedRankInsignia r i =
     actual = enlistedRankToInsignia r
 
 
+checkOfficerRankInsignia :: OfficerRank
+                         -> OfficerRankInsignia
+                         -> Maybe OfficerRankInsignia
+checkOfficerRankInsignia r i =
+  if i == actual
+    then Nothing
+    else Just actual
+  where
+    actual = officerRankToInsignia r
+
+
 checkEnlistedRankAbbreviation :: EnlistedRank -> String -> Maybe String
 checkEnlistedRankAbbreviation r a = if a == actual then Nothing else Just actual
   where
     actual = showEnlistedRankAbbreviation r
+
+checkOfficerRankAbbreviation :: OfficerRank -> String -> Maybe String
+checkOfficerRankAbbreviation r a = if a == actual then Nothing else Just actual
+  where
+    actual = showOfficerRankAbbreviation r
+
 
 
 showChallengeEnlistedRankInsignia :: EnlistedRank -> String
 showChallengeEnlistedRankInsignia r =
   "What is the Insignia for the Enlisted Rank of " <> showEnlistedRankFull r <> "?"
 
-
 showChallengeEnlistedRankAbbreviation :: EnlistedRank -> String
 showChallengeEnlistedRankAbbreviation r =
   "What is the Abbreviation for the Enlisted Rank of " <> showEnlistedRankFull r <> "?"
+
+showChallengeOfficerRankInsignia :: OfficerRank -> String
+showChallengeOfficerRankInsignia r =
+  "What is the Insignia for the Officer Rank of " <> showOfficerRankFull r <> "?"
+
+showChallengeOfficerRankAbbreviation :: OfficerRank -> String
+showChallengeOfficerRankAbbreviation r =
+  "What is the Abbreviation for the Officer Rank of " <> showOfficerRankFull r <> "?"
 
 
 showEnlistedRankInsigniaTitle :: EnlistedRank -> String
 showEnlistedRankInsigniaTitle r =
   "Enlisted Rank " <> showEnlistedRankFull r <> " Insignia"
 
-
 showEnlistedRankAbbreviationTitle :: EnlistedRank -> String
 showEnlistedRankAbbreviationTitle r =
   "Enlisted Rank " <> showEnlistedRankFull r <> " Abbreviation"
+
+showOfficerRankInsigniaTitle :: OfficerRank -> String
+showOfficerRankInsigniaTitle r =
+  "Officer Rank " <> showOfficerRankFull r <> " Insignia"
+
+showOfficerRankAbbreviationTitle :: OfficerRank -> String
+showOfficerRankAbbreviationTitle r =
+  "Officer Rank " <> showOfficerRankFull r <> " Abbreviation"
 
 
 
 randomEnlistedRank :: Effect EnlistedRank
 randomEnlistedRank = unsafePartial $ (fromJust <<< indexToEnlistedRank) <$> randomBetween 0 11
 
-
 randomEnlistedPayGrade :: Effect Int
 randomEnlistedPayGrade = randomBetween 1 9
+
+randomOfficerRank :: Effect OfficerRank
+randomOfficerRank = unsafePartial $ (fromJust <<< indexToOfficerRank) <$> randomBetween 0 9
+
+randomOfficerPayGrade :: Effect Int
+randomOfficerPayGrade = randomBetween 1 10
 
 
 
@@ -293,7 +508,6 @@ challengeReportEnlistedRankInsignia r i = case checkEnlistedRankInsignia r i of
     where
       full = showEnlistedRankFull r
 
-
 challengeReportEnlistedRankAbbreviation :: EnlistedRank
                                         -> String
                                         -> SnackbarContent
@@ -309,37 +523,37 @@ challengeReportEnlistedRankAbbreviation r s = case checkEnlistedRankAbbreviation
     , timeout: Nothing
     }
 
+challengeReportOfficerRankInsignia :: OfficerRank
+                                   -> OfficerRankInsignia
+                                   -> SnackbarContent
+challengeReportOfficerRankInsignia r i = case checkOfficerRankInsignia r i of
+  Nothing ->
+    { variant: Success
+    , message: text "Correct!"
+    , timeout: Just (Milliseconds 2000.0)
+    }
+  Just actual ->
+    { variant: Error
+    , timeout: Nothing
+    , message: text $ "Incorrect. Officer rank " <> full <> " is " <> show actual
+    }
+    where
+      full = showOfficerRankFull r
 
--- challengeReport :: Int -- ^ Challenge
---                 -> String -- ^ Submission
---                 -> SnackbarContent
--- challengeReport i c = case checkChallenge i c of
---   Nothing ->
---     { variant: Error
---     , message: text $ "Internal error - no general order with index " <> show i
---     , timeout: Nothing
---     }
---   Just mValid -> case mValid of
---     Nothing ->
---       { variant: Success
---       , message: text "Correct!"
---       , timeout: Just (Milliseconds 2000.0)
---       }
---     Just (Tuple actual indicies) ->
---       { variant: Error
---       , message:
---         let errorSpan x = span [style {textDecoration: "underline"}] [text x]
---         in  toElement
---               [ text "Incorrect. Actual: "
---               , p [style {marginBottom: 0, marginTop: 0}] [strong [] [text actual]]
---               , text "Submitted:"
---               , p [style {marginBottom: 0, marginTop: 0}] $ singleton $ strong [] $
---                 let cs = words c
---                     spacesBetween xs = intercalate [text " "] (map singleton xs)
---                     go i' isBad
---                       | isBad = errorSpan $ unsafePartial $ unsafeIndex cs i'
---                       | otherwise = text $ unsafePartial $ unsafeIndex cs i'
---                 in  spacesBetween (mapWithIndex go indicies)
---               ]
---       , timeout: Nothing
---       }
+
+challengeReportOfficerRankAbbreviation :: OfficerRank
+                                        -> String
+                                        -> SnackbarContent
+challengeReportOfficerRankAbbreviation r s = case checkOfficerRankAbbreviation r s of
+  Nothing ->
+    { variant: Success
+    , message: text "Correct!"
+    , timeout: Just (Milliseconds 2000.0)
+    }
+  Just actual ->
+    { variant: Error
+    , message: text $ "Incorrect. " <> showOfficerRankFull r <> " abbreviation is " <> actual <> "."
+    , timeout: Nothing
+    }
+
+
