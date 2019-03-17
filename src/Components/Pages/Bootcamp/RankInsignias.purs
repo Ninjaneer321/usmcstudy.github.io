@@ -1,7 +1,9 @@
 module Components.Pages.Bootcamp.RankInsignias where
 
 import Answers.Bootcamp.RankInsignias
-  ( EnlistedRank, EnlistedRankInsignia, randomEnlistedRank
+  ( EnlistedRank, EnlistedRankInsignia
+  , OfficerRank, OfficerRankInsignia
+  , randomEnlistedRank
   , challengeReportEnlistedRankInsignia, challengeReportEnlistedRankAbbreviation
   , checkEnlistedRankInsignia, checkEnlistedRankAbbreviation
   , indexToEnlistedRank, enlistedRankToIndex, showEnlistedRankFull)
@@ -225,6 +227,10 @@ rankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
               -> { enlisted ::
                    { insignia :: IOQueues Q.Queue EnlistedRank (Maybe EnlistedRankInsignia)
                    , abbreviation :: IOQueues Q.Queue EnlistedRank (Maybe String)
+                   }
+                 , officer ::
+                   { insignia :: IOQueues Q.Queue OfficerRank (Maybe OfficerRankInsignia)
+                   , abbreviation :: IOQueues Q.Queue OfficerRank (Maybe String)
                    }
                  }
               -> ReactElement

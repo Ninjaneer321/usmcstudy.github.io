@@ -1,6 +1,8 @@
 module Components.Dialogs.Bootcamp.RankInsignias
   ( enlistedRankInsigniaDialog
   , enlistedRankAbbreviationDialog
+  , officerRankInsigniaDialog
+  , officerRankAbbreviationDialog
   ) where
 
 import Answers.Bootcamp.RankInsignias
