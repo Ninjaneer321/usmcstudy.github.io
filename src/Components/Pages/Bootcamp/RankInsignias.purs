@@ -41,20 +41,6 @@ import Data.Symbol (SProxy (..))
 import Partial.Unsafe (unsafePartial)
 
 
-type Scores = Array {success :: Int, failure :: Int}
-
-
-type EnlistedState =
-  { scores :: Scores
-  }
-
-
-initEnlistedState :: EnlistedState
-initEnlistedState =
-  { scores: replicate 12 {success: 0, failure: 0}
-  }
-
-
 enlistedRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
                       -> IOQueues Q.Queue EnlistedRank (Maybe EnlistedRankInsignia)
                       -> ReactElement
@@ -223,6 +209,37 @@ enlistedRankAbbreviations
 
 
 
+type Scores = Array {success :: Int, failure :: Int}
+
+
+type State =
+  { enlisted ::
+    { insignias :: Scores
+    , abbreviations :: Scores
+    }
+  , officer ::
+    { insignias :: Scores
+    , abbreviations :: Scores
+    }
+  }
+
+
+initState :: State
+initState =
+  { enlisted:
+    { insignias: enlistedScores
+    , abbreviations: enlistedScores
+    }
+  , officer:
+    { insignias: officerScores
+    , abbreviations: officerScores
+    }
+  }
+  where
+    enlistedScores = replicate 12 {success: 0, failure: 0}
+    officerScores = replicate 10 {success: 0, failure: 0}
+
+
 rankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
               -> { enlisted ::
                    { insignia :: IOQueues Q.Queue EnlistedRank (Maybe EnlistedRankInsignia)
@@ -234,7 +251,48 @@ rankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
                    }
                  }
               -> ReactElement
-rankInsignias snackbarQueue dialogQueues = toElement
+rankInsignias snackbarQueue dialogQueues = createLeafElement c {}
+  where
+    c :: ReactClass {}
+    c = pureComponent "RankInsignias" constructor
+      where
+        constructor :: ReactClassConstructor _ State _
+        constructor this = do
+
+          let resolve eX = case eX of
+                Left err -> throwException err
+                Right x -> pure unit
+
+              enlistedRankAbbreviation :: EnlistedRank -> Effect Unit
+              enlistedRankAbbreviation r = runAff_ resolve do
+                mI <- IOQueues.callAsync dialogQueues.enlisted.abbreviation r
+                case mI of
+                  Nothing -> pure unit
+                  Just insig -> liftEffect do
+                    {scores} <- getState this
+                    let i = enlistedRankToIndex r
+                    setState this $ case checkEnlistedRankAbbreviation r insig of
+                      Nothing ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{success} -> x {success = success + 1}) scores
+                        }
+                      Just _ ->
+                        { scores: unsafePartial $ fromJust $
+                          modifyAt i (\x@{failure} -> x {failure = failure + 1}) scores
+                        }
+                    Q.put snackbarQueue (challengeReportEnlistedRankAbbreviation r insig)
+
+              generateEnlistedRankAbbreviation :: Effect Unit
+              generateEnlistedRankAbbreviation = randomEnlistedRank >>= enlistedRankAbbreviation
+
+          pure
+            { state: initState
+            , render: do
+            }
+
+
+
+  toElement
   [ typography {gutterBottom: true, variant: title} [text "Ranks"]
   , hr []
   , typography {gutterBottom: true, variant: subheading} [text "Enlisted Insignias"]
