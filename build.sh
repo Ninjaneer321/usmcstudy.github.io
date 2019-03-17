@@ -4,6 +4,7 @@ JSTMP=./build/index.tmp.js
 JS=./build/index.js
 JSMIN=./build/index.min.js
 DATE=./build/date.js
+MODERNIZR=./build/modernizr-custom.js
 
 TEMPLATE=./build/index.template.html
 
@@ -28,5 +29,5 @@ if [ $# -eq 1 ] && [ $1 == "production" ]; then
 fi
 echo "Browserified"
 date -R | sed 's/\(.*\)/var buildDate = "\1"/g' > $DATE
-ltext "$TEMPLATE $JSOUT $DATE" --raw $JSOUT --raw $DATE > $OUTPUT || { exit 1; }
+ltext "$TEMPLATE $JSOUT $DATE $MODERNIZR" --raw $JSOUT --raw $DATE --raw $MODERNIZR > $OUTPUT || { exit 1; }
 echo "Finished"
