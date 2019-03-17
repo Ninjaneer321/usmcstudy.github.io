@@ -12,7 +12,7 @@ import Answers.Bootcamp.RankInsignias
   , showEnlistedRankAbbreviationTitle, showChallengeEnlistedRankAbbreviation
   , showChallengeOfficerRankInsignia, showOfficerRankInsigniaTitle
   , showOfficerRankAbbreviationTitle, showChallengeOfficerRankAbbreviation
-  , officerRankColorToIndex, indexToOfficerRankColor, officerRankInsigniaToIndex
+  , officerRankColorToIndex, indexToOfficerRankColor
   )
 import Window.Size (WindowSize, isMobile)
 
