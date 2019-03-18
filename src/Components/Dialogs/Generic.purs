@@ -15,6 +15,7 @@ import React
   ( ReactElement, ReactClass, ReactClassConstructor, ReactThis
   , component, setState, getState, getProps, createLeafElement)
 import React.DOM (text)
+import React.SyntheticEvent (target)
 import React.Queue.WhileMounted (whileMountedOne) as ReactQ
 import React.Signal.WhileMounted (whileMountedIx) as ReactS
 import MaterialUI.Dialog (dialog'')
@@ -22,7 +23,9 @@ import MaterialUI.DialogTitle (dialogTitle)
 import MaterialUI.DialogContent (dialogContent_)
 import MaterialUI.DialogActions (dialogActions_)
 import MaterialUI.Button (button)
-import MaterialUI.Enums (primary, md)
+import MaterialUI.TextField (textField')
+import MaterialUI.Typography (typography)
+import MaterialUI.Enums (primary, md, title)
 import Unsafe.Coerce (unsafeCoerce)
 
 
@@ -120,3 +123,42 @@ genericDialog
             }
 
 -- TODO make close status separate from index state, for cleaner transitions
+
+
+
+intToStringDialog :: forall a
+                   . { componentName :: String
+                     , titleName :: String
+                     , title :: a -> String
+                     , content :: a -> String
+                     }
+                  -> IxSignal (read :: S.READ) WindowSize
+                  -> IOQueues Queue a (Maybe String)
+                  -> ReactElement
+intToStringDialog
+  {componentName,titleName,title:title',content} = genericDialog
+  { componentName
+  , titleName
+  , initialState: {value: ""}
+  , title: \this -> do
+      {open} <- getState this
+      pure
+        [ text $ case open of
+            Just i -> title' i
+            Nothing -> ""
+        ]
+  , content: \this -> do
+      let changedValue e = do
+            t <- target e
+            setState this {state: {value: (unsafeCoerce t).value}}
+      {open} <- getState this
+      pure
+        [ typography {gutterBottom: true, variant: title}
+          [ text $ case open of
+              Just i -> content i
+              Nothing -> ""
+          ]
+        , textField' {onChange: mkEffectFn1 changedValue, fullWidth: true, multiline: true}
+        ]
+  , getOutput: \{value} -> value
+  }

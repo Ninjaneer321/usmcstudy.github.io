@@ -59,9 +59,17 @@ leadershipPrincipals i = unsafePartial $ case i of
 showChallengeTraits :: String
 showChallengeTraits = "What are the Leadership Traits of the Marine Corps?"
 
-showChallengePrincipals :: Int -> String
-showChallengePrincipals i =
+showChallengePrincipal :: Int -> String
+showChallengePrincipal i =
   "what is the " <> proseInt false i <> " Leadership Principal?"
+
+
+showLeadershipTraitsTitle :: String
+showLeadershipTraitsTitle = "Leadership Traits"
+
+showLeadershipPrincipalTitle :: Int -> String
+showLeadershipPrincipalTitle i =
+  proseInt true i <> " Leadership Principal"
 
 
 

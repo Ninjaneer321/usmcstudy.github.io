@@ -15,7 +15,7 @@ import Answers.Bootcamp.RankInsignias
   , officerRankColorToIndex, indexToOfficerRankColor
   )
 import Window.Size (WindowSize)
-import Components.Dialogs.Generic (genericDialog)
+import Components.Dialogs.Generic (genericDialog, intToStringDialog)
 
 import Prelude
 import Data.Maybe (Maybe (..))
@@ -149,35 +149,11 @@ enlistedRankAbbreviationDialog :: IxSignal (read :: S.READ) WindowSize
                                -> IOQueues Queue EnlistedRank (Maybe String)
                                -- ^ Write the general order index to this to open the dialog
                                -> ReactElement
-enlistedRankAbbreviationDialog = genericDialog
+enlistedRankAbbreviationDialog = intToStringDialog
   { componentName: "EnlistedRankAbbreviationDialog"
   , titleName: "enlisted-rank-abbreviation-dialog-title"
-  , initialState: {value: ""}
-  , title: \this -> do
-      {open} <- getState this
-      pure
-        [ text $ case open of
-            Just r -> showEnlistedRankAbbreviationTitle r
-            Nothing -> ""
-        ]
-  , content: \this -> do
-      let changedValue e = do
-            t <- target e
-            setState this {state: {value: (unsafeCoerce t).value}}
-      {open,state} <- getState this
-      pure
-        [ typography {gutterBottom: true, variant: title}
-          [ text $ case open of
-              Just r -> showChallengeEnlistedRankAbbreviation r
-              Nothing -> ""
-          ]
-        , textField'
-            { onChange: mkEffectFn1 changedValue
-            , fullWidth: true
-            , margin: normal
-            }
-        ]
-  , getOutput: \{value} -> value
+  , title: showEnlistedRankAbbreviationTitle
+  , content: showChallengeEnlistedRankAbbreviation
   }
 
 
@@ -304,33 +280,9 @@ officerRankAbbreviationDialog :: IxSignal (read :: S.READ) WindowSize
                                -> IOQueues Queue OfficerRank (Maybe String)
                                -- ^ Write the general order index to this to open the dialog
                                -> ReactElement
-officerRankAbbreviationDialog = genericDialog
+officerRankAbbreviationDialog = intToStringDialog
   { componentName: "OfficerRankAbbreviationDialog"
   , titleName: "officer-rank-abbreviation-dialog-title"
-  , initialState: {value: ""}
-  , title: \this -> do
-      {open} <- getState this
-      pure
-        [ text $ case open of
-            Just r -> showOfficerRankAbbreviationTitle r
-            Nothing -> ""
-        ]
-  , content: \this -> do
-      let changedValue e = do
-            t <- target e
-            setState this {state: {value: (unsafeCoerce t).value}}
-      {open} <- getState this
-      pure
-        [ typography {gutterBottom: true, variant: title}
-          [ text $ case open of
-              Just r -> showChallengeOfficerRankAbbreviation r
-              Nothing -> ""
-          ]
-        , textField'
-            { onChange: mkEffectFn1 changedValue
-            , fullWidth: true
-            , margin: normal
-            }
-        ]
-  , getOutput: \{value} -> value
+  , title: showOfficerRankAbbreviationTitle
+  , content: showChallengeOfficerRankAbbreviation
   }
