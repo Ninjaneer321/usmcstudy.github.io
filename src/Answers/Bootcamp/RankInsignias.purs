@@ -1,7 +1,7 @@
 module Answers.Bootcamp.RankInsignias where
 
 import Crypto.Random (randomBetween)
-import Components.Snackbar (SnackbarContent, SnackbarVariant (Success, Error))
+import Components.Snackbar (SnackbarContent, SnackbarVariant (Error), defaultSuccess)
 
 import Prelude
 import Data.Tuple (Tuple (..))
@@ -9,7 +9,6 @@ import Data.Maybe (Maybe (..), fromJust)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Eq (genericEq)
 import Data.NonEmpty (NonEmpty (..))
-import Data.Time.Duration (Milliseconds (..))
 import Effect (Effect)
 import React.DOM (text)
 import Partial.Unsafe (unsafePartial)
@@ -476,11 +475,7 @@ challengeReportEnlistedRankInsignia :: EnlistedRank
                                     -> EnlistedRankInsignia
                                     -> SnackbarContent
 challengeReportEnlistedRankInsignia r i = case checkEnlistedRankInsignia r i of
-  Nothing ->
-    { variant: Success
-    , message: text "Correct!"
-    , timeout: Just (Milliseconds 2000.0)
-    }
+  Nothing -> defaultSuccess
   Just mInsig ->
     { variant: Error
     , timeout: Nothing
@@ -512,11 +507,7 @@ challengeReportEnlistedRankAbbreviation :: EnlistedRank
                                         -> String
                                         -> SnackbarContent
 challengeReportEnlistedRankAbbreviation r s = case checkEnlistedRankAbbreviation r s of
-  Nothing ->
-    { variant: Success
-    , message: text "Correct!"
-    , timeout: Just (Milliseconds 2000.0)
-    }
+  Nothing -> defaultSuccess
   Just actual ->
     { variant: Error
     , message: text $ "Incorrect. " <> showEnlistedRankFull r <> " abbreviation is " <> actual <> "."
@@ -527,11 +518,7 @@ challengeReportOfficerRankInsignia :: OfficerRank
                                    -> OfficerRankInsignia
                                    -> SnackbarContent
 challengeReportOfficerRankInsignia r i = case checkOfficerRankInsignia r i of
-  Nothing ->
-    { variant: Success
-    , message: text "Correct!"
-    , timeout: Just (Milliseconds 2000.0)
-    }
+  Nothing -> defaultSuccess
   Just actual ->
     { variant: Error
     , timeout: Nothing
@@ -545,11 +532,7 @@ challengeReportOfficerRankAbbreviation :: OfficerRank
                                         -> String
                                         -> SnackbarContent
 challengeReportOfficerRankAbbreviation r s = case checkOfficerRankAbbreviation r s of
-  Nothing ->
-    { variant: Success
-    , message: text "Correct!"
-    , timeout: Just (Milliseconds 2000.0)
-    }
+  Nothing -> defaultSuccess
   Just actual ->
     { variant: Error
     , message: text $ "Incorrect. " <> showOfficerRankFull r <> " abbreviation is " <> actual <> "."

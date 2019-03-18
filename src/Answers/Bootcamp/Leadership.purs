@@ -1,12 +1,23 @@
 module Answers.Bootcamp.Leadership where
 
-import Prelude
+import Crypto.Random (randomBetween)
+import Components.Snackbar (SnackbarContent, SnackbarVariant (Error), defaultSuccess)
+
+import Prelude hiding (between)
 import Data.Maybe (Maybe (..))
 import Data.Tuple (Tuple (..))
-import Data.Set (Set, fromFoldable, difference, isEmpty)
+import Data.Set (Set, fromFoldable, toUnfoldable, difference, isEmpty)
 import Data.String.Yarn (words)
+import Data.Array (singleton, unsafeIndex)
 import Data.Array.Diff (diffArray)
+import Data.Array.Extra (between)
+import Data.Foldable (intercalate, fold)
+import Data.FunctorWithIndex (mapWithIndex)
 import Data.Int.Prose (proseInt)
+import Effect (Effect)
+import React (toElement)
+import React.DOM (text, strong, br, p, span)
+import React.DOM.Props (style)
 import Partial.Unsafe (unsafePartial)
 
 
@@ -79,3 +90,61 @@ checkChallengePrincipals i c =
   in  if v == c
         then Nothing
         else Just $ Tuple v $ diffArray (words v) (words c)
+
+
+randomPrincipalIndex :: Effect Int
+randomPrincipalIndex = randomBetween 1 11
+
+
+challengeReportTraits :: Set String
+                      -> SnackbarContent
+challengeReportTraits cs = case checkChallengeTraits cs of
+  Nothing -> defaultSuccess
+  Just {missing,extra} ->
+    { variant: Error
+    , message:
+      let commasBetween xs = fold (between ", " xs)
+      in  toElement $ case Tuple missing extra of
+            Tuple Nothing Nothing -> [text "error - nothing"]
+            Tuple (Just m) Nothing ->
+              [ text "Incorrect. Missing: "
+              , strong [] $ singleton $ text $ commasBetween $ toUnfoldable m
+              ]
+            Tuple Nothing (Just e) ->
+              [ text "Incorrect. Extra: "
+              , strong [] $ singleton $ text $ commasBetween $ toUnfoldable e
+              ]
+            Tuple (Just m) (Just e) ->
+              [ text "Incorrect. Missing: "
+              , strong [] $ singleton $ text $ commasBetween $ toUnfoldable m
+              , br []
+              , text "Extra: "
+              , strong [] $ singleton $ text $ commasBetween $ toUnfoldable e
+              ]
+    , timeout: Nothing
+    }
+
+
+challengeReportPrincipals :: Int
+                          -> String
+                          -> SnackbarContent
+challengeReportPrincipals i c = case checkChallengePrincipals i c of
+  Nothing -> defaultSuccess
+  Just (Tuple actual indicies) ->
+    { variant: Error
+    , message:
+      let errorSpan x = span [style {textDecoration: "underline"}] [text x]
+      in  toElement
+            [ text "Incorrect. Actual: "
+            , p [style {marginBottom: 0, marginTop: 0}] [strong [] [text actual]]
+            , text "Submitted:"
+            , p [style {marginBottom: 0, marginTop: 0}] $ singleton $ strong [] $
+              let cs = words c
+                  spacesBetween xs = intercalate [text " "] (map singleton xs)
+                  go i' isBad
+                    | isBad = errorSpan $ unsafePartial $ unsafeIndex cs i'
+                    | otherwise = text $ unsafePartial $ unsafeIndex cs i'
+              in  spacesBetween (mapWithIndex go indicies)
+            ]
+    , timeout: Nothing
+    }

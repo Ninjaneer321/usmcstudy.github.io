@@ -1,18 +1,17 @@
 module Answers.Bootcamp.GeneralOrders where
 
 import Crypto.Random (randomBetween)
-import Components.Snackbar (SnackbarContent, SnackbarVariant (Success, Error))
+import Components.Snackbar (SnackbarContent, SnackbarVariant (Error), defaultSuccess)
 
-import Prelude
+import Prelude hiding (between)
 import Data.Tuple (Tuple (..))
 import Data.Maybe (Maybe (..))
 import Data.Array (unsafeIndex, singleton)
 import Data.Array.Diff (diffArray)
+import Data.Array.Extra (between)
 import Data.Int.Prose (proseInt)
-import Data.Foldable (intercalate)
 import Data.String.Yarn (words)
 import Data.FunctorWithIndex (mapWithIndex)
-import Data.Time.Duration (Milliseconds (..))
 import Effect (Effect)
 import React (toElement)
 import React.DOM (text, span, p, strong)
@@ -65,11 +64,7 @@ challengeReport :: Int -- ^ Challenge
                 -> String -- ^ Submission
                 -> SnackbarContent
 challengeReport i c = case checkChallenge i c of
-  Nothing ->
-    { variant: Success
-    , message: text "Correct!"
-    , timeout: Just (Milliseconds 2000.0)
-    }
+  Nothing -> defaultSuccess
   Just (Tuple actual indicies) ->
     { variant: Error
     , message:
@@ -80,7 +75,7 @@ challengeReport i c = case checkChallenge i c of
             , text "Submitted:"
             , p [style {marginBottom: 0, marginTop: 0}] $ singleton $ strong [] $
               let cs = words c
-                  spacesBetween xs = intercalate [text " "] (map singleton xs)
+                  spacesBetween = between (text " ")
                   go i' isBad
                     | isBad = errorSpan $ unsafePartial $ unsafeIndex cs i'
                     | otherwise = text $ unsafePartial $ unsafeIndex cs i'

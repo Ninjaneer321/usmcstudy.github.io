@@ -1,7 +1,9 @@
-module Components.Snackbar (snackbars, SnackbarVariant (..), SnackbarContent) where
+module Components.Snackbar
+  ( snackbars, SnackbarVariant (..), SnackbarContent
+  , success, defaultSuccess) where
 
 import Prelude
-import Data.Time.Duration (Milliseconds)
+import Data.Time.Duration (Milliseconds (..))
 import Data.Nullable (toNullable)
 import Data.Maybe (Maybe (..))
 import Data.Tuple (Tuple (..))
@@ -41,6 +43,18 @@ type SnackbarContent =
   , message :: ReactElement
   , timeout :: Maybe Milliseconds
   }
+
+
+success :: ReactElement -> SnackbarContent
+success message =
+  { variant: Success
+  , timeout: Just (Milliseconds 2000.0)
+  , message
+  }
+
+
+defaultSuccess :: SnackbarContent
+defaultSuccess = success (text "Correct!")
 
 
 snackbars :: Queue (write :: WRITE) SnackbarContent -- ^ Write to this to add a snackbar to the stack
