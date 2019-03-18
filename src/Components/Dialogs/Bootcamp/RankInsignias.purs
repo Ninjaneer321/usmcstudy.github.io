@@ -15,6 +15,7 @@ import Answers.Bootcamp.RankInsignias
   , officerRankColorToIndex, indexToOfficerRankColor
   )
 import Window.Size (WindowSize, isMobile)
+import Components.Dialogs.Generic (genericDialog)
 
 import Prelude
 import Data.Maybe (Maybe (..))
@@ -50,22 +51,22 @@ import Partial.Unsafe (unsafePartial)
 
 
 
-type EnlistedInsigniaState =
-  { rank :: Maybe EnlistedRank
-  , chevrons :: Int
-  , rockers :: Int
-  , center :: Maybe EnlistedRankInsigniaCenter
-  , windowSize :: WindowSize
-  }
+-- type EnlistedInsigniaState =
+--   { rank :: Maybe EnlistedRank
+--   , chevrons :: Int
+--   , rockers :: Int
+--   , center :: Maybe EnlistedRankInsigniaCenter
+--   , windowSize :: WindowSize
+--   }
 
-initEnlistedInsigniaState :: WindowSize -> EnlistedInsigniaState
-initEnlistedInsigniaState initWindowSize =
-  { rank: Nothing
-  , chevrons: 0
-  , rockers: 0
-  , center: Nothing
-  , windowSize: initWindowSize
-  }
+-- initEnlistedInsigniaState :: WindowSize -> EnlistedInsigniaState
+-- initEnlistedInsigniaState initWindowSize =
+--   { rank: Nothing
+--   , chevrons: 0
+--   , rockers: 0
+--   , center: Nothing
+--   , windowSize: initWindowSize
+--   }
 
 
 
@@ -73,7 +74,103 @@ enlistedRankInsigniaDialog :: IxSignal (read :: S.READ) WindowSize
                            -> IOQueues Queue EnlistedRank (Maybe EnlistedRankInsignia)
                            -- ^ Write the general order index to this to open the dialog
                            -> ReactElement
-enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLeafElement c {}
+enlistedRankInsigniaDialog = genericDialog
+  { componentName: "EnlistedRankInsigniaDialog"
+  , titleName: "enlisted-rank-insignia-dialog-title"
+  , initialState:
+    { chevrons: 0
+    , rockers: 0
+    , center: Nothing
+    }
+  , getOutput: \{chevrons,rockers,center} -> case Tuple chevrons (Tuple rockers center) of
+      Tuple 0 (Tuple 0 Nothing) -> Nothing
+      _ -> Just {chevrons,rockers,center}
+  , title: \this -> do
+      {open} <- getState this
+      pure
+        [ text $ case open of
+            Just r -> showEnlistedRankInsigniaTitle r
+            Nothing -> ""
+        ]
+  , content: \this -> do
+      let changedChevrons e = do
+            t <- target e
+            {state} <- getState this
+            case parseInt (unsafeCoerce t).value (toRadix 10) of
+              Nothing -> pure unit
+              Just val -> setState this {state: state {chevrons = val}}
+          changedRockers e = do
+            t <- target e
+            {state} <- getState this
+            case parseInt (unsafeCoerce t).value (toRadix 10) of
+              Nothing -> pure unit
+              Just val -> setState this {state: state {rockers = val}}
+          changedCenter e = do
+            t <- target e
+            {state} <- getState this
+            setState this {state: state {center = indexToCenter (unsafeCoerce t).value}}
+      {open,state} <- getState this
+      pure
+        [ typography {gutterBottom: true, variant: title}
+          [ text $ case open of
+              Just r -> showChallengeEnlistedRankInsignia r
+              Nothing -> ""
+          ]
+        , let params' :: {fullWidth :: Boolean}
+              params' = unsafeCoerce
+                { onChange: mkEffectFn1 changedChevrons
+                , fullWidth: true
+                , type: "number"
+                , label: "Chevrons"
+                , defaultValue: state.chevrons
+                , margin: normal
+                , inputProps: {min: 0, pattern: "\\d*"}
+                }
+          in  textField' params'
+        , let params' :: {fullWidth :: Boolean}
+              params' = unsafeCoerce
+                { onChange: mkEffectFn1 changedRockers
+                , fullWidth: true
+                , type: "number"
+                , label: "Rockers"
+                , defaultValue: state.rockers
+                , margin: normal
+                , inputProps: {min: 0, pattern: "\\d*"}
+                }
+          in  textField' params'
+        , let params' :: {fullWidth :: Boolean}
+              params' = unsafeCoerce
+                { onChange: mkEffectFn1 changedCenter
+                , fullWidth: true
+                , select: true
+                , label: "Center"
+                , value: centerToIndex state.center
+                , margin: normal
+                }
+              go mx =
+                let params'' :: {color :: String}
+                    params'' = unsafeCoerce {key: centerToIndex mx, value: centerToIndex mx}
+                in  menuItem params'' $ singleton $ text $ case mx of
+                      Nothing -> "Nothing"
+                      Just cent -> case cent of
+                        CrossRifles -> "Cross Rifles"
+                        Diamond -> "Diamond"
+                        BurstingBomb -> "Bursting Bomb"
+                        FivePointStar -> "Five Point Star"
+                        EagleGlobeAnchor -> "Eagle, Globe and Anchor"
+          in  textField params' $ map go
+                [ Nothing
+                , Just CrossRifles
+                , Just Diamond
+                , Just BurstingBomb
+                , Just FivePointStar
+                , Just EagleGlobeAnchor
+                ]
+        ]
+  }
+
+{-
+  windowSizeSignal (IOQueues{input,output}) = createLeafElement c {}
   where
     c :: ReactClass {}
     c = component "EnlistedRankInsigniaDialog" constructor'
@@ -212,7 +309,7 @@ enlistedRankInsigniaDialog windowSizeSignal (IOQueues{input,output}) = createLea
                 Nothing -> dialog'' (params false) (dialogChildren Nothing)
                 Just r -> dialog'' (params true) (dialogChildren (Just r))
             }
-
+-}
 
 
 
