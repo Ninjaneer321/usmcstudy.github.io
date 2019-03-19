@@ -95,6 +95,11 @@ index windowSizeSignal linkSignal = withRoot (createLeafElement c {})
                         , a [RP.href "https://github.com/usmcstudy/usmcstudy.github.io"] [text "GitHub repository"]
                         , text "."
                         ]
+                      , typography {variant: body1}
+                        [ text "If you have any suggestions, corrections, requests, bugs, or other issues, please "
+                        , a [RP.href "https://github.com/usmcstudy/usmcstudy.github.io/issues"] [text "File an Issue"]
+                        , text "."
+                        ]
                       , typography {variant: body1} [text "Semper Fidelis"]
                       ]
                     , dialogs windowSizeSignal dialogQueues
