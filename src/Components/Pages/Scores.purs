@@ -110,13 +110,12 @@ scores
                     ]
               {scores} <- getState this
               pure $ toElement $
-                [ case random of
-                    Nothing -> text ""
-                    Just {randomButtonText, randomInput} ->
-                      button {onClick: mkEffectFn1 (const (randomInput >>= applyInput))} [text randomButtonText]
-                , table {padding: dense}
+                [ table {padding: dense}
                   [ tableHead_ $ singleton $ tableRow_
-                    [ tableCell {} [text ""]
+                    [ tableCell {} $ case random of
+                        Nothing -> []
+                        Just {randomButtonText, randomInput} ->
+                          [button {onClick: mkEffectFn1 (const (randomInput >>= applyInput))} [text randomButtonText]]
                     , tableCell {align: right} $ singleton $
                         span [RP.style {color: Rec.get (SProxy :: SProxy "700") green}] $
                           singleton $ text "✔"

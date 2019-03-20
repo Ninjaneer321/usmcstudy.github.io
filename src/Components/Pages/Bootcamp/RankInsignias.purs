@@ -34,7 +34,7 @@ enlistedRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
 enlistedRankInsignias = scores
   { componentName: "EnlistedRankInsignias"
   , random: Just
-    { randomButtonText: "Random Enlisted Rank"
+    { randomButtonText: "Random"
     , randomInput: randomEnlistedRank
     }
   , checkChallenge: \r o scores ->
@@ -55,7 +55,7 @@ officerRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
 officerRankInsignias = scores
   { componentName: "OfficerRankInsignias"
   , random: Just
-    { randomButtonText: "Random Officer Rank"
+    { randomButtonText: "Random"
     , randomInput: randomOfficerRank
     }
   , checkChallenge: \r o scores ->
@@ -76,7 +76,7 @@ enlistedRankAbbreviations :: Q.Queue (write :: Q.WRITE) SnackbarContent
 enlistedRankAbbreviations = scores
   { componentName: "EnlistedRankAbbreviations"
   , random: Just
-    { randomButtonText: "Random Enlisted Rank"
+    { randomButtonText: "Random"
     , randomInput: randomEnlistedRank
     }
   , checkChallenge: \r o scores ->
@@ -97,7 +97,7 @@ officerRankAbbreviations :: Q.Queue (write :: Q.WRITE) SnackbarContent
 officerRankAbbreviations = scores
   { componentName: "OfficerRankAbbreviations"
   , random: Just
-    { randomButtonText: "Random Officer Rank"
+    { randomButtonText: "Random"
     , randomInput: randomOfficerRank
     }
   , checkChallenge: \r o scores ->

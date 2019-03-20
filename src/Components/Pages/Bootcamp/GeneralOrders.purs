@@ -27,7 +27,7 @@ generalOrders snackbarQueue generalOrderQueues =
   let scores' = scores
         { componentName: "GeneralOrders"
         , random: Just
-          { randomButtonText: "Random General Order"
+          { randomButtonText: "Random"
           , randomInput: randomGeneralOrderIndex
           }
         , checkChallenge: \i s scores ->

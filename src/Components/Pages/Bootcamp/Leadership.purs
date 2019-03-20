@@ -49,7 +49,7 @@ leadershipPrincipals :: Q.Queue (write :: Q.WRITE) SnackbarContent
 leadershipPrincipals = scores
   { componentName: "LeadershipPrincipals"
   , random: Just
-    { randomButtonText: "Random Leadership Principal"
+    { randomButtonText: "Random"
     , randomInput: randomPrincipalIndex
     }
   , checkChallenge: \i s scores ->
