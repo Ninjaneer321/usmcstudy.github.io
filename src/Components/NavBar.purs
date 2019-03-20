@@ -27,16 +27,16 @@ import Unsafe.Coerce (unsafeCoerce)
 currentLinkNavButtons :: Link -> Array ReactElement
 currentLinkNavButtons link = case link of
   Bootcamp _ ->
-    [ tab'
-      { label: elementToNode "General Orders"
-      , value: stringToValue (linkToPathname (Bootcamp GeneralOrders))
-      }
-    , tab'
-      { label: elementToNode "Ranks"
-      , value: stringToValue (linkToPathname (Bootcamp RankInsignias))
-      }
+    [ mkTab "General Orders" (Bootcamp GeneralOrders)
+    , mkTab "Ranks" (Bootcamp RankInsignias)
+    , mkTab "Leadership" (Bootcamp Leadership)
     ]
   where
+    mkTab name link' =
+      tab'
+      { label: elementToNode name
+      , value: stringToValue (linkToPathname link')
+      }
     elementToNode :: String -> ReactNode
     elementToNode = unsafeCoerce
     stringToValue :: String -> Any

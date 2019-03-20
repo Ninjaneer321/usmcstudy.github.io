@@ -76,6 +76,7 @@ linkToDocumentTitle l = DocumentTitle $ "USMC Study" <> case l of
   Bootcamp b -> " - Bootcamp" <> case b of
     GeneralOrders -> " - General Orders"
     RankInsignias -> " - Ranks"
+    Leadership -> " - Leadership"
 
 
 linkToPathname :: Link -> String
@@ -83,6 +84,7 @@ linkToPathname l = "#" <> case l of
   Bootcamp b -> "/bootcamp" <> case b of
     GeneralOrders -> "/generalOrders"
     RankInsignias -> "/ranks"
+    Leadership -> "/leadership"
 
 
 linkToHref :: Link -> Effect String
@@ -124,6 +126,10 @@ pathnameToLink p = case String.uncons p of
             if tail == []
               then pure (Bootcamp RankInsignias)
               else Left (Just (Bootcamp RankInsignias)) -- Redirect when there's too much, not too little
+        | head == "leadership" ->
+            if tail == []
+              then pure (Bootcamp Leadership)
+              else Left (Just (Bootcamp Leadership)) -- Redirect when there's too much, not too little
         | otherwise -> Left Nothing
 
 

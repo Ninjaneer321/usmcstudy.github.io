@@ -49,8 +49,10 @@ getAllScores =
 
 scores :: forall input output
         . { componentName    :: String
-          , randomButtonText :: String
-          , randomInput      :: Effect input
+          , random :: Maybe
+            { randomButtonText :: String
+            , randomInput      :: Effect input
+            }
           , checkChallenge   :: input -> output -> Scores -> Scores
           , challengeReport  :: input -> output -> SnackbarContent
           , buttonText       :: input -> String
@@ -62,8 +64,7 @@ scores :: forall input output
        -> ReactElement
 scores
   { componentName
-  , randomButtonText
-  , randomInput
+  , random
   , checkChallenge
   , challengeReport
   , buttonText
@@ -93,9 +94,6 @@ scores
                     setState this {scores: checkChallenge i s scores}
                     Q.put snackbarQueue (challengeReport i s)
 
-              generateAndApply :: Effect Unit
-              generateAndApply = randomInput >>= applyInput
-
           pure
             { state: {scores: replicate scoresLength initScore}
             , render: do
@@ -111,8 +109,11 @@ scores
                     , tableCell {align: right} [text (show failure)]
                     ]
               {scores} <- getState this
-              pure $ toElement
-                [ button {onClick: mkEffectFn1 (const generateAndApply)} [text randomButtonText]
+              pure $ toElement $
+                [ case random of
+                    Nothing -> text ""
+                    Just {randomButtonText, randomInput} ->
+                      button {onClick: mkEffectFn1 (const (randomInput >>= applyInput))} [text randomButtonText]
                 , table {padding: dense}
                   [ tableHead_ $ singleton $ tableRow_
                     [ tableCell {} [text ""]
@@ -125,14 +126,16 @@ scores
                     ]
                   , tableBody_ (mapWithIndex entryButton scores)
                   ]
-                , br []
-                , br []
-                , typography {variant: body1}
-                  [ text ("Successes: " <> show (getAllScores scores).success)
-                  ]
-                , br []
-                , typography {variant: body1}
-                  [ text ("Failures: " <> show (getAllScores scores).failure)
-                  ]
-                ]
+                ] <> case scoresLength of
+                  1 ->  []
+                  _ ->  [ br []
+                        , br []
+                        , typography {variant: body1}
+                          [ text ("Successes: " <> show (getAllScores scores).success)
+                          ]
+                        , br []
+                        , typography {variant: body1}
+                          [ text ("Failures: " <> show (getAllScores scores).failure)
+                          ]
+                        ]
             }

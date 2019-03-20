@@ -6,6 +6,7 @@ import Components.Snackbar (SnackbarContent)
 import Components.Dialogs (DialogQueues)
 import Components.Pages.Bootcamp.GeneralOrders (generalOrders)
 import Components.Pages.Bootcamp.RankInsignias (rankInsignias)
+import Components.Pages.Bootcamp.Leadership (leadership)
 
 import Prelude
 import React (ReactElement, ReactClass, ReactClassConstructor, getState, setState, component, createLeafElement)
@@ -44,6 +45,7 @@ page linkSignal snackbarQueue dialogQueues = createLeafElement c {}
                     Bootcamp link' -> case link' of
                       GeneralOrders -> generalOrders snackbarQueue dialogQueues.generalOrderQueues
                       RankInsignias -> rankInsignias snackbarQueue dialogQueues.rank
+                      Leadership -> leadership snackbarQueue dialogQueues.leadership
                 , componentDidMount: pure unit
                 , componentWillUnmount: pure unit
                 }

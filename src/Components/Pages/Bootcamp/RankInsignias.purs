@@ -33,8 +33,10 @@ enlistedRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
                       -> ReactElement
 enlistedRankInsignias = scores
   { componentName: "EnlistedRankInsignias"
-  , randomButtonText: "Random Enlisted Rank"
-  , randomInput: randomEnlistedRank
+  , random: Just
+    { randomButtonText: "Random Enlisted Rank"
+    , randomInput: randomEnlistedRank
+    }
   , checkChallenge: \r o scores ->
     let go x@{success,failure} = case checkEnlistedRankInsignia r o of
           Nothing -> x {success = success + 1}
@@ -48,12 +50,14 @@ enlistedRankInsignias = scores
 
 
 officerRankInsignias :: Q.Queue (write :: Q.WRITE) SnackbarContent
-                      -> IOQueues Q.Queue OfficerRank (Maybe OfficerRankInsignia)
-                      -> ReactElement
+                     -> IOQueues Q.Queue OfficerRank (Maybe OfficerRankInsignia)
+                     -> ReactElement
 officerRankInsignias = scores
   { componentName: "OfficerRankInsignias"
-  , randomButtonText: "Random Officer Rank"
-  , randomInput: randomOfficerRank
+  , random: Just
+    { randomButtonText: "Random Officer Rank"
+    , randomInput: randomOfficerRank
+    }
   , checkChallenge: \r o scores ->
     let go x@{success,failure} = case checkOfficerRankInsignia r o of
           Nothing -> x {success = success + 1}
@@ -67,12 +71,14 @@ officerRankInsignias = scores
 
 
 enlistedRankAbbreviations :: Q.Queue (write :: Q.WRITE) SnackbarContent
-                      -> IOQueues Q.Queue EnlistedRank (Maybe String)
-                      -> ReactElement
+                          -> IOQueues Q.Queue EnlistedRank (Maybe String)
+                          -> ReactElement
 enlistedRankAbbreviations = scores
   { componentName: "EnlistedRankAbbreviations"
-  , randomButtonText: "Random Enlisted Rank"
-  , randomInput: randomEnlistedRank
+  , random: Just
+    { randomButtonText: "Random Enlisted Rank"
+    , randomInput: randomEnlistedRank
+    }
   , checkChallenge: \r o scores ->
     let go x@{success,failure} = case checkEnlistedRankAbbreviation r o of
           Nothing -> x {success = success + 1}
@@ -86,12 +92,14 @@ enlistedRankAbbreviations = scores
 
 
 officerRankAbbreviations :: Q.Queue (write :: Q.WRITE) SnackbarContent
-                      -> IOQueues Q.Queue OfficerRank (Maybe String)
-                      -> ReactElement
+                         -> IOQueues Q.Queue OfficerRank (Maybe String)
+                         -> ReactElement
 officerRankAbbreviations = scores
   { componentName: "OfficerRankAbbreviations"
-  , randomButtonText: "Random Officer Rank"
-  , randomInput: randomOfficerRank
+  , random: Just
+    { randomButtonText: "Random Officer Rank"
+    , randomInput: randomOfficerRank
+    }
   , checkChallenge: \r o scores ->
     let go x@{success,failure} = case checkOfficerRankAbbreviation r o of
           Nothing -> x {success = success + 1}

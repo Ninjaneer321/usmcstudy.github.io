@@ -26,8 +26,10 @@ generalOrders :: Q.Queue (write :: Q.WRITE) SnackbarContent
 generalOrders snackbarQueue generalOrderQueues =
   let scores' = scores
         { componentName: "GeneralOrders"
-        , randomButtonText: "Random General Order"
-        , randomInput: randomGeneralOrderIndex
+        , random: Just
+          { randomButtonText: "Random General Order"
+          , randomInput: randomGeneralOrderIndex
+          }
         , checkChallenge: \i s scores ->
             let go x@{success,failure} = case checkChallenge i s of
                   Nothing -> x {success = success + 1}

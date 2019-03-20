@@ -6,6 +6,7 @@ import Answers.Bootcamp.RankInsignias
   , OfficerRank, OfficerRankInsignia
   )
 import Components.Dialogs.Bootcamp.GeneralOrder (generalOrderDialog)
+import Components.Dialogs.Bootcamp.Leadership (leadershipTraitsDialog, leadershipPrincipalDialog)
 import Components.Dialogs.Bootcamp.RankInsignias
   ( enlistedRankInsigniaDialog, enlistedRankAbbreviationDialog
   , officerRankInsigniaDialog, officerRankAbbreviationDialog
@@ -13,6 +14,7 @@ import Components.Dialogs.Bootcamp.RankInsignias
 
 import Prelude
 import Data.Maybe (Maybe)
+import Data.Set (Set)
 import Effect (Effect)
 import React (ReactElement, toElement)
 import Queue.One (Queue) as One
@@ -35,6 +37,10 @@ type DialogQueues =
       , abbreviation :: IOQueues One.Queue OfficerRank (Maybe String)
       }
     }
+  , leadership ::
+    { traits :: IOQueues One.Queue Unit (Maybe (Set String))
+    , principals :: IOQueues One.Queue Int (Maybe String)
+    }
   }
 
 newDialogQueues :: Effect DialogQueues
@@ -44,6 +50,8 @@ newDialogQueues = do
   enlistedRankAbbreviationQueues <- IOQueues.new
   officerRankInsigniaQueues <- IOQueues.new
   officerRankAbbreviationQueues <- IOQueues.new
+  leadershipTraitsQueues <- IOQueues.new
+  leadershipPrincipalsQueues <- IOQueues.new
   pure
     { generalOrderQueues
     , rank:
@@ -56,6 +64,10 @@ newDialogQueues = do
         , abbreviation: officerRankAbbreviationQueues
         }
       }
+    , leadership:
+      { traits: leadershipTraitsQueues
+      , principals: leadershipPrincipalsQueues
+      }
     }
 
 
@@ -66,10 +78,13 @@ dialogs
   windowSizeSignal
   { generalOrderQueues
   , rank
+  , leadership
   } = toElement
   [ generalOrderDialog windowSizeSignal generalOrderQueues
   , enlistedRankInsigniaDialog windowSizeSignal rank.enlisted.insignia
   , enlistedRankAbbreviationDialog windowSizeSignal rank.enlisted.abbreviation
   , officerRankInsigniaDialog windowSizeSignal rank.officer.insignia
   , officerRankAbbreviationDialog windowSizeSignal rank.officer.abbreviation
+  , leadershipTraitsDialog windowSizeSignal leadership.traits
+  , leadershipPrincipalDialog windowSizeSignal leadership.principals
   ]

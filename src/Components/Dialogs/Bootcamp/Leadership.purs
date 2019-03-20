@@ -1,4 +1,4 @@
-module Components.Dialogs.Leadership where
+module Components.Dialogs.Bootcamp.Leadership where
 
 import Answers.Bootcamp.Leadership
   ( showLeadershipTraitsTitle, showChallengeTraits

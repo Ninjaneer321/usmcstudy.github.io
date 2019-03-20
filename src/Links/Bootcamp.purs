@@ -7,6 +7,7 @@ import Data.Generic.Rep.Eq (genericEq)
 data BootcampLink
   = GeneralOrders
   | RankInsignias
+  | Leadership
 
 derive instance genericBootcampLink :: Generic BootcampLink _
 instance eqBootcampLink :: Eq BootcampLink where
