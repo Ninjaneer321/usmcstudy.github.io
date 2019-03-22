@@ -36,6 +36,6 @@ echo "Browserified"
 date -R | sed 's/\(.*\)/var buildDate = "\1"/g' > $DATE
 ltext "$TEMPLATE $JSOUT $DATE $MODERNIZR" --raw $JSOUT --raw $DATE --raw $MODERNIZR > $HTMLTMP || { exit 1; }
 echo "Linked"
-$HTMLMINIFIER --collapse-whitespace --collapse-inline-tag-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js false $HTMLTMP > $OUTPUT
+$HTMLMINIFIER --collapse-whitespace --collapse-inline-tag-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js false $HTMLTMP > $OUTPUT || { exit 1; }
 rm $HTMLTMP
 echo "Finished"

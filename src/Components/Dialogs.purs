@@ -1,6 +1,7 @@
 module Components.Dialogs where
 
 import Window.Size (WindowSize)
+import Answers.Bootcamp.GeneralOrders (GeneralOrder)
 import Answers.Bootcamp.RankInsignias
   ( EnlistedRank, EnlistedRankInsignia
   , OfficerRank, OfficerRankInsignia
@@ -26,7 +27,7 @@ import IxSignal (IxSignal)
 
 
 type DialogQueues =
-  { generalOrderQueues :: IOQueues One.Queue Int (Maybe String)
+  { generalOrderQueues :: IOQueues One.Queue GeneralOrder (Maybe String)
   , rank ::
     { enlisted ::
       { insignia :: IOQueues One.Queue EnlistedRank (Maybe EnlistedRankInsignia)
