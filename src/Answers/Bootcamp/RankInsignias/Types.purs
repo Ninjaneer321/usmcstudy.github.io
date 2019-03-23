@@ -5,7 +5,6 @@ import Data.Maybe (Maybe (..))
 import Data.Indexable (class FromIndex, class ToIndex)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Eq (genericEq)
--- import Answers.Class ()
 
 
 data EnlistedRank
